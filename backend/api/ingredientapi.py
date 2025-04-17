@@ -8,7 +8,7 @@ import helper
 ingredientapi = Blueprint('ingredientapi', __name__)
 
 
-@ingredientapi.route('/ingredients', methods=['GET', 'POST'])
+@ingredientapi.route('/ingredients', methods=['GET', 'POST', 'PUT'])
 def ingredient_info():
   if request.method == 'GET':
     """
@@ -17,7 +17,8 @@ def ingredient_info():
     try:
       res = dbinterface.general.get_all(DB_ADDRESS, "ingredients") # a list
       if not res:
-        return helper.handle_response_404("Ingredients not found.")
+        return jsonify([]), 200
+        # return helper.handle_response_404("Ingredients not found.")
       res_obj = [{"id": r[0], "name": r[1], "unit": r[2]} for r in res]
       return jsonify(res_obj), 200
     except Exception as e:
@@ -38,6 +39,34 @@ def ingredient_info():
       return jsonify({"message": "Added one ingredient."}), 200
     except Exception as e:
       return helper.handle_response_500("An error occurred while adding the new ingredient.")
+  elif request.method == 'PUT':
+    """
+    Replaces an ingredient (updates all fields of an ingredients)
+    """
+    try:
+      fields = ['id', 'name', 'unit']
+      values = []
+      for f in fields:
+        v = request.args.get(f)
+        if (not v and f == 'unit'):
+          values.append("")
+        elif not v:
+          return helper.handle_response_400(f"Missing '{f}' parameter.")
+        else:
+          values.append(v)
+      dbinterface.ingredients.replace_record(DB_ADDRESS, values)
+      return jsonify({"message": "Updated one ingredient."}), 200
+    except Exception as e:
+      return helper.handle_response_500("An error occurred while updating the ingredient.")
+      
+
+
+
+
+
+
+
+
 
 
 
@@ -60,13 +89,16 @@ def handle_existing_ingredient(id):
   
   elif request.method == 'DELETE':
     """
-    Deletes an ingredient, also removes the ingredient if it exists in any recipe
+    Deletes an ingredient,
+    also removes the ingredient if it exists in any recipe
     """
     try:
+      # delete the ingredient
+      dbinterface.ingredients.delete_ingredient(DB_ADDRESS, id)
+      # update recipes
       records_to_topdate = dbinterface.general.get_multiple_by_keyword(DB_ADDRESS, 'recipes', 'ingredients', id)
       if not records_to_topdate:
-        return helper.handle_response_404("Records not found")
-      dbinterface.ingredients.delete_ingredient(DB_ADDRESS, id)
+        return jsonify({"message": "Deleted one ingredient."}), 200
       for each in records_to_topdate:
         recipe_id = each[0]
         old_content = dbinterface.general.get_one_column_by_id(DB_ADDRESS, 'recipes', 'ingredients', recipe_id)[0]
@@ -77,11 +109,10 @@ def handle_existing_ingredient(id):
       return jsonify({"message": "Deleted one ingredient."}), 200
     except Exception as e:
       return helper.handle_response_500("An error occurred while deleting the ingredient.")
-  
-  
+
   elif request.method == 'PUT':
     """
-    Updates an ingredient
+    Updates a scpecific column of an ingredient
     """
     try:
       new_content = request.args.get('content')

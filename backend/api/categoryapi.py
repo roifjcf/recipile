@@ -16,7 +16,8 @@ def category_info():
     try:
       res = dbinterface.general.get_all(DB_ADDRESS, "categories") # a list
       if not res:
-        return helper.handle_response_404("Categories not found.")
+        return jsonify([]), 200
+        # return helper.handle_response_404("Categories not found.")
       res_obj = [{"id": r[0], "name": r[1]} for r in res]
       return jsonify(res_obj), 200
     except Exception as e:
@@ -59,10 +60,12 @@ def handle_existing_category(id):
     Deletes a category, also removes the category if it exists in any recipe
     """
     try:
+      # delete the ingredient
+      dbinterface.categories.delete_category(DB_ADDRESS, id)
+      # update recipes
       records_to_topdate = dbinterface.general.get_multiple_by_keyword(DB_ADDRESS, 'recipes', 'categories', id)
       if not records_to_topdate:
-        return helper.handle_response_404("Records not found")
-      dbinterface.categories.delete_category(DB_ADDRESS, id)
+        return jsonify({"message": "Deleted one ingredient."}), 200
       for each in records_to_topdate:
         recipe_id = each[0]
         old_content = dbinterface.general.get_one_column_by_id(DB_ADDRESS, 'recipes', 'categories', recipe_id)[0]

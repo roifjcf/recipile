@@ -16,7 +16,8 @@ def tag_info():
     try:
       res = dbinterface.general.get_all(DB_ADDRESS, "tags") # a list
       if not res:
-        return helper.handle_response_404("Tags not found.")
+        return jsonify([]), 200
+        # return helper.handle_response_404("Tags not found.")
       res_obj = [{"id": r[0], "name": r[1]} for r in res]
       return jsonify(res_obj), 200
     except Exception as e:
@@ -60,10 +61,12 @@ def handle_existing_tag(id):
     Deletes a tag, also removes the tag if it exists in any recipe
     """
     try:
+      # delete the ingredient
+      dbinterface.tags.delete_tag(DB_ADDRESS, id)
+      # update recipes
       records_to_topdate = dbinterface.general.get_multiple_by_keyword(DB_ADDRESS, 'recipes', 'tags', id)
       if not records_to_topdate:
-        return helper.handle_response_404("Records not found")
-      dbinterface.tags.delete_tag(DB_ADDRESS, id)
+        return jsonify({"message": "Deleted one ingredient."}), 200
       for each in records_to_topdate:
         recipe_id = each[0]
         old_content = dbinterface.general.get_one_column_by_id(DB_ADDRESS, 'recipes', 'tags', recipe_id)[0]

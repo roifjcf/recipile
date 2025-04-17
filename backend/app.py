@@ -61,9 +61,24 @@ dbinterface.general.db_init(DB_ADDRESS)
 #     ]
 # ]
 
-dummy_ingredients = [['salmon', 'gram'], ['salt', '']]
-dummy_categories = [ "cat1", "nya2" ]
-dummy_tags = [ "fried", "non-fried" ]
+dummy_ingredients = [
+    ['salmon', 'gram'],
+    ['salt', ''],
+    ['udon', 'gram'],
+    ['tofu', '']
+    ]
+
+dummy_categories = [
+    "category 1",
+    "category 2",
+    "category 3"
+    ]
+
+dummy_tags = [
+    "fried",
+    "non-fried",
+    "seal food"
+    ]
 
 dummy_recipes = [
     [
@@ -77,7 +92,46 @@ dummy_recipes = [
     20,
     "what a deal",
     "['1']",
+    "['1', '3']"
+    ],
+    [
+    "f1bsh", 
+    "[['1', 200], ['2', 0]]", 
+    "['preheat the oven at 200deg', 'bake for 20 mins, turn halfway through cooking']",
+    "https://www.google.com/",
+    "2025-04-06",
+    0,
+    1,
+    20,
+    "what a deal",
+    "['1']",
     "['1']"
+    ],
+    [
+    "fibsh123", 
+    "[['1', 200], ['2', 0]]", 
+    "['preheat the oven at 200deg', 'bake for 20 mins, turn halfway through cooking']",
+    "https://www.google.com/",
+    "2025-04-06",
+    0,
+    1,
+    20,
+    "what a deal",
+    "['1']",
+    "['1']"
+    ],
+    [
+    "udon", 
+    "[['3', 200], ['4', 0]]", 
+    "['boil for 10 mins']",
+    "https://www.google.com/",
+    "2025-04-14",
+    0,
+    1,
+    15,
+    "what a deal",
+    "['2']",
+    "['2']"
     ]
 ]
 

@@ -28,7 +28,7 @@ def get_res_obj(res):
   return res_obj
 
 
-@recipeapi.route('/recipes', methods=['GET', 'POST'])
+@recipeapi.route('/recipes', methods=['GET', 'POST', 'PUT'])
 def recipe_info():
   if request.method == 'GET':
     """
@@ -37,7 +37,8 @@ def recipe_info():
     try:
       res = dbinterface.general.get_all(DB_ADDRESS, "recipes") # a list
       if not res:
-        return helper.handle_response_404("Recipes not found.")
+        return jsonify([]), 200
+        # return helper.handle_response_404("Recipes not found.")
       res_obj = [get_res_obj(r) for r in res]
       return jsonify(res_obj), 200
     except Exception as e:
@@ -75,7 +76,32 @@ def recipe_info():
       return jsonify({"message": "Added one recipe."}), 200
     except Exception as e:
       return helper.handle_response_500("An error occurred while adding the new recipe.")
+  elif request.method == 'PUT':
+    """
+    Replaces a recipe (updates all fields of a recipe)
+    """
+    try:
+      fields = [
+                'id', 'name', 'ingredients', 'steps', 'external_links', 'created',
+                'pinned', 'serving', 'prep_time', 'notes', 'categories', 'tags'
+      ]
+      values = []
+      for f in fields:
+        v = request.args.get(f)
+        if not v:
+          return helper.handle_response_400(f"Missing '{f}' parameter.")
+        values.append(v)
+      dbinterface.recipes.replace_record(DB_ADDRESS, values)
+      return jsonify({"message": "Updated one recipe."}), 200
+    except Exception as e:
+      return helper.handle_response_500("An error occurred while updating the recipe.")
     
+
+
+
+
+
+
 
 
 
@@ -106,11 +132,13 @@ def handle_existing_recipe(id):
     
   elif request.method == 'PUT':
     """
-    Updates a recipe
+    Updates a scpecific column of a recipe
     """
     try:
       new_content = request.args.get('content')
       column = request.args.get('column')
+      print(new_content)
+      print(column)
       if not new_content:
         return helper.handle_response_400("Missing 'content' parameter.")
       if not column:
@@ -119,5 +147,5 @@ def handle_existing_recipe(id):
       dbinterface.recipes.update_recipe(DB_ADDRESS, id, request.args.get('column'), request.args.get('content'))
       return jsonify({"message": "Updated one recipe."}), 200
     except Exception as e:
-      return helper.handle_response_500("An error occurred while updating the recipe.")
+      return helper.handle_response_500("An error occurred while updating the column of the recipe.")
 

@@ -26,3 +26,17 @@ def delete_ingredient(DB_ADDRESS: str, id):
   query = "DELETE FROM ingredients WHERE id = {};".format(id)
   dbinterface.general.execute_query_no_return(DB_ADDRESS, query, action)
 
+def replace_record(DB_ADDRESS: str, new_ingredient: list):
+  """
+  Replaces a record
+  """
+  action = "replace(update all fields of) an ingredient"
+  query = query = """
+            REPLACE INTO ingredients
+            (id, name, unit) VALUES (?, ?, ?);
+            """
+  dbinterface.general.execute_query_no_return(DB_ADDRESS, query, action, (
+    new_ingredient[0], # id
+    new_ingredient[1], # name
+    new_ingredient[2], # unit
+  ))

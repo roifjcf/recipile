@@ -20,3 +20,10 @@ npm run dev
 
 
 ### Method 2: docker
+
+
+## Credit
+
+Icon
+
+[icons8](https://icons8.com/icons)

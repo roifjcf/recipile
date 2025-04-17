@@ -1,23 +1,9 @@
-export interface newRecipe {
-  categories: string[],
-  created: string,
-  external_links: string,
-  ingredients: [string, number][],
-  name: string,
-  notes: string,
-  pinned: number,
-  prep_time: number,
-  serving: number,
-  steps: string[],
-  tags: string[] | number[]
-};
-
 export interface Recipe {
   categories: string[],
   created: string,
   external_links: string,
   id: number,
-  ingredients: string[],
+  ingredients: string[][],
   name: string,
   notes: string,
   pinned: number,
@@ -43,4 +29,20 @@ export interface Ingredient {
   unit: string
 }
 
-export type RecipeField = "name" | "ingredient" | "step" | "externalLink"
+
+
+
+
+
+export const isIngredient = (item: Category | Tag | Ingredient): item is Ingredient => {
+  return 'unit' in item;
+};
+
+
+
+
+
+
+
+export type Tables = "recipes" | "ingredients" | "tags" | "categories";
+export type RecipeField = "name" | "ingredient" | "step" | "externalLink";

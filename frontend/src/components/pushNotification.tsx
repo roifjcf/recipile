@@ -4,7 +4,7 @@ interface Props {
 
 export default function PushNotification (props: Props) {
   return (
-    <div className="push-notification">
+    <div>
       <p>{props.message}</p>
     </div>
   );

@@ -1,0 +1,27 @@
+$width-left: 70%;
+$width-right: calc(100% - #{$width-left});
+
+.manageitem-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.manageitem-container-left {
+  width: $width-left;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+
+.manageitem-container-right {
+  width: $width-right;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.manageitem-container-left-item {
+}

@@ -164,3 +164,4 @@ def get_all(DB_ADDRESS: str, table: str) -> list:
   action = "get all from table [{}]".format(table)
   query = "SELECT * FROM {};".format(table)
   return execute_query_fetch_all(DB_ADDRESS, query, action)
+
