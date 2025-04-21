@@ -26,7 +26,7 @@ ul {
 }
 
 input {
-  min-width: 100px;
+  // min-width: 100px;
   width: auto;
   display: block;
 }
@@ -152,3 +152,12 @@ a {
   background-color: #00000010;
 }
 
+.input-inline-small {
+  display: inline-block;
+  width: 60px;
+}
+
+.input-inline-mid {
+  display: inline-block;
+  width: 200px;
+}

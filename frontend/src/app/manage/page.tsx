@@ -7,29 +7,28 @@ import { useEffect, useState } from "react";
 import Link from 'next/link'
 
 import { Category, Tag, Ingredient } from "@/common/type";
-
 import ManageItem from "@/components/manageItem";
 import ManageAddItem from "@/components/manageAddItem";
+import { categoryAPI, tagAPI, ingredientAPI } from "@/utils/api";
 
-import { addCategory, deleteCategory, getCategories, updateCategory } from "@/utils/api/categoryapi";
-import { getTags, addTag, updateTag, deleteTag } from "@/utils/api/tagapi";
-import { addIngredient, deleteIngredient, getIngredients, updateIngredient } from "@/utils/api/ingredientapi";
+
+
+
 
 export default function Page() {
-
+  
   const [categories, setCategories] = useState<Category[] | null>(null);
   const [tags, setTags] = useState<Tag[] | null>(null);
   const [ingredients, setIngredients] = useState<Ingredient[] | null>(null);
-  const [isInBulkEditMode, setIsInBulkEditMode] = useState<boolean>(false);
 
   useEffect(() => {
     
     const fetchData = async () => {
       try {
         const [categoryData, tagData, ingredientData] = await Promise.all([
-          getCategories(),
-          getTags(),
-          getIngredients(),
+          categoryAPI.get(),
+          tagAPI.get(),
+          ingredientAPI.get(),
         ]);
         setCategories(categoryData);
         setTags(tagData);
@@ -51,17 +50,17 @@ export default function Page() {
       case 'tags':
         if (!tags) {return;}
         setTags(tags.filter(tag => tag.id !== id));
-        deleteTag(id);
+        tagAPI.delete(id);
         break;
       case 'categories':
         if (!categories) {return;}
         setCategories(categories.filter(category => category.id !== id));
-        deleteCategory(id);
+        categoryAPI.delete(id);
         break;
       case 'ingredients':
         if (!ingredients) {return;}
         setIngredients(ingredients.filter(ingredient => ingredient.id !== id));
-        deleteIngredient(id);
+        ingredientAPI.delete(id);
         break;
       default:
         break;
@@ -75,15 +74,15 @@ export default function Page() {
     switch (table) {
       case 'tags':
         if (!tags) { return; }
-        updateTag(id, content);
+        tagAPI.update(id, content);
         break;
       case 'ingredients':
         if (!ingredients) { return; }
-        updateIngredient(content);
+        ingredientAPI.update(content);
         break;
       case 'categories':
         if (!categories) { return; }
-        updateCategory(id, content);
+        categoryAPI.update(id, content);
         break;
       default:
         break;
@@ -97,20 +96,20 @@ export default function Page() {
     switch (table) {
       case 'tags':
         if (!tags) { return; }
-        await addTag(content);
-        const [tagData] = await Promise.all([getTags()]);
+        await tagAPI.add(content);
+        const [tagData] = await Promise.all([tagAPI.get()]);
         setTags(tagData);
         break;
       case 'ingredients':
         if (!ingredients) { return; }
-        await addIngredient(content);
-        const [ingredientData] = await Promise.all([getIngredients()]);
+        await ingredientAPI.add(content);
+        const [ingredientData] = await Promise.all([ingredientAPI.get()]);
         setIngredients(ingredientData);
         break;
       case 'categories':
         if (!categories) { return; }
-        await addCategory(content);
-        const [categoryData] = await Promise.all([getCategories()]);
+        await categoryAPI.add(content);
+        const [categoryData] = await Promise.all([categoryAPI.get()]);
         setCategories(categoryData);
         break;
       default:
@@ -122,10 +121,6 @@ export default function Page() {
   <div className="manage-main-container">
     <Link href="/">Back</Link>
     {/* <button><a href="/">Back</a></button> */}
-    {!isInBulkEditMode && <p className="icon clickable" onClick={()=>setIsInBulkEditMode(true)}>✏️</p>}
-    {isInBulkEditMode && <p className="icon clickable" onClick={()=>setIsInBulkEditMode(false)}>❌</p>}
-    {isInBulkEditMode && <p className="icon clickable">✅</p>}
-
     
     {/* categories */}
     <div className="manage-column-container">

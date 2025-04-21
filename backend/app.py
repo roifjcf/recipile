@@ -33,33 +33,10 @@ cur.execute("DROP TABLE IF EXISTS tags;")
 cur.execute("DROP TABLE IF EXISTS categories;")
 cur.execute("DROP TABLE IF EXISTS ingredients;")
 
-
 conn.commit()
 conn.close()
 
-
 dbinterface.general.db_init(DB_ADDRESS)
-
-# dummy_categories = [ "cat1", "cat2" ]
-# dummy_tags = [ "fried", "non-fried" ]
-# dummy_recipes = [
-#     [
-#     "fibsh", "['salmon 200g', 'some salt']", "['preheat the oven at 200deg', 'bake for 20 mins, turn halfway through cooking']",
-#     "https://www.google.com/", "2025-04-06", 0, 1, 20, "what a deal", "['cat1']", "['non-fried']"
-#     ],
-#     [
-#     "udon", "['udon 200g', 'udon soup base']", "['boil', 'boil', 'boilllllllll']",
-#     "https://www.google.com/", "2025-04-05", 0, 1, 10, "what a deal", "['cat1']", "['non-fried']"
-#     ],
-#     [
-#     "souththern fried chicken", "['i don\'t know']", "['i will never make it on my own']",
-#     "https://www.google.com/", "2025-04-04", 0, 1, 10, "yum yum", "['cat2']", "['fried', 'friied']"
-#     ],
-#     [
-#     "kfc fried chicken", "['i don\'t know']", "['i will never make it on my own']",
-#     "https://www.google.com/", "2025-04-07", 0, 1, 10, "nom nom", "['cat2']", "['fried']"
-#     ]
-# ]
 
 dummy_ingredients = [
     ['salmon', 'gram'],

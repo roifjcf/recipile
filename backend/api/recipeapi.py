@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 import traceback
+import json
 
 from appconfig import *
 import dbinterface
@@ -7,10 +8,10 @@ import helper
 
 recipeapi = Blueprint('recipeapi', __name__)
 
+
+
 def get_res_obj(res):
-  """
-  Converts a fetched sql record to an object
-  """
+  """ Converts a fetched sql record to an object """
   res_obj = {
               "id": res[0],
               "name": res[1],
@@ -28,78 +29,48 @@ def get_res_obj(res):
   return res_obj
 
 
+
+RECIPE_FIELDS = [
+  'id', 'name', 'ingredients', 'steps', 'external_links', 'created',
+  'pinned', 'serving', 'prep_time', 'notes', 'categories', 'tags'
+]
+def extract_and_validate_data(data, required_fields):
+  """Extracts and JSON-serializes list fields, validates presence of all required fields."""
+  values = []
+  for f in required_fields:
+    if f not in data:
+      raise ValueError(f"Missing '{f}' parameter.")
+    value = json.dumps(data[f]) if isinstance(data[f], list) else data[f]
+    values.append(value)
+  return values
+
+
+
+
+
+
 @recipeapi.route('/recipes', methods=['GET', 'POST', 'PUT'])
 def recipe_info():
-  if request.method == 'GET':
-    """
-    Gets all recipes, returns a list of objects
-    """
-    try:
+  try:
+    if request.method == 'GET': # Gets all recipes, returns a list of objects
       res = dbinterface.general.get_all(DB_ADDRESS, "recipes") # a list
-      if not res:
-        return jsonify([]), 200
-        # return helper.handle_response_404("Recipes not found.")
-      res_obj = [get_res_obj(r) for r in res]
-      return jsonify(res_obj), 200
-    except Exception as e:
-      return helper.handle_response_500("An error occurred while fetching recipes.")
-    
-  elif request.method == 'POST':
-    """
-    Adds a new recipe
-    """
-    try:
-      fields = [
-                'name', 'ingredients', 'steps', 'external_links', 'created',
-                'pinned', 'serving', 'prep_time', 'notes', 'categories', 'tags'
-      ]
-      values = []
-      for f in fields:
-        v = request.args.get(f)
-        if not v:
-          return helper.handle_response_400(f"Missing '{v}' parameter.")
-        values.append(v)
+      return jsonify([get_res_obj(r) for r in res] if res else []), 200
+
+    data = request.get_json()
+
+    if request.method == "POST":
+      values = extract_and_validate_data(data, RECIPE_FIELDS[1:])
       dbinterface.recipes.add_recipe(DB_ADDRESS, values)
-      # dbinterface.recipes.add_recipe(DB_ADDRESS, [
-      #   request.args.get('name'),
-      #   request.args.get('ingredients'),
-      #   request.args.get('steps'),
-      #   request.args.get('external_links'),
-      #   request.args.get('created'),
-      #   request.args.get('pinned'),
-      #   request.args.get('serving'),
-      #   request.args.get('prep_time'),
-      #   request.args.get('notes'),
-      #   request.args.get('categories'),
-      #   request.args.get('tags')
-      # ])
       return jsonify({"message": "Added one recipe."}), 200
-    except Exception as e:
-      return helper.handle_response_500("An error occurred while adding the new recipe.")
-  elif request.method == 'PUT':
-    """
-    Replaces a recipe (updates all fields of a recipe)
-    """
-    try:
-      fields = [
-                'id', 'name', 'ingredients', 'steps', 'external_links', 'created',
-                'pinned', 'serving', 'prep_time', 'notes', 'categories', 'tags'
-      ]
-      values = []
-      for f in fields:
-        v = request.args.get(f)
-        if not v:
-          return helper.handle_response_400(f"Missing '{f}' parameter.")
-        values.append(v)
+    elif request.method == "PUT":
+      values = extract_and_validate_data(data, RECIPE_FIELDS)
       dbinterface.recipes.replace_record(DB_ADDRESS, values)
       return jsonify({"message": "Updated one recipe."}), 200
-    except Exception as e:
-      return helper.handle_response_500("An error occurred while updating the recipe.")
+  except ValueError as ve:
+    return helper.handle_response_400(str(ve))
+  except Exception as e:
+    return helper.handle_response_500("An error occurred while processing the request.")
     
-
-
-
-
 
 
 
@@ -108,9 +79,7 @@ def recipe_info():
 @recipeapi.route('/recipes/<int:id>', methods=['GET', 'DELETE', 'PUT'])
 def handle_existing_recipe(id):
   if request.method == 'GET':
-    """
-    Gets a recipe
-    """
+    """ Gets a recipe """
     try:
       res = dbinterface.general.get_one_by_id(DB_ADDRESS, 'recipes', id)
       if res is None:
@@ -121,9 +90,7 @@ def handle_existing_recipe(id):
       return helper.handle_response_500("An error occurred while fetching the recipe.")
     
   elif request.method == 'DELETE':
-    """
-    Deletes a recipe
-    """
+    """ Deletes a recipe """
     try:
       dbinterface.recipes.delete_recipe(DB_ADDRESS, id)
       return jsonify({"message": "Deleted one recipe."}), 200
@@ -131,14 +98,10 @@ def handle_existing_recipe(id):
       return helper.handle_response_500("An error occurred while deleting the recipe.")
     
   elif request.method == 'PUT':
-    """
-    Updates a scpecific column of a recipe
-    """
+    """ Updates a scpecific column of a recipe """
     try:
       new_content = request.args.get('content')
       column = request.args.get('column')
-      print(new_content)
-      print(column)
       if not new_content:
         return helper.handle_response_400("Missing 'content' parameter.")
       if not column:

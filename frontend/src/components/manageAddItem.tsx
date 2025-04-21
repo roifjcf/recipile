@@ -1,3 +1,6 @@
+/*
+  Component for adding new records to table "tags", "categories", or "ingredients"
+*/
 'use client';
 
 import { useState } from "react";
@@ -6,7 +9,7 @@ import { Tables } from "@/common/type";
 
 interface Props {
   table: Tables,
-  handleAdd: (table: string, content: any) => void
+  handleAdd: (table: Tables, content: any) => void
 };
 
 export default function ManageAddItem(props:Props) {
@@ -20,7 +23,7 @@ export default function ManageAddItem(props:Props) {
     setValue1("");
     setValue2("");
   }
-
+  
   const handleSubmit = () => {
     if (props.table === "ingredients") {
       props.handleAdd(props.table, {"name": value1, "unit": value2});
@@ -37,7 +40,7 @@ export default function ManageAddItem(props:Props) {
     <>
     <input type="text" value={value1} onChange={(e)=>{setValue1(e.target.value)}} />
     { props.table === "ingredients" &&
-    <input type="text" value={value2} onChange={(e)=>{setValue2(e.target.value)}} />}
+    <input type="text" value={value2} placeholder="unit" onChange={(e)=>{setValue2(e.target.value)}} />}
     <span className="clickable icon" onClick={handleSubmit}>✅</span>
     <span className="clickable icon" onClick={resetHook} >❌</span>
     </>

@@ -3,17 +3,13 @@
 import { useEffect, useState } from "react";
 import Link from 'next/link'
 
-import RecipeCard from "@/components/recipeCard";
-import PushNotification from "../components/pushNotification";
 import CategoryList from "@/components/categoryList";
+import PushNotification from "../components/pushNotification";
+import RecipeCard from "@/components/recipeCard";
 import RecipeDetail from "@/components/recipeDetail";
 
-import { Recipe, Category, Tag, Ingredient } from "@/common/type";
-
-import { getRecipes } from "@/utils/api/recipeapi";
-import { getCategories } from "@/utils/api/categoryapi";
-import { getTags } from "@/utils/api/tagapi";
-import { getIngredients } from "@/utils/api/ingredientapi";
+import { Recipe, Category, Tag, Ingredient, RecipeAPIAddParam } from "@/common/type";
+import {recipeAPI, categoryAPI, tagAPI, ingredientAPI} from "@/utils/api"
 
 export default function Home() {
 
@@ -21,6 +17,7 @@ export default function Home() {
   const [showPushNotification, setShowPushNotification] = useState<boolean>(false);
   const [pushNotificationMessage, setPushNotificationMessage] = useState<string>('');
   const [showRecipeDetail, setShowRecipeDetail] = useState<boolean>(false);
+  const [mode, setMode] = useState<"view" | "update" | "new">("view");
 
   // data hooks
   const [categories, setCategories] = useState<Category[] | null>(null);
@@ -43,10 +40,10 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const [categoryData, recipeData, tagData, ingredientData] = await Promise.all([
-          getCategories(),
-          getRecipes(),
-          getTags(),
-          getIngredients(),
+          categoryAPI.get(),
+          recipeAPI.get(),
+          tagAPI.get(),
+          ingredientAPI.get(),
         ]);
 
         setCategories(categoryData);
@@ -93,16 +90,48 @@ export default function Home() {
       <div className="right-container">
         { showPushNotification &&
         <PushNotification message={pushNotificationMessage}/>}
-        { showRecipeDetail && currentRecipe && ingredients && tags &&
+        { showRecipeDetail && currentRecipe && ingredients && tags && currentCategory && recipes &&
         <RecipeDetail
           tags={tags}
+          setTags={setTags}
           ingredients={ingredients}
-          currentRecipe={currentRecipe}
+          setIngredients={setIngredients}
+          recipe={currentRecipe}
+          setCurrentRecipe={setCurrentRecipe}
+          mode={mode}
+          setMode={setMode}
+          currentCategory={currentCategory}
+          recipes={recipes}
+          setRecipes={setRecipes}
           setShowRecipeDetail={setShowRecipeDetail}
         />}
+        {/* <RecipeDetailBlank /> */}
+
 
         <h1>{currentCategory?.name}</h1>
-        <button id="new-recipe">Add recipe</button>
+        <button
+          id="new-recipe"
+          onClick={()=>{
+            setMode("new");
+            setShowRecipeDetail(true);
+            setCurrentRecipe({
+              id: -1,
+              name: "",
+              ingredients: [],
+              steps: [],
+              external_links: "",
+              created: "",
+              pinned: 0,
+              serving: 1,
+              prep_time: 10,
+              notes: "",
+              categories: [],
+              tags: [],
+            })
+          }}
+        >
+          Add recipe
+        </button>
         <div className="recipe-card-container">
           {recipes && currentCategory &&
           recipes.filter((recipe) => recipe["categories"].includes(currentCategory["id"].toString()))

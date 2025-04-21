@@ -1,40 +1,64 @@
-import { Recipe, Category, Tag, Ingredient } from "@/common/type";
+import { Recipe, Category, Tag, Ingredient, RecipeAPIAddParam, Tables } from "@/common/type";
 
-export const removeEmptyItem = (list:string[]) => {
-  // returns a new list with all empty strings removed (shallow copy)
-  return list.filter((item) => item !== '');
+export const removeEmptyItem = (list:string[]) => { return list.filter((item) => item !== ''); };
+
+export const findRecordNameByid = (id: number, records: Category[] | Tag[] | Ingredient[] | Recipe[] | null ) => {
+  if (!records) return "";
+  for (const record of records) { if (id === record["id"]) { return record["name"]; } }
+  return "";
 };
 
-export const findRecordNameByid = (id: number, records: Category[] | Tag[] | Ingredient[] | null ) => {
+export const findRecordidByName = (name: string, records: Category[] | Tag[] | Ingredient[] | Recipe[]  | null ) => {
   if (!records) return "";
-  for (const record of records) {
-    if (id === record["id"]) { return record["name"]; }
-  }
+  for (const record of records) { if (name === record["name"]) { return record["id"]; } } // the name is a unique value (by the db schema)
   return "";
-}
-
-export const findRecordidByName = (name: string, records: Category[] | Tag[] | Ingredient[] | null ) => {
-  // the name is a unique value (by the db schema)
-  if (!records) return "";
-  for (const record of records) {
-    if (name === record["name"]) { return record["id"]; }
-  }
-  return "";
-}
+};
 
 export const findIngredientUnitByid = (id: number, records: Ingredient[] | null ) => {
   if (!records) return "";
-  for (const record of records) {
-    if (id === record["id"]) { return record["unit"]; }
-  }
+  for (const record of records) { if (id === record["id"]) { return record["unit"]; } }
   return "";
-}
+};
+
+export const validateData = (table: Tables, data: any) => {
+  /**
+   * Checks if all property values are valid before calling the API (POST / UPDATE)
+   */
+  const validateRecipe = (data: Recipe | RecipeAPIAddParam) => {
+    if (data.name === "") return [false, "Invalid recipe name"];
+    if (data.serving < 1 || !Number.isInteger(data.serving)) return [false, "Invalid serving size"];
+    if (data.prep_time < 0) return [false, "Invalid preparation time"];
+    return [true, "All properties are valid!"];
+    
+  }
+  const validateTag = (data: Tag) => {
+    if (data.name === "") return [false, "Invalid tag name"];
+    return [true, "All properties are valid!"];
+  }
+  const validateIngredient = (data: Ingredient) => {
+    if (data.name === "") return [false, "Invalid ingredient name"];
+    if (data.unit === "") return [false, "Invalid ingredient unit"];
+    return [true, "All properties are valid!"];
+  }
+  const validateCategory = (data: Category) => {
+    if (data.name === "") return [false, "Invalid category name"];
+    return [true, "All properties are valid!"];
+  }
+
+  if (table === "recipes") {return validateRecipe(data)}
+  if (table === "tags") {return validateTag(data)}
+  if (table === "ingredients") {return validateIngredient(data)}
+  if (table === "categories") {return validateCategory(data)}
+  return [false, "Invalid table name"];
+};
 
 
-// export const findIndexByid = (records: Ingredient[] | Category[] | Tag[] | Recipe[], id: string | number) => {
-//   if (!records) { return -1; }
-//   for (let i = 0; i < records.length; i++) {
-//     if (records[i].id.toString() === id.toString()) return i;
-//   }
-//   return -1;
-// }
+
+
+export const getCurrentDate = (): string => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // months are 0-based
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};

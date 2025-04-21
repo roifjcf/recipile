@@ -1,7 +1,11 @@
+/*
+  The recipe card component which shows general info of a recipe
+*/
+
 'use client';
-import { Recipe, Category, Tag, Ingredient } from "@/common/type";
+import { Recipe, Tag } from "@/common/type";
 import { findRecordNameByid } from "@/utils/helper";
-import { updateRecipe } from "@/utils/api/recipeapi";
+import { recipeAPI } from "@/utils/api";
 
 interface Props {
   key: number,
@@ -21,7 +25,7 @@ export default function RecipeCard(props:Props) {
       "content": val === 1 ? 0 : 1,
       "column": "pinned"
     };
-    // frontend update
+    // hook update
     let temp = props.recipes;
     for (let recipe of temp) {
       if (recipe["id"] === props.recipe.id) {
@@ -31,7 +35,7 @@ export default function RecipeCard(props:Props) {
     }
     props.setRecipes([...temp].sort((a,b) => b["pinned"]-a["pinned"]));
     // backend update
-    updateRecipe(props.recipe.id, newData);
+    recipeAPI.updateColumn(props.recipe.id, newData);
   };
 
   const handleShowRecipeDetail = () => {

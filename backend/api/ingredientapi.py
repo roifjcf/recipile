@@ -48,9 +48,9 @@ def ingredient_info():
       values = []
       for f in fields:
         v = request.args.get(f)
-        if (not v and f == 'unit'):
+        if (not v and f == 'unit'): # handle empty params
           values.append("")
-        elif not v:
+        elif not v: # handle invalid params
           return helper.handle_response_400(f"Missing '{f}' parameter.")
         else:
           values.append(v)
