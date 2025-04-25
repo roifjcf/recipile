@@ -3,7 +3,8 @@ import { Category } from "@/common/type";
 
 interface Props {
   categories: Category[],
-  setCurrentCategory: (data: Category) => void
+  currentCategory: Category,
+  setCurrentCategory: (data: Category) => void,
 }
 
 export default function CategoryList (props:Props) {
@@ -13,7 +14,13 @@ export default function CategoryList (props:Props) {
   return(
     <ul>
       {props.categories.map((cat, index) =>
-      <li className="category-li" key={index} onClick={()=>handleClick(cat)}> {cat.name} </li>)}
+      <li
+        className={`categorylist-item${cat === props.currentCategory ? " categorylist-item-selected" : ""}`}
+        key={index}
+        onClick={()=>handleClick(cat)}
+      > 
+        {cat.name}
+      </li>)}
     </ul>
   )
 }

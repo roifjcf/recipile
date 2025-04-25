@@ -85,3 +85,5 @@ export const isIngredient = (item: Category | Tag | Ingredient): item is Ingredi
 */
 export type Tables = "recipes" | "ingredients" | "tags" | "categories";
 export type RecipeField = "name" | "ingredient" | "step" | "externalLink";
+export type Mode = "view" | "update" | "new";
+export type recipeCardDisplay = "simple" | "full";

@@ -1,0 +1,26 @@
+@use '../themes/theme' as *;
+@use '../abstracts/variables' as *;
+
+$local-padding: $space-4;
+$local-margin: $space-8;
+
+.notecard-container {
+  width: 100%;
+  padding: $local-padding;
+  margin-top: $local-margin;
+
+  background-color: var(--surface-container-lowest);
+  border-radius: $radius-sm;
+}
+
+.notecard-title {
+  height: $size-3xl;
+  margin-bottom: $space-3;
+  gap: $space-2;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  color: var(--on-surface-variant);
+}

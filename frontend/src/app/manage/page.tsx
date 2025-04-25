@@ -4,14 +4,13 @@ Management page for categories, tags, and ingredients
 'use client';
 
 import { useEffect, useState } from "react";
-import Link from 'next/link'
+import Link from 'next/link';
 
 import { Category, Tag, Ingredient } from "@/common/type";
 import ManageItem from "@/components/manageItem";
 import ManageAddItem from "@/components/manageAddItem";
+import Navbar from "@/components/navbar";
 import { categoryAPI, tagAPI, ingredientAPI } from "@/utils/api";
-
-
 
 
 
@@ -119,8 +118,8 @@ export default function Page() {
 
   return (
   <div className="manage-main-container">
-    <Link href="/">Back</Link>
-    {/* <button><a href="/">Back</a></button> */}
+    
+    <Navbar />
     
     {/* categories */}
     <div className="manage-column-container">

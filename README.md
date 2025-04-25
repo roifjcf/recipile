@@ -26,4 +26,4 @@ npm run dev
 
 Icon
 
-[icons8](https://icons8.com/icons)
+[Material Symbols & Icons - Google Fonts](https://fonts.google.com/icons)

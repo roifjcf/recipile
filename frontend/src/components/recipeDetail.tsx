@@ -2,13 +2,20 @@
 
 import { useEffect, useState } from "react";
 
-import { Recipe, Tag, Ingredient, Category, RecipeAPIAddParam, Tables } from "@/common/type";
+import { Recipe, Tag, Ingredient, Category, Tables, Mode } from "@/common/type";
+
+import Icon from "@/components/icon";
+import IngredientCard from "@/components/ingredientCard";
+import MiniStats from "@/components/miniStats";
 import ManageAddItem from "@/components/manageAddItem";
+import NoteCard from "@/components/noteCard";
+import RecipeImage from "@/components/recipeImage";
+import StepCard from "@/components/stepCard";
+import Tags from "@/components/tags";
+
 import { recipeAPI, tagAPI, ingredientAPI } from "@/utils/api";
 import {
-  findRecordNameByid,
   findRecordidByName, 
-  findIngredientUnitByid,
   getCurrentDate,
   validateData,
 } from "@/utils/helper";
@@ -21,8 +28,8 @@ interface Props {
   setIngredients: (data: Ingredient[]) => void,
   recipe: Recipe,
   setCurrentRecipe: (data:Recipe | null) => void,
-  mode: "view" | "update" | "new",
-  setMode: (data: "view" | "update" | "new") => void
+  mode: Mode,
+  setMode: (data: Mode) => void
   currentCategory: Category,
   recipes: Recipe[],
   setRecipes: (data: any) => void,
@@ -45,6 +52,7 @@ export default function RecipeDetail(props:Props) {
     props.setShowRecipeDetail(false);
   };
   const handleKeyPress = (e: KeyboardEvent) => {if (e.key === "Escape") {handleClose()}};
+  
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
     return () => {window.removeEventListener('keydown', handleKeyPress);};
@@ -53,7 +61,7 @@ export default function RecipeDetail(props:Props) {
 
 
   /**
-   * API calls (with hoop updates)
+   * API calls (with hook updates)
    */
   const handleUpdate = async () => {
     /**
@@ -161,168 +169,150 @@ export default function RecipeDetail(props:Props) {
     }
     setRecipeDetail({...recipeDetail, steps: updatedSteps});
   }
-  
-
-
-
+  const handleUpdatePreptime = (e: any) => {
+    if (isNaN(parseInt(e.target.value))) {return;}
+    setRecipeDetail({...recipeDetail, prep_time:parseInt(e.target.value)})
+  };
+  const handleUpdateServing = (e: any) => {
+    if (isNaN(parseInt(e.target.value))) {return;}
+    setRecipeDetail({...recipeDetail, serving:parseInt(e.target.value)})
+  };
+  const handleUpdateIngredientAmount = (e: any, index: number) => {
+    let updatedIngredients = [...recipeDetail.ingredients];
+    let updatedIngredient = updatedIngredients[index];
+    updatedIngredient[1] = e.target.value;
+    setRecipeDetail({...recipeDetail, ingredients:updatedIngredients});
+  };
+  const handleUpdateStep = (e: any, index: number) => {
+    let updatedSteps = [...recipeDetail.steps];
+    updatedSteps[index] = e.target.value;
+    setRecipeDetail({...recipeDetail, steps:updatedSteps})
+  };
 
 
   return (
-    <div className="recipe-detail-container round-corner">
+    <div className="recipedetail-container round-corner">
 
 
       {props.mode === "view" &&
       <>
-      <span className="icon clickable" onClick={handleClose}>❌</span>
-      <span className="icon clickable" onClick={()=>props.setMode("update")}>✏️</span>
-      <p>{recipeDetail["name"]}</p>
-      <a href={recipeDetail["external_links"]} target="_blank">🔗</a>
-      <ul>
-        {recipeDetail["tags"].map((tag, index)=>
-        <li className="tag-label" key={index}>🏷️{findRecordNameByid(parseInt(tag), props.tags)}</li>)}
-      </ul>
-      <p>⌛ {recipeDetail["prep_time"]}</p>
-      <p>🥣 {recipeDetail["serving"]}</p>
-      <br />
-      <p>Ingredients</p>
-      <ul>
-        {recipeDetail["ingredients"].map((ingr, index) =>
-        <li key={index}>
-          {findRecordNameByid(parseInt(ingr[0]), props.ingredients)} &nbsp;
-          {ingr[1]} &nbsp;
-          {findIngredientUnitByid(parseInt(ingr[0]), props.ingredients)}
-        </li>)}
-      </ul>
-      <br />
-      <p>Steps</p>
-      <ul>
-        {recipeDetail["steps"].map((s, index) => <li key={index}>{s}</li>)}
-      </ul>
-      <br />
-      <p>Notes</p>
-      <p>{recipeDetail["notes"]}</p>
+      
+      <div className="recipedetail-container-left">
+        <RecipeImage mode="view" />
+        <div className="recipedetail-text-info-container-left">
+          <h3>{recipeDetail["name"]}</h3>
+          <a href={recipeDetail["external_links"]} target="_blank">
+            <Icon src={"link-outline"} hoverable={true} changeSrc={false}/>
+          </a>
+          <Tags mode={props.mode} recipeTags={recipeDetail["tags"]} tags={props.tags} />
+          <MiniStats mode="view" recipeDetail={recipeDetail}/>
+        </div>
+      </div>
+      <div className="recipedetail-container-right">
+        
+        <div className="recipedetail-button-container">
+          <div className="recipedetail-button-container-left">
+            <Icon src={"edit-outline"} altsrc={"edit-fill"} hoverable={true} changeSrc={true} onClick={()=>props.setMode("update")}/>
+          </div>
+          <div className="recipedetail-button-container-right">
+            <Icon src={"cancel-outline"} altsrc={"cancel-fill"} hoverable={true} changeSrc={true} onClick={handleClose}/>
+          </div>
+        </div>
+        <IngredientCard
+          mode={props.mode}
+          recipeDetail={recipeDetail}
+          ingredients={props.ingredients}
+          selectedIngredient={selectedIngredient}
+        />
+        <StepCard
+          mode={props.mode}
+          recipeDetail={recipeDetail}
+          newStep={newStep}
+        />
+        <NoteCard
+          mode={props.mode}
+          recipeDetail={recipeDetail}
+          onChange={undefined}
+        />
+      </div>
       </>}
 
 
 
       {(props.mode === "update" || props.mode === "new") &&
       <>
-      <span className="icon clickable" onClick={handleClose}>❌</span>
-      {props.mode === "update" && <span className="icon clickable" onClick={resetEditState}>🗑️</span>}
-      {props.mode === "update" && <span className="icon clickable" onClick={handleUpdate}>✅</span>}
-      {props.mode === "new" && <span className="icon clickable" onClick={()=>handleAddNewRecord("recipes", {...recipeDetail})}>✅</span>}
-      <input
-        type="text"
-        value={recipeDetail["name"]}
-        onChange={(e)=>setRecipeDetail({...recipeDetail, name: e.target.value})}
-        placeholder="Recipe name"
-      />
-      <input
-        type="text"
-        value={recipeDetail["external_links"]}
-        onChange={(e)=>setRecipeDetail({...recipeDetail, external_links: e.target.value})}
-        placeholder="External link"
-      />
-      <ul>
-        {recipeDetail["tags"].map((tag, index)=>
-        <li className="tag-label" key={index}>
-          🏷️{findRecordNameByid(parseInt(tag), props.tags)}
-          <span className="icon clickable" onClick={()=>{handleRemoveTag(tag)}}>❌</span>
-        </li>)}
-      </ul>
-      <select value={selectedTag} onChange={e=>setSelectedTag(e.target.value)}>
-        {props.tags.map((tag, index) =>
-        <option key={index} value={tag["name"]}>{tag["name"]}</option>)}
-      </select>
-      <span className="icon clickable" onClick={handleAddExistingTag}>➕</span>
-      <ManageAddItem table="tags" handleAdd={handleAddNewRecord} />
-      <p>⌛
-        <input
-          className="input-inline-small"
-          type="number"
-          onChange={(e)=>{ if (isNaN(parseInt(e.target.value))) {return;}
-          setRecipeDetail({...recipeDetail, prep_time:parseInt(e.target.value)})
-        }}
-          placeholder="Prepatation time (minutes)"
-          value={recipeDetail["prep_time"]}
-          min={0}
-        />
-      </p>
-      <p>🥣
-        <input
-          className="input-inline-small"
-          type="number"
-          onChange={(e)=>{ if (isNaN(parseInt(e.target.value))) {return;}
-          setRecipeDetail({...recipeDetail, serving:parseInt(e.target.value)})}}
-          placeholder="Serving size"
-          value={recipeDetail["serving"]}
-          min={1}
-        />
-      </p>
-      <p>Ingredient</p>
-      <ul>
-        {recipeDetail["ingredients"].map((ingr, index) =>
-        <li key={index}>
-          <span className="icon clickable" onClick={()=>{handleRemoveIngredient(ingr[0])}}>🗑️</span>
-          {findRecordNameByid(parseInt(ingr[0]), props.ingredients)} &nbsp;
-          <input 
-          className="input-inline-small"
-          type="text"
-          placeholder="Amount of the ingredient"
-          onChange={(e) => {
-            let updatedIngredients = [...recipeDetail.ingredients];
-            let updatedIngredient = updatedIngredients[index];
-            updatedIngredient[1] = e.target.value;
-            setRecipeDetail({...recipeDetail, ingredients:updatedIngredients})
-          }}
-          value={ingr[1]} />&nbsp;
-        {findIngredientUnitByid(parseInt(ingr[0]), props.ingredients)}
-        </li>)}
-      </ul>
-      <select value={selectedIngredient} onChange={e=>setSelectedIngredient(e.target.value)}>
-        {props.ingredients.map((ingr, index) =>
-        <option key={index} value={ingr["name"]}>{ingr["name"]}</option>)}
-      </select>
-      <span className="icon clickable" onClick={handleAddExistingIngredient}>➕</span>
-      <ManageAddItem table="ingredients" handleAdd={handleAddNewRecord} />
-
-      <p>Steps</p>
-      <ul>
-        {recipeDetail["steps"].map((step, index) =>
-        <li key={index}>
-          <span className="icon clickable" onClick={()=>{handleRemoveStep(index)}}>🗑️</span>
+      
+      <div className="recipedetail-container-left">
+        <RecipeImage mode="view" />
+        <div className="recipedetail-text-info-container-left">
           <input
-            className="input-inline-mid"
-            key={index}
             type="text"
-            placeholder="Step"
-            value={step}
-            onChange={(e)=>{
-              let updatedSteps = [...recipeDetail.steps];
-              updatedSteps[index] = e.target.value;
-              setRecipeDetail({...recipeDetail, steps:updatedSteps})
-          }}/>
-          <span className="icon clickable" onClick={()=>handleReorder("up", index)}>🔼</span>
-          <span className="icon clickable" onClick={()=>handleReorder("down", index)}>🔽</span>
-        </li>
-        )}
-        <li>
-          <input
-            className="input-inline-mid"
-            type="text"
-            placeholder="New step..."
-            value={newStep}
-            onChange={(e)=>setNewStep(e.target.value)}
+            value={recipeDetail["name"]}
+            onChange={(e)=>setRecipeDetail({...recipeDetail, name: e.target.value})}
+            placeholder="Recipe name"
           />
-          <span className="icon clickable" onClick={handleAddStep}>➕</span>
-        </li>
-      </ul>
-      <p>Notes</p>
-      <textarea
-        placeholder="Notes"
-        onChange={(e)=>setRecipeDetail({...recipeDetail, notes:e.target.value})}
-        value={recipeDetail["notes"]}>
-      </textarea>
+          <input
+            type="text"
+            value={recipeDetail["external_links"]}
+            onChange={(e)=>setRecipeDetail({...recipeDetail, external_links: e.target.value})}
+            placeholder="External link"
+          />
+          <Tags mode={props.mode} recipeTags={recipeDetail["tags"]} tags={props.tags} handleRemoveTag={handleRemoveTag} />
+          <select className="inline" value={selectedTag} onChange={e=>setSelectedTag(e.target.value)}>
+            {props.tags.map((tag, index) =>
+            <option key={index} value={tag["name"]}>{tag["name"]}</option>)}
+          </select>
+          <Icon
+            src={"add-outline"}
+            altsrc={undefined}
+            hoverable={true}
+            changeSrc={false}
+            onClick={handleAddExistingTag}
+          />
+          <ManageAddItem table="tags" handleAdd={handleAddNewRecord} />
+          <MiniStats mode={props.mode} recipeDetail={recipeDetail} onChange={[handleUpdatePreptime, handleUpdateServing]}/>
+        </div>
+      </div>
+      
+      <div className="recipedetail-container-right">
+        <div className="recipedetail-button-container">
+          <div className="recipedetail-button-container-left">
+            {props.mode === "update" && <Icon src={"undo-outline"} hoverable={true} changeSrc={false} onClick={resetEditState}/>}
+            {props.mode === "update" && <Icon src={"yes-outline"} hoverable={true} changeSrc={false} onClick={handleUpdate}/>}
+            {props.mode === "new" && <Icon src={"yes-outline"} hoverable={true} changeSrc={false} onClick={()=>handleAddNewRecord("recipes", {...recipeDetail})}/>}
+          </div>
+          <div className="recipedetail-button-container-right">
+            <Icon src={"cancel-outline"} altsrc={"cancel-fill"} hoverable={true} changeSrc={true} onClick={handleClose}/>
+          </div>
+        </div>
+        <IngredientCard
+          mode={props.mode}
+          recipeDetail={recipeDetail}
+          ingredients={props.ingredients}
+          selectedIngredient={selectedIngredient}
+          setSelectedIngredient={setSelectedIngredient}
+          handleRemoveIngredient={handleRemoveIngredient}
+          handleUpdateIngredientAmount={handleUpdateIngredientAmount}
+          handleAddExistingIngredient={handleAddExistingIngredient}
+          handleAddNewRecord={handleAddNewRecord}
+        />
+        <StepCard
+          mode={props.mode}
+          recipeDetail={recipeDetail}
+          newStep={newStep}
+          handleRemoveStep={handleRemoveStep}
+          handleUpdateStep={handleUpdateStep}
+          handleReorder={handleReorder}
+          setNewStep={setNewStep}
+          handleAddStep={handleAddStep}
+        />
+        <NoteCard
+          mode={props.mode}
+          recipeDetail={recipeDetail}
+          onChange={(e)=>setRecipeDetail({...recipeDetail, notes:e.target.value})}
+        />
+      </div>
+
       </>}
 
       

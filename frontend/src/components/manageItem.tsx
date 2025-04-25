@@ -5,7 +5,9 @@
 'use client';
 
 import { useState } from "react";
+
 import { Tables, isIngredient, Category, Tag, Ingredient } from "@/common/type";
+import Icon from "@/components/icon";
 
 interface Props {
   key: number,
@@ -28,10 +30,13 @@ export default function ManageItem (props:Props) {
 
   const handleConfirm = () => {
     setItem({...modifiedItem});
-    const params = isIngredient(modifiedItem) ? {"id": modifiedItem["id"],
+    const params = isIngredient(modifiedItem) ?
+    {
+      "id": modifiedItem["id"],
       "name": modifiedItem["name"],
       "unit": modifiedItem["unit"] ? modifiedItem["unit"] : ""
-    } : {"content": modifiedItem["name"]};
+    } :
+    {"content": modifiedItem["name"]};
     // if (isIngredient(modifiedItem)) {
     //   props.handleUpdate(props.table, item["id"],
     //     {"id": modifiedItem["id"],
@@ -52,20 +57,22 @@ export default function ManageItem (props:Props) {
         {isInEditMode ?
         <>
           <input
+            className="input-mid"
             type="text"
             value={modifiedItem.name}
             onChange={(e) => setModifiedItem({...modifiedItem, name: e.target.value})}
           />
           {isIngredient(modifiedItem) &&
           <input
+            className="input-small"
             type="text"
             value={modifiedItem.unit}
             onChange={(e) => setModifiedItem({...modifiedItem, unit: e.target.value})}
           />}
         </> :
         <div className="manageitem-container-left">
-          <span>{item.name}</span>
-          {isIngredient(item) && <span>{item.unit}</span>}
+          <span className="left">{item.name}</span>
+          {isIngredient(item) && <span className="right">{item.unit}</span>}
         </div>}
       </div>
 
@@ -73,12 +80,12 @@ export default function ManageItem (props:Props) {
       <div className="manageitem-container-right">
         {isInEditMode ? 
         <>
-          <span className="icon clickable" onClick={handleConfirm}>✅</span>
-          <span className="icon clickable" onClick={handleCancel}>❌</span>
+          <Icon src="yes-outline" altsrc={undefined} hoverable={true} changeSrc={false} onClick={handleConfirm} />
+          <Icon src="close-outline" altsrc={undefined} hoverable={true} changeSrc={false} onClick={handleCancel} />
         </> : 
         <>
-          <span className="icon clickable" onClick={()=>setIsInEditMode(true)}>✏️</span>
-          <span className="icon clickable" onClick={()=>props.handleDelete(props.table, item["id"])}>🗑️</span>
+          <Icon src="edit-outline" altsrc="edit-fill" hoverable={true} changeSrc={true} onClick={()=>setIsInEditMode(true)} />
+          <Icon src="bin-outline" altsrc="bin-fill" hoverable={true} changeSrc={true} onClick={()=>props.handleDelete(props.table, item["id"])} />
         </>}
       </div>
     </div>

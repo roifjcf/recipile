@@ -3,15 +3,23 @@
 */
 
 'use client';
-import { Recipe, Tag } from "@/common/type";
+import { Recipe, Tag, recipeCardDisplay } from "@/common/type";
+
+import Icon from "@/components/icon";
+import MiniStats from "@/components/miniStats";
+import RecipeImage from "@/components/recipeImage";
+import Tags from "@/components/tags";
+
 import { findRecordNameByid } from "@/utils/helper";
 import { recipeAPI } from "@/utils/api";
+
 
 interface Props {
   key: number,
   recipe: Recipe,
   recipes: Recipe[],
-  tags: Tag[] | null,
+  tags: Tag[],
+  recipeCardDisplay: recipeCardDisplay,
   setRecipes: (data:any) => void,
   setCurrentRecipe: (data:any) => void,
   setShowRecipeDetail: (data:any) => void,
@@ -19,7 +27,8 @@ interface Props {
 
 export default function RecipeCard(props:Props) {
 
-  const handlePin = async (val: number) => {
+  const handlePin = async (val: number, e: React.MouseEvent) => {
+    e.stopPropagation();
     const newData = {
       "id": props.recipe.id,
       "content": val === 1 ? 0 : 1,
@@ -44,17 +53,40 @@ export default function RecipeCard(props:Props) {
   }
   
   return (
-    <div className="recipe-card round-corner">
-      <p onClick={handleShowRecipeDetail} className="icon clickable">↕️</p>
-      {props.recipe.pinned === 1 && <p onClick={()=>handlePin(props.recipe.pinned)} className="icon clickable">🟡</p>}
-      {props.recipe.pinned === 0 && <p onClick={()=>handlePin(props.recipe.pinned)} className="icon clickable">⚪</p>}
-      <p>{props.recipe.name}</p>
-      <p>⌛ {props.recipe.prep_time + " minute(s)"}</p>
-      <p>🥣 {props.recipe.serving}</p>
-      <ul>
-        {props.recipe.tags.map((tag, index) =>
-        <li className="tag-label" key={index}>🏷️ {findRecordNameByid(parseInt(tag), props.tags)}</li>)}
-      </ul>
+    <div className="recipecard-container round-corner" onClick={handleShowRecipeDetail}>
+      {props.recipeCardDisplay === "full" && <RecipeImage mode="view"/>}
+      <div className="recipecard-text-info-container">
+        <div className="recipecard-text-info-container-top">
+          <div className="left">
+            <h3>{props.recipe.name}</h3>
+          </div>
+          <div className="right">
+            {props.recipe.pinned === 1 &&
+            <Icon
+              src="star-fill"
+              hoverable={true}
+              changeSrc={false}
+              onClick={(e)=>handlePin(props.recipe.pinned, e)}
+            />}
+            {props.recipe.pinned === 0 &&
+            <Icon
+              src="star-outline"
+              hoverable={true}
+              changeSrc={false}
+              onClick={(e)=>handlePin(props.recipe.pinned, e)}
+            />}
+            <Icon src="more-vertical-outline" hoverable={true} changeSrc={false} />
+          </div>
+        </div>
+        <div className="recipecard-text-info-container-bottom">
+          <MiniStats
+            mode="view"
+            recipeDetail={props.recipe}
+            onChange={undefined}
+            />
+          <Tags mode="view" recipeTags={props.recipe.tags} tags={props.tags} />
+        </div>
+      </div>
     </div>
   );
 }

@@ -25,6 +25,7 @@ export const validateData = (table: Tables, data: any) => {
    * Checks if all property values are valid before calling the API (POST / UPDATE)
    */
   const validateRecipe = (data: Recipe | RecipeAPIAddParam) => {
+    /** To validate: name, serving size, prep time  */
     if (data.name === "") return [false, "Invalid recipe name"];
     if (data.serving < 1 || !Number.isInteger(data.serving)) return [false, "Invalid serving size"];
     if (data.prep_time < 0) return [false, "Invalid preparation time"];
@@ -32,15 +33,18 @@ export const validateData = (table: Tables, data: any) => {
     
   }
   const validateTag = (data: Tag) => {
+    /** To validate: name  */
     if (data.name === "") return [false, "Invalid tag name"];
     return [true, "All properties are valid!"];
   }
   const validateIngredient = (data: Ingredient) => {
+    /** To validate: name, unit  */
     if (data.name === "") return [false, "Invalid ingredient name"];
     if (data.unit === "") return [false, "Invalid ingredient unit"];
     return [true, "All properties are valid!"];
   }
   const validateCategory = (data: Category) => {
+    /** To validate: name  */
     if (data.name === "") return [false, "Invalid category name"];
     return [true, "All properties are valid!"];
   }
@@ -53,8 +57,6 @@ export const validateData = (table: Tables, data: any) => {
 };
 
 
-
-
 export const getCurrentDate = (): string => {
   const now = new Date();
   const year = now.getFullYear();
@@ -62,3 +64,23 @@ export const getCurrentDate = (): string => {
   const day = String(now.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
+
+
+export const getRandomKaomoji = (): string => {
+  const l = [
+    "(*¯︶¯*)",
+    "＼(≧▽≦)／",
+    "⸜( ´ ꒳ ` )⸝",
+    "( = ⩊ = )",
+    "(„• ᴗ •„)",
+    "(´ ∀ ` *)",
+    "( ´ ꒳ ` )",
+    "( ` ω ´ )",
+    "(つ≧▽≦)つ",
+    "(つ✧ω✧)つ",
+    "( ˙꒳​˙ )",
+    "Σ(°△°|||)︴",
+    "٩(ˊᗜˋ*)و",
+  ];
+  return l[Math.floor(Math.random() * l.length)];
+}

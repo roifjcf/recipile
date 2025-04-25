@@ -1,53 +1,62 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
-$p: 16px;
-$h1: 24px;
-$h2: 20px;
+// --rose-pompadour: #e27396ff;
+// --amaranth-pink: #ea9ab2ff;
+// --mimi-pink: #efcfe3ff;
+// --mustard: #f7cf4cff;
+// --light-blue: #b3dee2ff;
 
 :root {
+  /* === Minecraft Concrete Colors === */
+  --mc-concrete-white: #f9fffe;
+  --mc-concrete-light-gray: #9d9d97;
+  --mc-concrete-gray: #474f52;
+  --mc-concrete-black: #1d1d21;
+  --mc-concrete-brown: #825432;
+  --mc-concrete-red: #b02e26;
+  --mc-concrete-orange: #f9801d;
+  --mc-concrete-yellow: #ffd83d;
+  --mc-concrete-lime: #80c71f;
+  --mc-concrete-green: #5d7c15;
+  --mc-concrete-cyan: #169c9d;
+  --mc-concrete-light-blue: #3ab3da;
+  --mc-concrete-blue: #3c44a9;
+  --mc-concrete-purple: #8932b7;
+  --mc-concrete-magenta: #c64fbd;
+  --mc-concrete-pink: #f38caa;
 
+  /* === Minecraft Terracotta Colors === */
+  --mc-terracotta-white: #d2b1a1;
+  --mc-terracotta-light-gray: #876b62;
+  --mc-terracotta-gray: #3a2b24;
+  --mc-terracotta-black: #251710;
+  --mc-terracotta-brown: #4f3524;
+  --mc-terracotta-red: #8d3a2d;
+  --mc-terracotta-orange: #9d5123;
+  --mc-terracotta-yellow: #b88221;
+  --mc-terracotta-lime: #677535;
+  --mc-terracotta-green: #4e552c;
+  --mc-terracotta-cyan: #565c5c;
+  --mc-terracotta-light-blue: #766f8c;
+  --mc-terracotta-blue: #4a3b5b;
+  --mc-terracotta-purple: #7b4a59;
+  --mc-terracotta-magenta: #94566c;
+  --mc-terracotta-pink: #a65151;
 
-  --font-size-xs: 0.75rem;   // 12px
-  --font-size-sm: 0.875rem;  // 14px
-  --font-size-base: 1rem;    // 16px
-  --font-size-lg: 1.125rem;  // 18px
-  --font-size-xl: 1.25rem;   // 20px
-  --font-size-2xl: 1.5rem;   // 24px
-  --font-size-3xl: 1.875rem; // 30px
-
-  --space-0: 0rem;
-  --space-1: 0.25rem;  // 4px
-  --space-2: 0.5rem;   // 8px
-  --space-3: 0.75rem;  // 12px
-  --space-4: 1rem;     // 16px
-  --space-6: 1.5rem;   // 24px
-  --space-8: 2rem;     // 32px
-  --space-12: 3rem;    // 48px
-
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-full: 9999px;
-
-  // --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-  // --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-  // --shadow-lg: 0 10px 15px rgba(0,0,0,0.15);
-
-
-  --primary:#E4AC43;
+  --primary:#f7cf4c;
   --on-primary: #FFFFFF;
-  --primary-container:#FDCC44;
+  --primary-container:#f8d298;
   --on-primary-container: #936B20;
 
-  --secondary: #8DA998;
+  --secondary: #b3dee2ff;
   --on-secondary: #FFFFFF;
-  --secondary-container: #D6E2DA;
-  --on-secondary-container: #485E5A;
+  --secondary-container: #ffffff;
+  --on-secondary-container: rgb(118, 198, 206);
 
-  --tertiary: #A69487;
+  --tertiary: #ea9ab2ff;
   --on-tertiary: #FFFFFF;
-  --tertiary-container: #F7DEC1;
-  --on-tertiary-container: #483A2D;
+  --tertiary-container: rgb(255, 226, 244);
+  --on-tertiary-container: #e27396ff;
 
   --error: #D03342;
   --on-error: #FFFFFF;
@@ -59,19 +68,24 @@ $h2: 20px;
   --neutral-container: #F2F2F2;
   --on-neutral-container: #888888;
 
-  --surface: #FFFCF6;
+  --surface: #FDFBF8;
   --on-surface: #302B2B;
   --on-surface-variant: #958F8F;
 
-  --surface-container-lowest: #F7F6F3;
-  --surface-container-low: #F3F1ED;
-  --surface-container: #EFECE7;
-  --surface-container-high: #EBE7E0;
-  --surface-container-highest: #E7E2DA;
+  --surface-container-lowest: #F6F6F4;
+  --surface-container-low: #F1F0EE;
+  --surface-container: #EDEBE9;
+  --surface-container-high: #E8E6E3;
+  --surface-container-highest: #E3E1DD;
 
-  --shadow: #161616;
+  --selection: #FBCD84;
+  --on-selection: #302B2B;
+
+  --outline: #e0a537;
+  --outline-variant: #ddd0b6;
+
+  --shadow: #16161610;
 };
-
 
 [data-theme="dark"] {
   --primary:#E4AC43;
@@ -103,13 +117,19 @@ $h2: 20px;
   --on-surface: #FFFCF6;
   --on-surface-variant: #E0DCD5;
 
-  --surface-container-lowest: #3B3636;
-  --surface-container-low: #4B4444;
-  --surface-container: #5B5353;
-  --surface-container-high: #6B6161;
-  --surface-container-highest: #7B7070;
+  --surface-container-lowest: #393737;
+  --surface-container-low: #494646;
+  --surface-container: #585555;
+  --surface-container-high: #686464;
+  --surface-container-highest: #787373;
 
-  --shadow: #161616;
+  --selection: #FBCD84;
+  --on-selection: #302B2B;
+
+  --outline: #e0a537;
+  --outline-variant: #ddd0b6;
+
+  --shadow: #16161610;
 }
 
 
