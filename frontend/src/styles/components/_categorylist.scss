@@ -10,6 +10,7 @@ $local-gap: $space-8;
   position: relative;
   &:hover {
     cursor: pointer;
+    background-color: var(--surface-container-lowest);
   }
 }
 

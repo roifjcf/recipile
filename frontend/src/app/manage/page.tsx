@@ -4,14 +4,12 @@ Management page for categories, tags, and ingredients
 'use client';
 
 import { useEffect, useState } from "react";
-import Link from 'next/link';
 
-import { Category, Tag, Ingredient } from "@/common/type";
+import { Category, Tag, Ingredient, Tables } from "@/common/type";
 import ManageItem from "@/components/manageItem";
 import ManageAddItem from "@/components/manageAddItem";
 import Navbar from "@/components/navbar";
 import { categoryAPI, tagAPI, ingredientAPI } from "@/utils/api";
-
 
 
 export default function Page() {
@@ -21,7 +19,7 @@ export default function Page() {
   const [ingredients, setIngredients] = useState<Ingredient[] | null>(null);
 
   useEffect(() => {
-    
+    /** Init */
     const fetchData = async () => {
       try {
         const [categoryData, tagData, ingredientData] = await Promise.all([
@@ -41,7 +39,8 @@ export default function Page() {
     fetchData();
   }, []);
 
-  const handleDelete = async (table: string, id: string | number) => {
+
+  const handleDelete = async (table: Tables, id: string | number) => {
     /*
     Removes a record from the hook and database
     */
@@ -66,7 +65,7 @@ export default function Page() {
     }
   }
 
-  const handleUpdate = async (table: string, id: string | number, content: any) => {
+  const handleUpdate = async (table: Tables, id: string | number, content: any) => {
     /*
     Updates a record
     */
@@ -88,7 +87,7 @@ export default function Page() {
     }
   };
 
-  const handleAdd = async (table: string, content: any) => {
+  const handleAdd = async (table: Tables, content: any) => {
     /*
     Adds a new record
     */
@@ -116,64 +115,31 @@ export default function Page() {
     }
   }
 
+  const renderColumn = (table: Tables, title: string, data: Category[] | Tag[] | Ingredient[] | null) => {
+    return (
+      <div className="manage-column-container">
+        <h2>{title}</h2>
+        <ManageAddItem table={table} handleAdd={handleAdd} />
+        {data && data.map((item: Category | Tag | Ingredient)=>
+        <ManageItem
+          key={item.id}
+          handleUpdate={handleUpdate}
+          handleDelete={handleDelete}
+          item={item}
+          table={table}
+        />)}
+        {!data &&
+        <p>Loading...</p> }
+      </div>
+    );
+  }
+
   return (
   <div className="manage-main-container">
-    
     <Navbar />
-    
-    {/* categories */}
-    <div className="manage-column-container">
-      <h2>Categories</h2>
-      <ManageAddItem table="categories" handleAdd={handleAdd} />
-      {categories && categories.map((cat, index)=>
-      <ManageItem
-        key={cat.id}
-        handleUpdate={handleUpdate}
-        handleDelete={handleDelete}
-        item={cat}
-        table="categories"
-      />)}
-      {!categories &&
-      <p>Loading...</p> }
-    </div>
-
-
-
-    {/* ingredients */}
-    <div className="manage-column-container">
-      <h2>Ingredients</h2>
-      <ManageAddItem table="ingredients" handleAdd={handleAdd} />
-      {ingredients && ingredients.map((ingredient, index) =>
-      <ManageItem
-        key={ingredient.id}
-        handleUpdate={handleUpdate}
-        handleDelete={handleDelete}
-        item={ingredient}
-        table="ingredients"
-      />)}
-      {!ingredients &&
-      <p>Loading...</p> }
-    </div>
-    
-
-
-    {/* tags */}
-    <div className="manage-column-container">
-      <h2>Tags</h2>
-      <ManageAddItem table="tags" handleAdd={handleAdd} />
-      {tags && tags.map((tag) =>
-      <ManageItem
-        key={tag.id}
-        handleUpdate={handleUpdate}
-        handleDelete={handleDelete}
-        item={tag}
-        table="tags"
-      />)}
-      {!tags &&
-      <p>Loading...</p> }
-    </div>
-
-
+    {renderColumn("categories", "Categories", categories)}
+    {renderColumn("ingredients", "Ingredients", ingredients)}
+    {renderColumn("tags", "Tags", tags)}
   </div>
   );
 }

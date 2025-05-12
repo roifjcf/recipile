@@ -1,24 +1,31 @@
 import { Recipe, Category, Tag, Ingredient, RecipeAPIAddParam, Tables } from "@/common/type";
 
-export const removeEmptyItem = (list:string[]) => { return list.filter((item) => item !== ''); };
-
 export const findRecordNameByid = (id: number, records: Category[] | Tag[] | Ingredient[] | Recipe[] | null ) => {
-  if (!records) return "";
-  for (const record of records) { if (id === record["id"]) { return record["name"]; } }
-  return "";
+  return records?.find(record => record.id === id)?.name || "";
 };
 
 export const findRecordidByName = (name: string, records: Category[] | Tag[] | Ingredient[] | Recipe[]  | null ) => {
-  if (!records) return "";
-  for (const record of records) { if (name === record["name"]) { return record["id"]; } } // the name is a unique value (by the db schema)
-  return "";
+  /** the name is a unique value (by the db schema) */
+  return records?.find(record => record.name === name)?.id || "";
 };
 
 export const findIngredientUnitByid = (id: number, records: Ingredient[] | null ) => {
-  if (!records) return "";
-  for (const record of records) { if (id === record["id"]) { return record["unit"]; } }
-  return "";
+  return records?.find(record => record.id === id)?.unit || "";
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const validateData = (table: Tables, data: any) => {
   /**
@@ -57,7 +64,30 @@ export const validateData = (table: Tables, data: any) => {
 };
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export const removeEmptyItem = (list:string[]) => { return list.filter((item) => item !== ''); };
+
+
 export const getCurrentDate = (): string => {
+  /** Gets the current date in the format yyyy-mm-dd */
   const now = new Date();
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, '0'); // months are 0-based

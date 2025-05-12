@@ -65,17 +65,15 @@ export default function RecipeCard(props:Props) {
             <Icon
               src="star-fill"
               hoverable={true}
-              changeSrc={false}
               onClick={(e)=>handlePin(props.recipe.pinned, e)}
             />}
             {props.recipe.pinned === 0 &&
             <Icon
               src="star-outline"
               hoverable={true}
-              changeSrc={false}
               onClick={(e)=>handlePin(props.recipe.pinned, e)}
             />}
-            <Icon src="more-vertical-outline" hoverable={true} changeSrc={false} />
+            <Icon src="more-vertical-outline" hoverable={true}/>
           </div>
         </div>
         <div className="recipecard-text-info-container-bottom">

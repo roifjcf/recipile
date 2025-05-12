@@ -1,5 +1,6 @@
 /*
-  Component for adding new records to table "tags", "categories", or "ingredients"
+  Component for page "/manage"
+  Adds new records to table "tags", "categories", or "ingredients"
 */
 'use client';
 
@@ -13,35 +14,35 @@ interface Props {
   handleAdd?: (table: Tables, content: any) => void
 };
 
-export default function ManageAddItem(props:Props) {
+export default function ManageAddItem({ table, handleAdd }: Props) {
 
   const [value1, setValue1] = useState<string>(""); // name
   const [value2, setValue2] = useState<string>(""); // unit (for ingredient records)
 
-  const resetHook = () => {
+  const reset = () => {
     setValue1("");
     setValue2("");
   }
   
   const handleSubmit = () => {
-    if (props.table === "ingredients") {
-      props.handleAdd?.(props.table, {"name": value1, "unit": value2});
+    if (table === "ingredients") {
+      handleAdd?.(table, {"name": value1, "unit": value2});
     } else {
-      props.handleAdd?.(props.table, {"name": value1});
+      handleAdd?.(table, {"name": value1});
     }
-    resetHook();
+    reset();
   }
 
   return (
   <div className="manageadditem-container">
     <div className="left">
       <input className="input-mid" type="text" value={value1} placeholder="name" onChange={(e)=>{setValue1(e.target.value)}} />
-      { props.table === "ingredients" &&
+      { table === "ingredients" &&
       <input className="input-small" type="text" value={value2} placeholder="unit" onChange={(e)=>{setValue2(e.target.value)}} />}
     </div>
     <div className="right">
-      <Icon src="add-outline" altsrc={undefined} hoverable={true} changeSrc={false} onClick={handleSubmit} />
-      <Icon src="reset-outline" altsrc={undefined} hoverable={true} changeSrc={false} onClick={resetHook} />
+      <Icon src="add-outline" hoverable={true} onClick={handleSubmit} />
+      <Icon src="reset-outline" hoverable={true} onClick={reset} />
     </div>
   </div>
   )

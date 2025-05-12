@@ -7,29 +7,23 @@ interface Props {
   onChange: ((...args: any[]) => void) | undefined,
 };
 
-export default function NoteCard(props:Props) {
+export default function NoteCard({ mode, recipeDetail, onChange }: Props) {
   return (
     <div className="notecard-container">
       
       <div className="notecard-title">
-        <Icon
-          src="message-outline-958F8F"
-          altsrc={undefined}
-          hoverable={false}
-          changeSrc={false}
-          onClick={undefined}
-        />
+        <Icon src="message-outline-958F8F" />
         <h4>Notes</h4>
       </div>
 
-      {props.mode === "view" ?
-      <p>{props.recipeDetail["notes"]}</p>
+      {mode === "view" ?
+        <p>{recipeDetail["notes"]}</p>
       :
-      <textarea
-        placeholder="Notes"
-        onChange={props.onChange}
-        value={props.recipeDetail["notes"]}>
-      </textarea>
+        <textarea
+          placeholder="Notes"
+          onChange={onChange}
+          value={recipeDetail["notes"]}>
+        </textarea>
       }
       
     </div>

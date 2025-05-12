@@ -1,3 +1,7 @@
+/**
+ * Tag component
+ */
+
 import { Mode, Tag } from "@/common/type"
 import Icon from "@/components/icon";
 import { findRecordNameByid } from "@/utils/helper";
@@ -9,28 +13,18 @@ interface Props {
   handleRemoveTag?: (tag:string) => void,
 };
 
-export default function Tags(props: Props) {
+export default function Tags({ mode, recipeTags, tags, handleRemoveTag }: Props) {
+  const canEdit = mode === "update" || mode === "new";
+  
   return (
     <ul className="tags-container">
-      {props.recipeTags.map((tag, index) =>
-      <li className="tags-label" key={index}>
-        <Icon
-          src={"tag-outline"}
-          altsrc={undefined}
-          hoverable={false}
-          changeSrc={false}
-          onClick={undefined}
-        />
-        <p>{findRecordNameByid(parseInt(tag), props.tags)}</p>
-        {(props.mode === "update" || props.mode === "new") &&
-        <Icon
-          src={"bin-outline"}
-          altsrc={"bin-fill"}
-          hoverable={true}
-          changeSrc={true}
-          onClick={()=>props.handleRemoveTag!(tag)}
-        />}
-      </li> )}
+      {recipeTags.map((tag, index) =>
+        <li className="tags-label" key={index}>
+          <Icon src={"tag-outline"} />
+          <p>{findRecordNameByid(parseInt(tag), tags)}</p>
+          {canEdit && <Icon src={"bin-outline"} altsrc={"bin-fill"} hoverable={true} onClick={()=>handleRemoveTag!(tag)} />}
+        </li>
+      )}
     </ul>
   );
 }

@@ -5,35 +5,32 @@ import { useState } from "react";
 interface Props {
   src: string;
   altsrc?: string | undefined;
-  hoverable: boolean;
-  changeSrc: boolean; // changes src image on hover
+  hoverable?: boolean;
   onClick?: ((...args: any[]) => void) | undefined;
 };
 
-export default function Icon(props: Props) {
-  const srcDefault = `icons/${props.src}.png`;
-  const srcActive = (props.altsrc) ? `icons/${props.altsrc}.png` : srcDefault;
+export default function Icon({
+  src,
+  altsrc,
+  hoverable = false,
+  onClick,
+}: Props) {
 
+  const srcDefault = `icons/${src}.png`;
+  const srcActive = (altsrc) ? `icons/${altsrc}.png` : srcDefault;
   const [currSrc, setCurrSrc] = useState<string>(srcDefault);
-
-  const handleMouseEnter = () => {
-    if (!props.changeSrc) {return;}
-    setCurrSrc(srcActive);
-  };
-  const handleMouseLeave = () => {
-    if (!props.changeSrc) {return;}
-    setCurrSrc(srcDefault);
-  };
+  const handleMouseEnter = () => altsrc && setCurrSrc(srcActive);
+  const handleMouseLeave = () => altsrc && setCurrSrc(srcDefault);
 
   return(
     <img
-      className={"icon" + (props.hoverable ? " clickable" : "")}
+      className={"icon" + (hoverable ? " clickable" : "")}
       src={currSrc}
       alt={currSrc}
       draggable={false}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onClick={props.onClick ?? undefined}
+      onClick={onClick ?? undefined}
     />
   );
   

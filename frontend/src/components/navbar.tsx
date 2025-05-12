@@ -13,24 +13,24 @@ export default function Navbar() {
 
     <div className='navbar-button-container-mid'>
       <Link className='navbar-link' href="/">
-        <Icon src='dining-outline' hoverable={true} changeSrc={false} />
+        <Icon src='dining-outline' hoverable={true}/>
         <p>Home</p>
       </Link>
       <Link className='navbar-link' href="/manage">
-        <Icon src='data-outline' hoverable={true} changeSrc={false} />
+        <Icon src='data-outline' hoverable={true}/>
         <p>Manage</p>
       </Link>
       <Link className='navbar-link' href="/planner">
-        <Icon src='calendar-outline' hoverable={true} changeSrc={false} />
+        <Icon src='calendar-outline' hoverable={true}/>
         <p>Planner</p>
       </Link>
     </div>
 
 
     <div className='navbar-button-container-right'>
-      <Icon src='contrast-outline' hoverable={true} changeSrc={false} />
-      <Icon src='language-outline' hoverable={true} changeSrc={false} />
-      <Icon src='setting-outline' hoverable={true} changeSrc={false} />
+      <Icon src='contrast-outline' hoverable={true}/>
+      <Icon src='language-outline' hoverable={true}/>
+      <Icon src='setting-outline' hoverable={true}/>
     </div>
 
   </div>

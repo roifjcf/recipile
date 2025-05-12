@@ -10,49 +10,52 @@ interface Props {
   onChange?: ((...args: any[]) => void)[] | undefined,
 };
 
-export default function MiniStats(props: Props) {
-  return (
-    <div className="ministats-container">
+export default function MiniStats({ mode, recipeDetail, onChange }: Props) {
+  const inEditMode = mode === "update" || mode === "new";
+
+  const PrepTime = () => {
+    return (
       <div className="ministats-item">
-        <Icon
-          src={"time-outline"}
-          altsrc={undefined}
-          changeSrc={false}
-          hoverable={false}
-          onClick={undefined}
-        />
-        {props.mode === "view" && <p>{props.recipeDetail["prep_time"] + (props.recipeDetail["prep_time"] > 1 ? " minutes" : "minute")}</p>}
-        {(props.mode === "update" || props.mode === "new") &&
+        <Icon src={"time-outline"} />
+        {!inEditMode && <p>{recipeDetail["prep_time"] + (recipeDetail["prep_time"] > 1 ? " minutes" : "minute")}</p>}
+        {inEditMode &&
         <input
           className="input-small inline"
           type="number"
-          onChange={(e) => props.onChange?.[0]?.(e)}
+          onChange={(e) => onChange?.[0]?.(e)}
           placeholder="Prepatation time (minutes)"
-          value={props.recipeDetail["prep_time"]}
+          value={recipeDetail["prep_time"]}
           min={0}
         />
         }
       </div>
+    );
+  }
+
+  const Serving = () => {
+    return (
       <div className="ministats-item">
-        <Icon
-          src={"serving-outline"}
-          altsrc={undefined}
-          changeSrc={false}
-          hoverable={false}
-          onClick={undefined}
-        />
-        {props.mode === "view" && <p>{props.recipeDetail["serving"]}</p>}
-        {(props.mode === "update" || props.mode === "new") &&
+        <Icon src={"serving-outline"} />
+        {!inEditMode && <p>{recipeDetail["serving"]}</p>}
+        {inEditMode &&
         <input
           className="input-small inline"
           type="number"
-          onChange={(e) => props.onChange?.[1]?.(e)}
+          onChange={(e) => onChange?.[1]?.(e)}
           placeholder="Serving size"
-          value={props.recipeDetail["serving"]}
+          value={recipeDetail["serving"]}
           min={1}
         />
         }
       </div>
+    );
+  };
+
+  return (
+    <div className="ministats-container">
+      <PrepTime />
+      <Serving />
     </div>
   );
+
 }

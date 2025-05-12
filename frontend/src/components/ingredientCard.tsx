@@ -21,46 +21,65 @@ interface Props {
   handleAddNewRecord?: ((table: Tables, content: any) => void) | undefined,
 };
 
-export default function IngredientCard(props:Props) {
-  return (
-    <div>
-      <h4>Ingredients</h4>
-      {props.mode === "view" ? 
+export default function IngredientCard({
+  mode,
+  recipeDetail,
+  ingredients,
+  selectedIngredient,
+  setSelectedIngredient,
+  handleRemoveIngredient,
+  handleUpdateIngredientAmount,
+  handleAddExistingIngredient,
+  handleAddNewRecord,
+}: Props) {
+
+  const ViewMode = () => {
+    return (
       <ul>
-        {props.recipeDetail["ingredients"].map((ingr, index) =>
+        {recipeDetail["ingredients"].map((ingr, index) =>
         <li key={index}>
-          {findRecordNameByid(parseInt(ingr[0]), props.ingredients)} &nbsp;
+          {findRecordNameByid(parseInt(ingr[0]), ingredients)} &nbsp;
           {ingr[1]} &nbsp;
-          {findIngredientUnitByid(parseInt(ingr[0]), props.ingredients)}
+          {findIngredientUnitByid(parseInt(ingr[0]), ingredients)}
         </li>)}
       </ul>
-      :
+    );
+  }
+
+  const EditMode = () => {
+    return (
       <>
       <ul>
-        {props.recipeDetail["ingredients"].map((ingr, index) =>
+        {recipeDetail["ingredients"].map((ingr, index) =>
         <li key={index}>
-          <Icon src="bin-outline" altsrc="bin-fill" hoverable={true} changeSrc={true} onClick={()=>{props.handleRemoveIngredient?.(ingr[0])}} />
-          {findRecordNameByid(parseInt(ingr[0]), props.ingredients)} &nbsp;
+          <Icon src="bin-outline" altsrc="bin-fill" hoverable={true} onClick={()=>{handleRemoveIngredient?.(ingr[0])}} />
+          {findRecordNameByid(parseInt(ingr[0]), ingredients)} &nbsp;
           <input 
             className="input-small inline"
             type="text"
             placeholder="Amount of the ingredient"
-            onChange={(e)=>{props.handleUpdateIngredientAmount?.(e, index)}}
+            onChange={(e)=>{handleUpdateIngredientAmount?.(e, index)}}
             value={ingr[1]}
           />&nbsp;
-        {findIngredientUnitByid(parseInt(ingr[0]), props.ingredients)}
+        {findIngredientUnitByid(parseInt(ingr[0]), ingredients)}
         </li>)}
       </ul>
       <div className="ingredientcard-dropdown-container">
-        <select value={props.selectedIngredient} onChange={e=>props.setSelectedIngredient?.(e.target.value)}>
-          {props.ingredients.map((ingr, index) =>
+        <select value={selectedIngredient} onChange={e=>setSelectedIngredient?.(e.target.value)}>
+          {ingredients.map((ingr, index) =>
           <option key={index} value={ingr["name"]}>{ingr["name"]}</option>)}
         </select>
-        <Icon src="add-outline" hoverable={true} changeSrc={false} onClick={props.handleAddExistingIngredient}/>
+        <Icon src="add-outline" hoverable={true} onClick={handleAddExistingIngredient}/>
       </div>
-      <ManageAddItem table="ingredients" handleAdd={props.handleAddNewRecord} />
+      <ManageAddItem table="ingredients" handleAdd={handleAddNewRecord} />
       </>
-      }
+    );
+  }
+
+  return (
+    <div>
+      <h4>Ingredients</h4>
+      {mode === "view" ?  <ViewMode /> : <EditMode /> }
     </div>
   );
 }

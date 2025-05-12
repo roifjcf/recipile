@@ -1,5 +1,6 @@
 /*
   Component for page "/manage"
+  Edits records of table "tags", "categories", or "ingredients"
 */
 
 'use client';
@@ -13,8 +14,8 @@ interface Props {
   key: number,
   item: Category | Tag | Ingredient,
   table: Tables,
-  handleDelete: (table:string, id:string | number) => void,
-  handleUpdate: (table:string, id:string | number, content: any) => void,
+  handleDelete: (table:Tables, id:string | number) => void,
+  handleUpdate: (table:Tables, id:string | number, content: any) => void,
 };
 
 export default function ManageItem (props:Props) {
@@ -30,64 +31,58 @@ export default function ManageItem (props:Props) {
 
   const handleConfirm = () => {
     setItem({...modifiedItem});
-    const params = isIngredient(modifiedItem) ?
-    {
-      "id": modifiedItem["id"],
-      "name": modifiedItem["name"],
-      "unit": modifiedItem["unit"] ? modifiedItem["unit"] : ""
-    } :
-    {"content": modifiedItem["name"]};
-    // if (isIngredient(modifiedItem)) {
-    //   props.handleUpdate(props.table, item["id"],
-    //     {"id": modifiedItem["id"],
-    //       "name": modifiedItem["name"],
-    //       "unit": modifiedItem["unit"] ? modifiedItem["unit"] : ""
-    //     });
-    // } else {
-    //   props.handleUpdate(props.table, item["id"], {"content": modifiedItem["name"]});
-    // }
+    const params = isIngredient(modifiedItem)
+                    ? { id: modifiedItem.id, name: modifiedItem.name, unit: modifiedItem.unit || "" }
+                    : { content: modifiedItem.name };
     props.handleUpdate(props.table, item["id"], params);
     setIsInEditMode(false);
   }
 
+  const renderIcons = () => (
+    <div className="manageitem-container-right">
+      {isInEditMode ? 
+      <>
+        <Icon src="yes-outline" hoverable={true} onClick={handleConfirm} />
+        <Icon src="close-outline" hoverable={true} onClick={handleCancel} />
+      </> : 
+      <>
+        <Icon src="edit-outline" altsrc="edit-fill" hoverable={true} onClick={()=>setIsInEditMode(true)} />
+        <Icon src="bin-outline" altsrc="bin-fill" hoverable={true} onClick={()=>props.handleDelete(props.table, item["id"])} />
+      </>}
+    </div>
+  );
+
+  const renderItemContent = () => (
+    <div className="manageitem-container-left">
+      <span className="left">{item.name}</span>
+      {isIngredient(item) && <span className="right">{item.unit}</span>}
+    </div>
+  );
+
+  const renderInputFields = () => (
+    <>
+      <input
+        className="input-mid"
+        type="text"
+        value={modifiedItem.name}
+        onChange={(e) => setModifiedItem({...modifiedItem, name: e.target.value})}
+      />
+      {isIngredient(modifiedItem) &&
+      <input
+        className="input-small"
+        type="text"
+        value={modifiedItem.unit}
+        onChange={(e) => setModifiedItem({...modifiedItem, unit: e.target.value})}
+      />}
+    </>
+  );
+
   return(
     <div className="manageitem-container">
-
       <div className="manageitem-container-left">
-        {isInEditMode ?
-        <>
-          <input
-            className="input-mid"
-            type="text"
-            value={modifiedItem.name}
-            onChange={(e) => setModifiedItem({...modifiedItem, name: e.target.value})}
-          />
-          {isIngredient(modifiedItem) &&
-          <input
-            className="input-small"
-            type="text"
-            value={modifiedItem.unit}
-            onChange={(e) => setModifiedItem({...modifiedItem, unit: e.target.value})}
-          />}
-        </> :
-        <div className="manageitem-container-left">
-          <span className="left">{item.name}</span>
-          {isIngredient(item) && <span className="right">{item.unit}</span>}
-        </div>}
+        {isInEditMode ? renderInputFields() : renderItemContent()}
       </div>
-
-
-      <div className="manageitem-container-right">
-        {isInEditMode ? 
-        <>
-          <Icon src="yes-outline" altsrc={undefined} hoverable={true} changeSrc={false} onClick={handleConfirm} />
-          <Icon src="close-outline" altsrc={undefined} hoverable={true} changeSrc={false} onClick={handleCancel} />
-        </> : 
-        <>
-          <Icon src="edit-outline" altsrc="edit-fill" hoverable={true} changeSrc={true} onClick={()=>setIsInEditMode(true)} />
-          <Icon src="bin-outline" altsrc="bin-fill" hoverable={true} changeSrc={true} onClick={()=>props.handleDelete(props.table, item["id"])} />
-        </>}
-      </div>
+      {renderIcons()}
     </div>
   )
 }

@@ -202,7 +202,7 @@ export default function RecipeDetail(props:Props) {
         <div className="recipedetail-text-info-container-left">
           <h3>{recipeDetail["name"]}</h3>
           <a href={recipeDetail["external_links"]} target="_blank">
-            <Icon src={"link-outline"} hoverable={true} changeSrc={false}/>
+            <Icon src={"link-outline"} hoverable={true}/>
           </a>
           <Tags mode={props.mode} recipeTags={recipeDetail["tags"]} tags={props.tags} />
           <MiniStats mode="view" recipeDetail={recipeDetail}/>
@@ -212,10 +212,10 @@ export default function RecipeDetail(props:Props) {
         
         <div className="recipedetail-button-container">
           <div className="recipedetail-button-container-left">
-            <Icon src={"edit-outline"} altsrc={"edit-fill"} hoverable={true} changeSrc={true} onClick={()=>props.setMode("update")}/>
+            <Icon src={"edit-outline"} altsrc={"edit-fill"} hoverable={true} onClick={()=>props.setMode("update")}/>
           </div>
           <div className="recipedetail-button-container-right">
-            <Icon src={"cancel-outline"} altsrc={"cancel-fill"} hoverable={true} changeSrc={true} onClick={handleClose}/>
+            <Icon src={"cancel-outline"} altsrc={"cancel-fill"} hoverable={true} onClick={handleClose}/>
           </div>
         </div>
         <IngredientCard
@@ -262,13 +262,7 @@ export default function RecipeDetail(props:Props) {
             {props.tags.map((tag, index) =>
             <option key={index} value={tag["name"]}>{tag["name"]}</option>)}
           </select>
-          <Icon
-            src={"add-outline"}
-            altsrc={undefined}
-            hoverable={true}
-            changeSrc={false}
-            onClick={handleAddExistingTag}
-          />
+          <Icon src={"add-outline"} hoverable={true} onClick={handleAddExistingTag} />
           <ManageAddItem table="tags" handleAdd={handleAddNewRecord} />
           <MiniStats mode={props.mode} recipeDetail={recipeDetail} onChange={[handleUpdatePreptime, handleUpdateServing]}/>
         </div>
@@ -277,12 +271,12 @@ export default function RecipeDetail(props:Props) {
       <div className="recipedetail-container-right">
         <div className="recipedetail-button-container">
           <div className="recipedetail-button-container-left">
-            {props.mode === "update" && <Icon src={"undo-outline"} hoverable={true} changeSrc={false} onClick={resetEditState}/>}
-            {props.mode === "update" && <Icon src={"yes-outline"} hoverable={true} changeSrc={false} onClick={handleUpdate}/>}
-            {props.mode === "new" && <Icon src={"yes-outline"} hoverable={true} changeSrc={false} onClick={()=>handleAddNewRecord("recipes", {...recipeDetail})}/>}
+            {props.mode === "update" && <Icon src={"undo-outline"} hoverable={true} onClick={resetEditState}/>}
+            {props.mode === "update" && <Icon src={"yes-outline"} hoverable={true} onClick={handleUpdate}/>}
+            {props.mode === "new" && <Icon src={"yes-outline"} hoverable={true} onClick={()=>handleAddNewRecord("recipes", {...recipeDetail})}/>}
           </div>
           <div className="recipedetail-button-container-right">
-            <Icon src={"cancel-outline"} altsrc={"cancel-fill"} hoverable={true} changeSrc={true} onClick={handleClose}/>
+            <Icon src={"cancel-outline"} altsrc={"cancel-fill"} hoverable={true} onClick={handleClose}/>
           </div>
         </div>
         <IngredientCard

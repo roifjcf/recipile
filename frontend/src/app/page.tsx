@@ -135,8 +135,8 @@ export default function Home() {
             </button>
           </div>
           <div className="right">
-              <Icon src="display-simple" hoverable={true} changeSrc={false} onClick={()=>setRecipeCardDisplay("simple")}/>
-              <Icon src="display-full" hoverable={true} changeSrc={false} onClick={()=>setRecipeCardDisplay("full")}/>
+              <Icon src="display-simple" hoverable={true} onClick={()=>setRecipeCardDisplay("simple")}/>
+              <Icon src="display-full" hoverable={true} onClick={()=>setRecipeCardDisplay("full")}/>
           </div>
         </div>
 
@@ -162,20 +162,7 @@ export default function Home() {
           </div>
         
           }
-          {/* {recipes && currentCategory && tags &&
-          recipes.filter((recipe) => recipe["categories"].includes(currentCategory["id"].toString()))
-          .map((recipe, index) =>
-          <RecipeCard
-            key={index}
-            recipe={recipe}
-            recipes={recipes}
-            tags={tags}
-            recipeCardDisplay={recipeCardDisplay}
-            setRecipes={setRecipes}
-            setCurrentRecipe={setCurrentRecipe}
-            setShowRecipeDetail={setShowRecipeDetail}
-          />)
-          } */}
+
         </div>
       </div>
     </div>
