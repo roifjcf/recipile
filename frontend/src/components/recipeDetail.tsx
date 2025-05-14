@@ -22,34 +22,35 @@ import {
 
 
 interface Props {
-  tags: Tag[],
-  setTags: (data: Tag[]) => void,
-  ingredients: Ingredient[],
-  setIngredients: (data: Ingredient[]) => void,
-  recipe: Recipe,
-  setCurrentRecipe: (data:Recipe | null) => void,
-  mode: Mode,
-  setMode: (data: Mode) => void
-  currentCategory: Category,
-  recipes: Recipe[],
-  setRecipes: (data: any) => void,
-  setShowRecipeDetail: (data:boolean) => void,
+  // tags: Tag[],
+  // setTags: (data: Tag[]) => void,
+  // ingredients: Ingredient[],
+  // setIngredients: (data: Ingredient[]) => void,
+  // recipe: Recipe,
+  // setCurrentRecipe: (data:Recipe | null) => void,
+  // mode: Mode,
+  // setMode: (data: Mode) => void
+  // currentCategory: Category,
+  // recipes: Recipe[],
+  // setRecipes: (data: any) => void,
+  // setShowRecipeDetail: (data:boolean) => void,
+  otherProps: any
 };
 
 
-export default function RecipeDetail(props:Props) {
+export default function RecipeDetail({otherProps} : Props) {
 
   /**
    * General
    */
-  const [recipeDetail, setRecipeDetail] = useState<Recipe>({...props.recipe});
+  const [recipeDetail, setRecipeDetail] = useState<Recipe>({...otherProps.recipe});
   const resetEditState = () => {
-    props.setMode("view");
-    setRecipeDetail({...props.recipe}); // clear modified info
+    otherProps.setMode("view");
+    setRecipeDetail({...otherProps.recipe}); // clear modified info
   };
   const handleClose = () => {
     resetEditState();
-    props.setShowRecipeDetail(false);
+    otherProps.setShowRecipeDetail(false);
   };
   const handleKeyPress = (e: KeyboardEvent) => {if (e.key === "Escape") {handleClose()}};
   
@@ -71,10 +72,10 @@ export default function RecipeDetail(props:Props) {
     if (!isValid) {console.log(msg); return;}
 
     await recipeAPI.update(recipeDetail);
-    props.setCurrentRecipe({...recipeDetail});
+    otherProps.setCurrentRecipe({...recipeDetail});
     setRecipeDetail({...recipeDetail});
-    props.setRecipes(props.recipes.map(recipe => recipe.id === recipeDetail.id ? {...recipeDetail} : recipe));
-    props.setMode("view");
+    otherProps.setRecipes(otherProps.recipes.map((recipe: Recipe) => recipe.id === recipeDetail.id ? {...recipeDetail} : recipe));
+    otherProps.setMode("view");
   };
 
   const handleAddNewRecord = async (table: Tables, content: any) => {
@@ -86,7 +87,7 @@ export default function RecipeDetail(props:Props) {
     switch (table) {
       case 'recipes':
         content["created"] = getCurrentDate();
-        content["categories"] = [props.currentCategory["id"].toString()];
+        content["categories"] = [otherProps.currentCategory["id"].toString()];
         delete content["id"];
         await recipeAPI.add(content);
         // update hooks
@@ -95,19 +96,19 @@ export default function RecipeDetail(props:Props) {
         if (id !== "") {
           content["id"] = id;
           setRecipeDetail(content);
-          props.setRecipes([...props.recipes, content]);
+          otherProps.setRecipes([...otherProps.recipes, content]);
         }
-        props.setMode("view");       
+        otherProps.setMode("view");       
         break;
       case 'tags':
         await tagAPI.add(content);
         const [tagData] = await Promise.all([tagAPI.get()]);
-        props.setTags(tagData);
+        otherProps.setTags(tagData);
         break;
       case 'ingredients':
         await ingredientAPI.add(content);
         const [ingredientData] = await Promise.all([ingredientAPI.get()]);
-        props.setIngredients(ingredientData);
+        otherProps.setIngredients(ingredientData);
       default:
         break;
     }
@@ -141,13 +142,13 @@ export default function RecipeDetail(props:Props) {
   const handleAddExistingTag = () => {
     if (selectedTag === "") return;
     let updatedTags = [...recipeDetail.tags];
-    let id = findRecordidByName(selectedTag, props.tags).toString();
+    let id = findRecordidByName(selectedTag, otherProps.tags).toString();
     if (!updatedTags.includes(id)) { updatedTags.push(id); }
     setRecipeDetail({...recipeDetail, tags:updatedTags});
   };
   const handleAddExistingIngredient = () => {
     if (selectedIngredient === "") return;
-    let id = findRecordidByName(selectedIngredient, props.ingredients).toString();
+    let id = findRecordidByName(selectedIngredient, otherProps.ingredients).toString();
     if (recipeDetail.ingredients.filter((ingr)=>ingr[0]===id).length > 0) return; // ignore existing ingredients
     let updatedIngredients = recipeDetail.ingredients.filter((ingr)=>ingr[0]!==id);
     updatedIngredients.push([`${id}`, '0']);
@@ -193,8 +194,7 @@ export default function RecipeDetail(props:Props) {
   return (
     <div className="recipedetail-container round-corner">
 
-
-      {props.mode === "view" &&
+      {otherProps.mode === "view" &&
       <>
       
       <div className="recipedetail-container-left">
@@ -204,7 +204,7 @@ export default function RecipeDetail(props:Props) {
           <a href={recipeDetail["external_links"]} target="_blank">
             <Icon src={"link-outline"} hoverable={true}/>
           </a>
-          <Tags mode={props.mode} recipeTags={recipeDetail["tags"]} tags={props.tags} />
+          <Tags mode={otherProps.mode} recipeTags={recipeDetail["tags"]} tags={otherProps.tags} />
           <MiniStats mode="view" recipeDetail={recipeDetail}/>
         </div>
       </div>
@@ -212,25 +212,25 @@ export default function RecipeDetail(props:Props) {
         
         <div className="recipedetail-button-container">
           <div className="recipedetail-button-container-left">
-            <Icon src={"edit-outline"} altsrc={"edit-fill"} hoverable={true} onClick={()=>props.setMode("update")}/>
+            <Icon src={"edit-outline"} altsrc={"edit-fill"} hoverable={true} onClick={()=>otherProps.setMode("update")}/>
           </div>
           <div className="recipedetail-button-container-right">
             <Icon src={"cancel-outline"} altsrc={"cancel-fill"} hoverable={true} onClick={handleClose}/>
           </div>
         </div>
         <IngredientCard
-          mode={props.mode}
+          mode={otherProps.mode}
           recipeDetail={recipeDetail}
-          ingredients={props.ingredients}
+          ingredients={otherProps.ingredients}
           selectedIngredient={selectedIngredient}
         />
         <StepCard
-          mode={props.mode}
+          mode={otherProps.mode}
           recipeDetail={recipeDetail}
           newStep={newStep}
         />
         <NoteCard
-          mode={props.mode}
+          mode={otherProps.mode}
           recipeDetail={recipeDetail}
           onChange={undefined}
         />
@@ -239,10 +239,14 @@ export default function RecipeDetail(props:Props) {
 
 
 
-      {(props.mode === "update" || props.mode === "new") &&
+      {(otherProps.mode === "update" || otherProps.mode === "new") &&
       <>
       
       <div className="recipedetail-container-left">
+        {otherProps.mode === "update" &&
+        <Icon className="recipedetail-deletebtn" src="bin-outline" altsrc="bin-fill"
+        hoverable={true} onClick={()=>{otherProps.handleDeleteRecipe(recipeDetail.id); handleClose();}}/>}
+        
         <RecipeImage mode="view" />
         <div className="recipedetail-text-info-container-left">
           <input
@@ -257,32 +261,32 @@ export default function RecipeDetail(props:Props) {
             onChange={(e)=>setRecipeDetail({...recipeDetail, external_links: e.target.value})}
             placeholder="External link"
           />
-          <Tags mode={props.mode} recipeTags={recipeDetail["tags"]} tags={props.tags} handleRemoveTag={handleRemoveTag} />
+          <Tags mode={otherProps.mode} recipeTags={recipeDetail["tags"]} tags={otherProps.tags} handleRemoveTag={handleRemoveTag} />
           <select className="inline" value={selectedTag} onChange={e=>setSelectedTag(e.target.value)}>
-            {props.tags.map((tag, index) =>
+            {otherProps.tags.map((tag: Tag, index: number) =>
             <option key={index} value={tag["name"]}>{tag["name"]}</option>)}
           </select>
           <Icon src={"add-outline"} hoverable={true} onClick={handleAddExistingTag} />
           <ManageAddItem table="tags" handleAdd={handleAddNewRecord} />
-          <MiniStats mode={props.mode} recipeDetail={recipeDetail} onChange={[handleUpdatePreptime, handleUpdateServing]}/>
+          <MiniStats mode={otherProps.mode} recipeDetail={recipeDetail} onChange={[handleUpdatePreptime, handleUpdateServing]}/>
         </div>
       </div>
       
       <div className="recipedetail-container-right">
         <div className="recipedetail-button-container">
           <div className="recipedetail-button-container-left">
-            {props.mode === "update" && <Icon src={"undo-outline"} hoverable={true} onClick={resetEditState}/>}
-            {props.mode === "update" && <Icon src={"yes-outline"} hoverable={true} onClick={handleUpdate}/>}
-            {props.mode === "new" && <Icon src={"yes-outline"} hoverable={true} onClick={()=>handleAddNewRecord("recipes", {...recipeDetail})}/>}
+            {otherProps.mode === "update" && <Icon src={"undo-outline"} hoverable={true} onClick={resetEditState}/>}
+            {otherProps.mode === "update" && <Icon src={"yes-outline"} hoverable={true} onClick={handleUpdate}/>}
+            {otherProps.mode === "new" && <Icon src={"yes-outline"} hoverable={true} onClick={()=>handleAddNewRecord("recipes", {...recipeDetail})}/>}
           </div>
           <div className="recipedetail-button-container-right">
             <Icon src={"cancel-outline"} altsrc={"cancel-fill"} hoverable={true} onClick={handleClose}/>
           </div>
         </div>
         <IngredientCard
-          mode={props.mode}
+          mode={otherProps.mode}
           recipeDetail={recipeDetail}
-          ingredients={props.ingredients}
+          ingredients={otherProps.ingredients}
           selectedIngredient={selectedIngredient}
           setSelectedIngredient={setSelectedIngredient}
           handleRemoveIngredient={handleRemoveIngredient}
@@ -291,7 +295,7 @@ export default function RecipeDetail(props:Props) {
           handleAddNewRecord={handleAddNewRecord}
         />
         <StepCard
-          mode={props.mode}
+          mode={otherProps.mode}
           recipeDetail={recipeDetail}
           newStep={newStep}
           handleRemoveStep={handleRemoveStep}
@@ -301,7 +305,7 @@ export default function RecipeDetail(props:Props) {
           handleAddStep={handleAddStep}
         />
         <NoteCard
-          mode={props.mode}
+          mode={otherProps.mode}
           recipeDetail={recipeDetail}
           onChange={(e)=>setRecipeDetail({...recipeDetail, notes:e.target.value})}
         />

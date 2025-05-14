@@ -55,4 +55,5 @@ export const recipeAPI = {
   add: (content: RecipeAPIAddParam) => handleRequest(() => api.post("recipes", content, {headers: {'Content-Type': 'application/json'}})),
   update: (content: Recipe) => {handleRequest(() => api.put("recipes", content, {headers: {'Content-Type': 'application/json'}}))},
   updateColumn: (id: string | number, content: RecipeAPIUpdateColumnParam) => handleRequest(() => api.put(`recipes/${id}`, null, {params: content})),
+  delete: (id: number | string) => handleRequest(() => api.delete(`recipes/${id}`)),
 };

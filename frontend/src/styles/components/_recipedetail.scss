@@ -35,6 +35,12 @@ $recipecard-container-right: 100% - $recipecard-container-left;
   align-items: center;
 }
 
+.recipedetail-deletebtn {
+  position: absolute;
+  bottom: $space-8;
+  left: $space-8;
+}
+
 .recipedetail-button-container-left {
 
 }

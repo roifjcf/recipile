@@ -7,6 +7,7 @@ interface Props {
   altsrc?: string | undefined;
   hoverable?: boolean;
   onClick?: ((...args: any[]) => void) | undefined;
+  className?: string;
 };
 
 export default function Icon({
@@ -14,6 +15,7 @@ export default function Icon({
   altsrc,
   hoverable = false,
   onClick,
+  className
 }: Props) {
 
   const srcDefault = `icons/${src}.png`;
@@ -24,7 +26,7 @@ export default function Icon({
 
   return(
     <img
-      className={"icon" + (hoverable ? " clickable" : "")}
+      className={"icon" + (hoverable ? " clickable" : "") + " " + (className || "")}
       src={currSrc}
       alt={currSrc}
       draggable={false}

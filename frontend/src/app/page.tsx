@@ -14,6 +14,15 @@ import { Recipe, Category, Tag, Ingredient, Mode, recipeCardDisplay } from "@/co
 import {recipeAPI, categoryAPI, tagAPI, ingredientAPI} from "@/utils/api"
 import { getRandomKaomoji } from "@/utils/helper";
 
+
+
+
+
+
+
+
+
+
 export default function Home() {
 
   // others
@@ -31,6 +40,8 @@ export default function Home() {
   const [recipes, setRecipes] = useState<Recipe[] | null>(null)
   const [currentCategory, setCurrentCategory] = useState<Category | null>(null);
   const [currentRecipe, setCurrentRecipe] = useState<Recipe | null>(null);
+  const [recipesToEdit, setRecipesToEdit] = useState<Set<number>>(new Set()); // multiple selection feature
+  const [isBulkEditing, setIsBulkEditing] = useState<boolean>(false); // multiple selection feature
   /////////////////////////////
 
   const handleShowPushNotification = () => {
@@ -65,9 +76,79 @@ export default function Home() {
     fetchData();
   }, []);
 
-  
 
-  
+  /**
+   * Handlers
+   */
+  const handleDeleteRecipe = async (id: number) => {
+    if (!recipes) return;
+    const newRecipeList = recipes.filter((r)=> r.id !== id);
+    setRecipes(newRecipeList);
+    try {
+      recipeAPI.delete(id);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const handleDeleteRecipes = async (idSet: Set<number>) => {
+    if (!recipes) return;
+    const newRecipeList = recipes.filter((r)=> !idSet.has(r.id));
+    setRecipes(newRecipeList);
+    try {
+      for (const id of idSet) { recipeAPI.delete(id); }
+      setRecipesToEdit(new Set()); // reset hook
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const toggleCardDisplay = () => {
+    if (recipeCardDisplay === "full") { setRecipeCardDisplay("simple") }
+    else { setRecipeCardDisplay("full") }
+  }
+
+  const handleUpdateEditList = (id: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const newSet = new Set(recipesToEdit);
+    if (!newSet.has(id)) {newSet.add(id);}
+    else {newSet.delete(id);}
+    setRecipesToEdit(newSet);
+  }
+
+
+  /**
+   * Props
+   */
+
+  const recipeCardProp = {
+    recipes:recipes,
+    tags:tags,
+    recipeCardDisplay:recipeCardDisplay,
+    setRecipes:setRecipes,
+    setCurrentRecipe:setCurrentRecipe,
+    setShowRecipeDetail:setShowRecipeDetail,
+    isBulkEditing: isBulkEditing,
+    isChecked: (id: number) => recipesToEdit.has(id),
+    handleUpdateEditList: handleUpdateEditList,
+  }
+
+  const recipeDetailProp = {
+    tags:tags,
+    setTags:setTags,
+    ingredients:ingredients,
+    setIngredients:setIngredients,
+    recipe:currentRecipe,
+    setCurrentRecipe:setCurrentRecipe,
+    mode:mode,
+    setMode:setMode,
+    currentCategory:currentCategory,
+    recipes:recipes,
+    setRecipes:setRecipes,
+    setShowRecipeDetail:setShowRecipeDetail,
+    handleDeleteRecipe:handleDeleteRecipe,
+  }
+
 
   return (
     <div className="page-main-container">
@@ -91,18 +172,7 @@ export default function Home() {
         <PushNotification message={pushNotificationMessage}/>}
         { showRecipeDetail && currentRecipe && ingredients && tags && currentCategory && recipes &&
         <RecipeDetail
-          tags={tags}
-          setTags={setTags}
-          ingredients={ingredients}
-          setIngredients={setIngredients}
-          recipe={currentRecipe}
-          setCurrentRecipe={setCurrentRecipe}
-          mode={mode}
-          setMode={setMode}
-          currentCategory={currentCategory}
-          recipes={recipes}
-          setRecipes={setRecipes}
-          setShowRecipeDetail={setShowRecipeDetail}
+          otherProps={recipeDetailProp}
         />}
         {/* <RecipeDetailBlank /> */}
 
@@ -135,8 +205,10 @@ export default function Home() {
             </button>
           </div>
           <div className="right">
-              <Icon src="display-simple" hoverable={true} onClick={()=>setRecipeCardDisplay("simple")}/>
-              <Icon src="display-full" hoverable={true} onClick={()=>setRecipeCardDisplay("full")}/>
+            {isBulkEditing && <Icon src="bin-outline" altsrc="bin-fill" hoverable={true} onClick={()=>{handleDeleteRecipes(recipesToEdit)}} />}
+            <Icon src="checkbox-unchecked" hoverable={true} onClick={()=>{setIsBulkEditing(!isBulkEditing)}}/>
+            {recipeCardDisplay === "full" && <Icon src="display-simple" hoverable={true} onClick={toggleCardDisplay}/>}
+            {recipeCardDisplay === "simple" && <Icon src="display-full" hoverable={true} onClick={toggleCardDisplay}/>}
           </div>
         </div>
 
@@ -148,12 +220,7 @@ export default function Home() {
           <RecipeCard
             key={index}
             recipe={recipe}
-            recipes={recipes}
-            tags={tags}
-            recipeCardDisplay={recipeCardDisplay}
-            setRecipes={setRecipes}
-            setCurrentRecipe={setCurrentRecipe}
-            setShowRecipeDetail={setShowRecipeDetail}
+            otherProps={recipeCardProp}
           />)
           :
           <div className="page-empty-cat-msg">
