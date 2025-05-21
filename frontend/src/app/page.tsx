@@ -1,47 +1,35 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import Link from 'next/link'
 
-import CategoryList from "@/components/categoryList";
-import Icon from "@/components/icon";
 import Navbar from "@/components/navbar";
 import PushNotification from "../components/pushNotification";
-import RecipeCard from "@/components/recipeCard";
-import RecipeDetail from "@/components/recipeDetail";
+import RecipeDetail from "@/features/recipeDetail/recipeDetail";
 
 import { Recipe, Category, Tag, Ingredient, Mode, recipeCardDisplay } from "@/common/type";
 import {recipeAPI, categoryAPI, tagAPI, ingredientAPI} from "@/utils/api"
 import { getRandomKaomoji } from "@/utils/helper";
-
-
-
-
-
-
-
-
-
+import RecipesByCategory from "@/features/recipesByCategory/recipesByCategory";
+import SideBar from "@/features/sideBar/sideBar";
 
 export default function Home() {
-
   // others
   const [showPushNotification, setShowPushNotification] = useState<boolean>(false);
   const [pushNotificationMessage, setPushNotificationMessage] = useState<string>('');
+
   const [showRecipeDetail, setShowRecipeDetail] = useState<boolean>(false);
   const [kaomoji, setKaomoji] = useState<string>("");
-  const [mode, setMode] = useState<Mode>("view");
-  const [recipeCardDisplay, setRecipeCardDisplay] = useState<recipeCardDisplay>("full");
+  const [mode, setMode] = useState<Mode>("view"); // toggles recipe detail edit
+  const [recipeCardDisplay, setRecipeCardDisplay] = useState<recipeCardDisplay>("full"); // different recipe card layouts
 
   // data hooks
-  const [categories, setCategories] = useState<Category[] | null>(null);
-  const [tags, setTags] = useState<Tag[] | null>(null);
-  const [ingredients, setIngredients] = useState<Ingredient[] | null>(null);
-  const [recipes, setRecipes] = useState<Recipe[] | null>(null)
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [recipes, setRecipes] = useState<Recipe[]>([])
   const [currentCategory, setCurrentCategory] = useState<Category | null>(null);
   const [currentRecipe, setCurrentRecipe] = useState<Recipe | null>(null);
-  const [recipesToEdit, setRecipesToEdit] = useState<Set<number>>(new Set()); // multiple selection feature
-  const [isBulkEditing, setIsBulkEditing] = useState<boolean>(false); // multiple selection feature
+
   /////////////////////////////
 
   const handleShowPushNotification = () => {
@@ -52,7 +40,7 @@ export default function Home() {
   // init
   useEffect(() => {
     // fetch categories
-    // TODO if no categories create a default one and att it to the database
+    // TODO if no categories create a default one and add it to the database
     const fetchData = async () => {
       try {
         const [categoryData, recipeData, tagData, ingredientData] = await Promise.all([
@@ -77,6 +65,9 @@ export default function Home() {
   }, []);
 
 
+
+
+
   /**
    * Handlers
    */
@@ -91,147 +82,58 @@ export default function Home() {
     }
   }
 
-  const handleDeleteRecipes = async (idSet: Set<number>) => {
-    if (!recipes) return;
-    const newRecipeList = recipes.filter((r)=> !idSet.has(r.id));
-    setRecipes(newRecipeList);
-    try {
-      for (const id of idSet) { recipeAPI.delete(id); }
-      setRecipesToEdit(new Set()); // reset hook
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   const toggleCardDisplay = () => {
     if (recipeCardDisplay === "full") { setRecipeCardDisplay("simple") }
     else { setRecipeCardDisplay("full") }
   }
 
-  const handleUpdateEditList = (id: number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    const newSet = new Set(recipesToEdit);
-    if (!newSet.has(id)) {newSet.add(id);}
-    else {newSet.delete(id);}
-    setRecipesToEdit(newSet);
-  }
 
 
-  /**
-   * Props
-   */
-
-  const recipeCardProp = {
-    recipes:recipes,
-    tags:tags,
-    recipeCardDisplay:recipeCardDisplay,
-    setRecipes:setRecipes,
-    setCurrentRecipe:setCurrentRecipe,
-    setShowRecipeDetail:setShowRecipeDetail,
-    isBulkEditing: isBulkEditing,
-    isChecked: (id: number) => recipesToEdit.has(id),
-    handleUpdateEditList: handleUpdateEditList,
-  }
-
-  const recipeDetailProp = {
-    tags:tags,
-    setTags:setTags,
-    ingredients:ingredients,
-    setIngredients:setIngredients,
-    recipe:currentRecipe,
-    setCurrentRecipe:setCurrentRecipe,
-    mode:mode,
-    setMode:setMode,
-    currentCategory:currentCategory,
-    recipes:recipes,
-    setRecipes:setRecipes,
-    setShowRecipeDetail:setShowRecipeDetail,
-    handleDeleteRecipe:handleDeleteRecipe,
-  }
 
 
+
+  
+  
   return (
     <div className="page-main-container">
       <Navbar />
-      
-      <div className="page-left-container" id="categories">
-        <div className="page-filter-button-container">
-          <button>By category</button>
-          <button>By tag</button>
-        </div>
-        {categories && currentCategory &&
-        <CategoryList
-          categories={categories}
-          currentCategory={currentCategory}
-          setCurrentCategory={setCurrentCategory}
-        />}
-      </div>
 
-      <div className="page-right-container">
-        { showPushNotification &&
-        <PushNotification message={pushNotificationMessage}/>}
-        { showRecipeDetail && currentRecipe && ingredients && tags && currentCategory && recipes &&
-        <RecipeDetail
-          otherProps={recipeDetailProp}
-        />}
-        {/* <RecipeDetailBlank /> */}
+      <SideBar
+        categories={categories}
+        currentCategory={currentCategory}
+        setCurrentCategory={setCurrentCategory}
+      />
 
+      { showRecipeDetail && currentRecipe && ingredients && tags && currentCategory && recipes &&
+      <RecipeDetail
+        tags={tags}
+        setTags={setTags}
+        ingredients={ingredients}
+        setIngredients={setIngredients}
+        recipe={currentRecipe}
+        setCurrentRecipe={setCurrentRecipe}
+        mode={mode}
+        setMode={setMode}
+        currentCategory={currentCategory}
+        recipes={recipes}
+        setRecipes={setRecipes}
+        setShowRecipeDetail={setShowRecipeDetail}
+        handleDeleteRecipe={handleDeleteRecipe}
+      />}
 
-        <div className="page-right-info-container">
-          <div className="left">
-            <h1>{currentCategory?.name}</h1>
-            <button
-              id="new-recipe"
-              onClick={()=>{
-                setMode("new");
-                setShowRecipeDetail(true);
-                setCurrentRecipe({
-                  id: -1,
-                  name: "",
-                  ingredients: [],
-                  steps: [],
-                  external_links: "",
-                  created: "",
-                  pinned: 0,
-                  serving: 1,
-                  prep_time: 10,
-                  notes: "",
-                  categories: [],
-                  tags: [],
-                })
-              }}
-            >
-              Add recipe
-            </button>
-          </div>
-          <div className="right">
-            {isBulkEditing && <Icon src="bin-outline" altsrc="bin-fill" hoverable={true} onClick={()=>{handleDeleteRecipes(recipesToEdit)}} />}
-            <Icon src="checkbox-unchecked" hoverable={true} onClick={()=>{setIsBulkEditing(!isBulkEditing)}}/>
-            {recipeCardDisplay === "full" && <Icon src="display-simple" hoverable={true} onClick={toggleCardDisplay}/>}
-            {recipeCardDisplay === "simple" && <Icon src="display-full" hoverable={true} onClick={toggleCardDisplay}/>}
-          </div>
-        </div>
+      <RecipesByCategory
+        currentCategory={currentCategory}
+        setMode={setMode}
+        setShowRecipeDetail={setShowRecipeDetail}
+        setCurrentRecipe={setCurrentRecipe}
+        recipeCardDisplay={recipeCardDisplay}
+        toggleCardDisplay={toggleCardDisplay}
+        recipes={recipes}
+        tags={tags}
+        kaomoji={kaomoji}
+        setRecipes={setRecipes}
+      />
 
-        <div className="page-recipe-card-container">
-          {recipes && currentCategory && tags &&
-          recipes.filter((recipe) => recipe["categories"].includes(currentCategory["id"].toString())).length > 0 ?
-          recipes.filter((recipe) => recipe["categories"].includes(currentCategory["id"].toString()))
-          .map((recipe, index) =>
-          <RecipeCard
-            key={index}
-            recipe={recipe}
-            otherProps={recipeCardProp}
-          />)
-          :
-          <div className="page-empty-cat-msg">
-            <p>{kaomoji}</p>
-            <p>No recipes under this category!</p>
-          </div>
-        
-          }
-
-        </div>
-      </div>
     </div>
   );
 }

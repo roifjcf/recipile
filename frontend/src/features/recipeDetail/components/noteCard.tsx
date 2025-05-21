@@ -8,6 +8,15 @@ interface Props {
 };
 
 export default function NoteCard({ mode, recipeDetail, onChange }: Props) {
+
+  const ViewMode = () => <p>{recipeDetail["notes"]}</p>;
+  const EditMode = () => <textarea
+                          placeholder="Notes"
+                          onChange={onChange}
+                          value={recipeDetail["notes"]}>
+                        </textarea>;
+
+
   return (
     <div className="notecard-container">
       
@@ -16,15 +25,7 @@ export default function NoteCard({ mode, recipeDetail, onChange }: Props) {
         <h4>Notes</h4>
       </div>
 
-      {mode === "view" ?
-        <p>{recipeDetail["notes"]}</p>
-      :
-        <textarea
-          placeholder="Notes"
-          onChange={onChange}
-          value={recipeDetail["notes"]}>
-        </textarea>
-      }
+      {mode === "view" ?  <ViewMode/> : <EditMode/> }
       
     </div>
   );

@@ -13,16 +13,28 @@
 
 @use 'layout/navbar';
 
-@use 'components/categorylist';
 @use 'components/dropdown';
 @use 'components/icon';
-@use 'components/ingredientcard';
 @use 'components/manageadditem';
 @use 'components/manageitem';
 @use 'components/ministats';
-@use 'components/notecard';
 @use 'components/recipecard';
-@use 'components/recipedetail';
 @use 'components/recipeimage';
-@use 'components/stepcard';
 @use 'components/tags';
+
+
+
+
+
+@use 'features/databaseeditcard/databaseeditcard';
+
+@use 'features/recipecards/infobar';
+@use 'features/recipecards/recipecards';
+@use 'features/recipecards/recipesbycategory';
+
+@use 'features/recipedetail/ingredientcard';
+@use 'features/recipedetail/notecard';
+@use 'features/recipedetail/recipedetail';
+
+@use 'features/sidebar/categorylist';
+@use 'features/sidebar/sidebar';

@@ -27,7 +27,9 @@ export default function StepCard({
 }: Props) {
 
   const { steps } = recipeDetail;
+
   const ViewMode = () => <ul>{steps.map((s, index) => <li key={index}>{s}</li>)}</ul>;
+  
   const EditMode = () => {
     return (
       <ul>

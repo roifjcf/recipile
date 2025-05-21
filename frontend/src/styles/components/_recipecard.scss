@@ -4,10 +4,11 @@
 
 .recipecard-container {
   margin-bottom: $space-6;
+  max-height: 500px;
+  width: 400px;
 
   display: flex;
   flex-direction: column;
-  break-inside: avoid;
   overflow: hidden;
   position: relative;
 

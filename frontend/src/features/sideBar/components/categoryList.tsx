@@ -3,14 +3,16 @@ import { Category } from "@/common/type";
 
 interface Props {
   categories: Category[],
-  currentCategory: Category,
+  currentCategory: Category | null,
   setCurrentCategory: (data: Category) => void,
 }
 
 export default function CategoryList (props:Props) {
+
   const handleClick = (cat: Category) => {
     props.setCurrentCategory(cat);
   }
+  
   return(
     <ul>
       {props.categories.map((cat, index) =>

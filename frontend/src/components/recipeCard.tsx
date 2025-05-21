@@ -3,7 +3,7 @@
 */
 
 'use client';
-import { Recipe } from "@/common/type";
+import { Recipe, recipeCardDisplay, Tag } from "@/common/type";
 
 import Icon from "@/components/icon";
 import MiniStats from "@/components/miniStats";
@@ -15,58 +15,71 @@ import { recipeAPI } from "@/utils/api";
 interface Props {
   key: number,
   recipe: Recipe,
-  otherProps: any
+  recipes: Recipe[],
+  tags: Tag[],
+  recipeCardDisplay: recipeCardDisplay,
+  setRecipes: (hookval: Recipe[]) => void,
+  setCurrentRecipe: (hookval: Recipe) => void,
+  setShowRecipeDetail: (hookval: boolean) => void,
+  isBulkEditing: boolean,
+  isChecked: (id: number) => boolean,
+  handleUpdateEditList: (id: number, e: React.MouseEvent) => void,
 };
 
-export default function RecipeCard({ recipe, otherProps }: Props) {
+
+
+
+
+
+export default function RecipeCard(props : Props) {
 
   const handlePin = async (val: number, e: React.MouseEvent) => {
     e.stopPropagation();
     const newData = {
-      "id": recipe.id,
+      "id": props.recipe.id,
       "content": val === 1 ? 0 : 1,
       "column": "pinned"
     };
     // hook update
-    let temp = otherProps.recipes;
+    let temp = props.recipes;
     for (let recipe of temp) {
       if (recipe["id"] === recipe.id) {
         recipe["pinned"] = val === 1 ? 0 : 1;
         break;
       }
     }
-    otherProps.setRecipes([...temp].sort((a,b) => b["pinned"]-a["pinned"]));
+    props.setRecipes([...temp].sort((a,b) => b["pinned"]-a["pinned"]));
     // backend update
-    recipeAPI.updateColumn(recipe.id, newData);
+    recipeAPI.updateColumn(props.recipe.id, newData);
   };
 
   const handleShowRecipeDetail = () => {
-    otherProps.setCurrentRecipe(recipe);
-    otherProps.setShowRecipeDetail(true);
+    props.setCurrentRecipe(props.recipe);
+    props.setShowRecipeDetail(true);
   }
   
   return (
     <div className="recipecard-container round-corner" onClick={handleShowRecipeDetail}>
-      {otherProps.recipeCardDisplay === "full" && <RecipeImage mode="view"/>}
+      {props.recipeCardDisplay === "full" && <RecipeImage mode="view"/>}
       <div className="recipecard-text-info-container">
         <div className="recipecard-text-info-container-top">
           <div className="left">
-            <h3>{recipe.name}</h3>
+            <h3>{props.recipe.name}</h3>
           </div>
           <div className="right">
-            {recipe.pinned === 1 && <Icon src="star-fill" hoverable={true} onClick={(e)=>handlePin(recipe.pinned, e)} />}
-            {recipe.pinned === 0 && <Icon src="star-outline" hoverable={true} onClick={(e)=>handlePin(recipe.pinned, e)} />}
-            {otherProps.isBulkEditing && !otherProps.isChecked(recipe.id) && <Icon src="checkbox-unchecked" hoverable={true} onClick={(e)=>{otherProps.handleUpdateEditList(recipe.id, e)}}/>}
-            {otherProps.isBulkEditing && otherProps.isChecked(recipe.id) && <Icon src="checkbox-checked" hoverable={true} onClick={(e)=>{otherProps.handleUpdateEditList(recipe.id, e)}}/>}
+            {props.recipe.pinned === 1 && <Icon src="star-fill" hoverable={true} onClick={(e)=>handlePin(props.recipe.pinned, e)} />}
+            {props.recipe.pinned === 0 && <Icon src="star-outline" hoverable={true} onClick={(e)=>handlePin(props.recipe.pinned, e)} />}
+            {props.isBulkEditing && !props.isChecked(props.recipe.id) && <Icon src="checkbox-unchecked" hoverable={true} onClick={(e)=>{props.handleUpdateEditList(props.recipe.id, e)}}/>}
+            {props.isBulkEditing && props.isChecked(props.recipe.id) && <Icon src="checkbox-checked" hoverable={true} onClick={(e)=>{props.handleUpdateEditList(props.recipe.id, e)}}/>}
           </div>
         </div>
         <div className="recipecard-text-info-container-bottom">
           <MiniStats
             mode="view"
-            recipeDetail={recipe}
+            recipeDetail={props.recipe}
             onChange={undefined}
             />
-          <Tags mode="view" recipeTags={recipe.tags} tags={otherProps.tags} />
+          <Tags mode="view" recipeTags={props.recipe.tags} tags={props.tags} />
         </div>
       </div>
     </div>

@@ -6,10 +6,9 @@ Management page for categories, tags, and ingredients
 import { useEffect, useState } from "react";
 
 import { Category, Tag, Ingredient, Tables } from "@/common/type";
-import ManageItem from "@/components/manageItem";
-import ManageAddItem from "@/components/manageAddItem";
 import Navbar from "@/components/navbar";
 import { categoryAPI, tagAPI, ingredientAPI } from "@/utils/api";
+import DatabaseEditCard from "@/features/databaseEditCard/databaseEditCard";
 
 
 export default function Page() {
@@ -18,8 +17,8 @@ export default function Page() {
   const [tags, setTags] = useState<Tag[] | null>(null);
   const [ingredients, setIngredients] = useState<Ingredient[] | null>(null);
 
+  /** Init */
   useEffect(() => {
-    /** Init */
     const fetchData = async () => {
       try {
         const [categoryData, tagData, ingredientData] = await Promise.all([
@@ -40,6 +39,7 @@ export default function Page() {
   }, []);
 
 
+  /** Handlers */
   const handleDelete = async (table: Tables, id: string | number) => {
     /*
     Removes a record from the hook and database
@@ -115,31 +115,47 @@ export default function Page() {
     }
   }
 
-  const renderColumn = (table: Tables, title: string, data: Category[] | Tag[] | Ingredient[] | null) => {
-    return (
-      <div className="manage-column-container">
-        <h2>{title}</h2>
-        <ManageAddItem table={table} handleAdd={handleAdd} />
-        {data && data.map((item: Category | Tag | Ingredient)=>
-        <ManageItem
-          key={item.id}
-          handleUpdate={handleUpdate}
-          handleDelete={handleDelete}
-          item={item}
-          table={table}
-        />)}
-        {!data &&
-        <p>Loading...</p> }
-      </div>
-    );
-  }
 
+
+
+
+
+
+
+
+
+
+  
   return (
   <div className="manage-main-container">
     <Navbar />
-    {renderColumn("categories", "Categories", categories)}
-    {renderColumn("ingredients", "Ingredients", ingredients)}
-    {renderColumn("tags", "Tags", tags)}
+
+    <DatabaseEditCard
+      table="categories"
+      title="Categories"
+      data={categories}
+      handleAdd={handleAdd}
+      handleUpdate={handleUpdate}
+      handleDelete={handleDelete}
+    />
+    <DatabaseEditCard
+      table="ingredients"
+      title="Ingredients"
+      data={ingredients}
+      handleAdd={handleAdd}
+      handleUpdate={handleUpdate}
+      handleDelete={handleDelete}
+    />
+    <DatabaseEditCard
+      table="tags"
+      title="Tags"
+      data={tags}
+      handleAdd={handleAdd}
+      handleUpdate={handleUpdate}
+      handleDelete={handleDelete}
+    />
+
+    
   </div>
   );
 }

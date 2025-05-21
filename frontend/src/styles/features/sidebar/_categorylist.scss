@@ -1,5 +1,5 @@
-@use '../themes/theme' as *;
-@use '../abstracts/variables' as *;
+@use '../../themes/theme' as *;
+@use '../../abstracts/variables' as *;
 
 $local-gap: $space-8;
 
@@ -10,7 +10,6 @@ $local-gap: $space-8;
   position: relative;
   &:hover {
     cursor: pointer;
-    background-color: var(--surface-container-lowest);
   }
 }
 

@@ -12,8 +12,8 @@ export interface Recipe {
   serving: number,
   prep_time: number,
   notes: string,
-  categories: string[],
-  tags: string[],
+  categories: string[], // id
+  tags: string[], // id
 }
 
 export interface Category {

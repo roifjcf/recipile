@@ -1,22 +1,21 @@
-@use '../themes/theme' as *;
-@use '../abstracts/variables' as *;
+@use '../../themes/theme' as *;
+@use '../../abstracts/variables' as *;
 
 
 $recipecard-container-left: 40%;
 $recipecard-container-right: 100% - $recipecard-container-left;
 
 .recipedetail-container {
-  width: 50%; // sum (width, margin-left, margin-right) = 70%
-  margin-left: 10%;
-  margin-right: 10%;
+  max-width: 1000px; // sum (width, margin-left, margin-right) = 70%
+  min-width: 800px;
   height: 70%; // sum (height, margin-top, margin-bottom) = 100%
-  margin-top: $size-6xl;
-  margin-bottom: 10%;
-  // overflow-y: scroll;
 
   display: flex;
   flex-direction: row;
-  position: fixed;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
   z-index: $z-index-modal;
 
   background-color: var(--surface);
