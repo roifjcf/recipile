@@ -1,8 +1,34 @@
+"use client";
 import Link from 'next/link';
-
 import Icon from "@/components/icon";
+import { useEffect, useState } from 'react';
+
+
+const links = [
+  {
+    url: "/",
+    iconSrc: "dining-outline",
+    text: "Home",
+  },
+  {
+    url: "/manage",
+    iconSrc: "data-outline",
+    text: "Manage",
+  },
+  {
+    url: "/planner",
+    iconSrc: "calendar-outline",
+    text: "Planner",
+  },
+];
 
 export default function Navbar() {
+  const [currPath, setCurrPath] = useState<string>("");
+
+  useEffect(() => {
+    setCurrPath(window.location.pathname);
+  }, []);
+
   return (
   <div className="navbar-container">
 
@@ -12,18 +38,11 @@ export default function Navbar() {
     </div>
 
     <div className='navbar-button-container-mid'>
-      <Link className='navbar-link' href="/">
-        <Icon src='dining-outline' hoverable={true}/>
-        <p>Home</p>
-      </Link>
-      <Link className='navbar-link' href="/manage">
-        <Icon src='data-outline' hoverable={true}/>
-        <p>Manage</p>
-      </Link>
-      <Link className='navbar-link' href="/planner">
-        <Icon src='calendar-outline' hoverable={true}/>
-        <p>Planner</p>
-      </Link>
+      {links.map((link, index) =>
+      <Link key={index} className={'navbar-link' + (currPath === link["url"] ? " navbar-link-on-focus" : "")} href={link["url"]} >
+        <Icon src={link["iconSrc"]} hoverable={true} />
+        <p>{link["text"]}</p>
+      </Link>)}
     </div>
 
 

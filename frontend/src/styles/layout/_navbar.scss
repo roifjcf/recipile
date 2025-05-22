@@ -1,10 +1,6 @@
 @use '../themes/theme' as *;
 @use '../abstracts/variables' as *;
 
-$local-margin: $space-8;
-$local-padding: $space-8;
-$local-gap: $space-4;
-
 .navbar-container {
   width: 100%;
   height: $size-6xl;
@@ -36,6 +32,7 @@ $local-gap: $space-4;
 
 
 .navbar-button-container-mid {
+  height: 100%;
   gap: $space-8;
 
   display: flex;
@@ -51,9 +48,16 @@ $local-gap: $space-4;
 
 .navbar-link {
   width: auto;
+  height: 100%;
+
   gap: $space-2;
+  padding: $space-2;
 
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.navbar-link-on-focus {
+  border-bottom: 2px solid var(--primary);
 }
