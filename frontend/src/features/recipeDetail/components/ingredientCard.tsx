@@ -49,29 +49,29 @@ export default function IngredientCard({
   const EditMode = () => {
     return (
       <>
-      <ul>
-        {recipeDetail["ingredients"].map((ingr, index) =>
-        <li key={index}>
-          <Icon src="bin-outline" altsrc="bin-fill" hoverable={true} onClick={()=>{handleRemoveIngredient?.(ingr[0])}} />
-          {findRecordNameByid(parseInt(ingr[0]), ingredients)} &nbsp;
-          <input 
-            className="input-small inline"
-            type="text"
-            placeholder="Amount of the ingredient"
-            onChange={(e)=>{handleUpdateIngredientAmount?.(e, index)}}
-            value={ingr[1]}
-          />&nbsp;
-        {findIngredientUnitByid(parseInt(ingr[0]), ingredients)}
-        </li>)}
-      </ul>
-      <div className="ingredientcard-dropdown-container">
-        <select value={selectedIngredient} onChange={e=>setSelectedIngredient?.(e.target.value)}>
-          {ingredients.map((ingr, index) =>
-          <option key={index} value={ingr["name"]}>{ingr["name"]}</option>)}
-        </select>
-        <Icon src="add-outline" hoverable={true} onClick={handleAddExistingIngredient}/>
-      </div>
-      <ManageAddItem table="ingredients" handleAdd={handleAddNewRecord} />
+        <ul>
+          {recipeDetail["ingredients"].map((ingr, index) =>
+          <li key={index}>
+            <Icon src="bin-outline" altsrc="bin-fill" hoverable={true} onClick={()=>{handleRemoveIngredient?.(ingr[0])}} />
+            {findRecordNameByid(parseInt(ingr[0]), ingredients)} &nbsp;
+            <input 
+              className="input-small inline"
+              type="text"
+              placeholder="Amount of the ingredient"
+              onChange={(e)=>{handleUpdateIngredientAmount?.(e, index)}}
+              value={ingr[1]}
+            />&nbsp;
+          {findIngredientUnitByid(parseInt(ingr[0]), ingredients)}
+          </li>)}
+        </ul>
+        <div className="ingredientcard-dropdown-container">
+          <select value={selectedIngredient} onChange={e=>setSelectedIngredient?.(e.target.value)}>
+            {ingredients.map((ingr, index) =>
+            <option key={index} value={ingr["name"]}>{ingr["name"]}</option>)}
+          </select>
+          <Icon src="add-outline" hoverable={true} onClick={handleAddExistingIngredient}/>
+        </div>
+        <ManageAddItem table="ingredients" handleAdd={handleAddNewRecord} />
       </>
     );
   }

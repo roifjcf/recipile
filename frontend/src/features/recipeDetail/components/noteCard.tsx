@@ -4,18 +4,23 @@ import Icon from "@/components/icon";
 interface Props {
   mode: Mode,
   recipeDetail: Recipe,
-  onChange: ((...args: any[]) => void) | undefined,
+  setRecipeDetail: (hookval: Recipe) => void,
 };
 
-export default function NoteCard({ mode, recipeDetail, onChange }: Props) {
+export default function NoteCard({
+  mode,
+  recipeDetail,
+  setRecipeDetail,
+}: Props) {
 
   const ViewMode = () => <p>{recipeDetail["notes"]}</p>;
   const EditMode = () => <textarea
-                          placeholder="Notes"
-                          onChange={onChange}
-                          value={recipeDetail["notes"]}>
-                        </textarea>;
+                            placeholder="Notes"
+                            onChange={(e)=>setRecipeDetail({...recipeDetail, notes:e.target.value})}
+                            value={recipeDetail["notes"]}>
+                          </textarea>;
 
+  
 
   return (
     <div className="notecard-container">

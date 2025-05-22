@@ -6,7 +6,6 @@ import { Recipe, Tag, Ingredient, Category, Tables, Mode } from "@/common/type";
 
 import Icon from "@/components/icon";
 import MiniStats from "@/components/miniStats";
-import ManageAddItem from "@/components/manageAddItem";
 import RecipeImage from "@/components/recipeImage";
 import Tags from "@/components/tags";
 
@@ -20,6 +19,9 @@ import {
   getCurrentDate,
   validateData,
 } from "@/utils/helper";
+import Name from "./components/name";
+import Link from "./components/link";
+import ButtonGroup from "./components/buttonGroup";
 
 
 interface Props {
@@ -75,7 +77,6 @@ export default function RecipeDetail({
     window.addEventListener('keydown', handleKeyPress);
     return () => {window.removeEventListener('keydown', handleKeyPress);};
   }, []);
-
 
 
   /**
@@ -136,7 +137,6 @@ export default function RecipeDetail({
   /**
    * Hook updates
    */
-  const [selectedTag, setSelectedTag] = useState<string>(""); // tag name
   const [selectedIngredient, setSelectedIngredient] = useState<string>(""); // ingredient name
   const [newStep, setNewStep] = useState<string>("");
   
@@ -157,13 +157,8 @@ export default function RecipeDetail({
     setRecipeDetail({...recipeDetail, steps: updatedSteps});
     setNewStep("");
   };
-  const handleAddExistingTag = () => {
-    if (selectedTag === "") return;
-    let updatedTags = [...recipeDetail.tags];
-    let id = findRecordidByName(selectedTag, tags).toString();
-    if (!updatedTags.includes(id)) { updatedTags.push(id); }
-    setRecipeDetail({...recipeDetail, tags:updatedTags});
-  };
+
+
   const handleAddExistingIngredient = () => {
     if (selectedIngredient === "") return;
     let id = findRecordidByName(selectedIngredient, ingredients).toString();
@@ -209,99 +204,51 @@ export default function RecipeDetail({
   };
 
 
+
+      
   return (
     <div className="recipedetail-container round-corner">
 
-      {mode === "view" &&
-      <>
-      
+      {/* left column */}
       <div className="recipedetail-container-left">
-        <RecipeImage mode="view" />
-        <div className="recipedetail-text-info-container-left">
-          <h3>{recipeDetail["name"]}</h3>
-          <a href={recipeDetail["external_links"]} target="_blank">
-            <Icon src={"link-outline"} hoverable={true}/>
-          </a>
-          <Tags mode={mode} recipeTags={recipeDetail["tags"]} tags={tags} />
-          <MiniStats mode="view" recipeDetail={recipeDetail}/>
-        </div>
-      </div>
-      <div className="recipedetail-container-right">
-        
-        <div className="recipedetail-button-container">
-          <div className="recipedetail-button-container-left">
-            <Icon src={"edit-outline"} altsrc={"edit-fill"} hoverable={true} onClick={()=>setMode("update")}/>
-          </div>
-          <div className="recipedetail-button-container-right">
-            <Icon src={"cancel-outline"} altsrc={"cancel-fill"} hoverable={true} onClick={handleClose}/>
-          </div>
-        </div>
-        <IngredientCard
-          mode={mode}
-          recipeDetail={recipeDetail}
-          ingredients={ingredients}
-          selectedIngredient={selectedIngredient}
-        />
-        <StepCard
-          mode={mode}
-          recipeDetail={recipeDetail}
-          newStep={newStep}
-        />
-        <NoteCard
-          mode={mode}
-          recipeDetail={recipeDetail}
-          onChange={undefined}
-        />
-      </div>
-      </>}
-
-
-
-      {(mode === "update" || mode === "new") &&
-      <>
-      
-      <div className="recipedetail-container-left">
+        {/* delete button under edit(update) mode */}
         {mode === "update" &&
         <Icon className="recipedetail-deletebtn" src="bin-outline" altsrc="bin-fill"
         hoverable={true} onClick={()=>{handleDeleteRecipe(recipeDetail.id); handleClose();}}/>}
-        
-        <RecipeImage mode="view" />
+
+        {/* image content */}
+        <RecipeImage mode={mode}/>
+
+        {/* text content */}
         <div className="recipedetail-text-info-container-left">
-          <input
-            type="text"
-            value={recipeDetail["name"]}
-            onChange={(e)=>setRecipeDetail({...recipeDetail, name: e.target.value})}
-            placeholder="Recipe name"
+          <Name name={recipeDetail["name"]} mode={mode} recipeDetail={recipeDetail} setRecipeDetail={setRecipeDetail} />
+          <Link mode={mode} url={recipeDetail["external_links"]} recipeDetail={recipeDetail} setRecipeDetail={setRecipeDetail} />
+          <Tags
+            mode={mode}
+            recipeTags={recipeDetail["tags"]}
+            tags={tags}
+            handleRemoveTag={handleRemoveTag}
+            recipeDetail={recipeDetail}
+            setRecipeDetail={setRecipeDetail}
+            handleAddNewRecord={handleAddNewRecord}
           />
-          <input
-            type="text"
-            value={recipeDetail["external_links"]}
-            onChange={(e)=>setRecipeDetail({...recipeDetail, external_links: e.target.value})}
-            placeholder="External link"
-          />
-          <Tags mode={mode} recipeTags={recipeDetail["tags"]} tags={tags} handleRemoveTag={handleRemoveTag} />
-          <select className="inline" value={selectedTag} onChange={e=>setSelectedTag(e.target.value)}>
-            {tags.map((tag: Tag, index: number) =>
-            <option key={index} value={tag["name"]}>{tag["name"]}</option>)}
-          </select>
-          <Icon src={"add-outline"} hoverable={true} onClick={handleAddExistingTag} />
-          <ManageAddItem table="tags" handleAdd={handleAddNewRecord} />
-          <MiniStats mode={mode} recipeDetail={recipeDetail} onChange={[handleUpdatePreptime, handleUpdateServing]}/>
-        </div>
+          <MiniStats mode={mode} recipeDetail={recipeDetail} onChange={[handleUpdatePreptime, handleUpdateServing]} />
+        </div>        
       </div>
       
+
+      {/* right column */}
       <div className="recipedetail-container-right">
-        <div className="recipedetail-button-container">
-          <div className="recipedetail-button-container-left">
-            {mode === "update" && <Icon src={"undo-outline"} hoverable={true} onClick={resetEditState}/>}
-            {mode === "update" && <Icon src={"yes-outline"} hoverable={true} onClick={handleUpdate}/>}
-            {mode === "new" && <Icon src={"yes-outline"} hoverable={true} onClick={()=>handleAddNewRecord("recipes", {...recipeDetail})}/>}
-          </div>
-          <div className="recipedetail-button-container-right">
-            <Icon src={"cancel-outline"} altsrc={"cancel-fill"} hoverable={true} onClick={handleClose}/>
-          </div>
-        </div>
-        
+        <ButtonGroup
+          mode={mode}
+          setMode={setMode}
+          handleClose={handleClose}
+          recipeDetail={recipeDetail}
+          resetEditState={resetEditState}
+          handleUpdate={handleUpdate}
+          handleAddNewRecord={handleAddNewRecord}
+        />
+
         <IngredientCard
           mode={mode}
           recipeDetail={recipeDetail}
@@ -313,6 +260,7 @@ export default function RecipeDetail({
           handleAddExistingIngredient={handleAddExistingIngredient}
           handleAddNewRecord={handleAddNewRecord}
         />
+
         <StepCard
           mode={mode}
           recipeDetail={recipeDetail}
@@ -323,16 +271,15 @@ export default function RecipeDetail({
           setNewStep={setNewStep}
           handleAddStep={handleAddStep}
         />
+
         <NoteCard
           mode={mode}
           recipeDetail={recipeDetail}
-          onChange={(e)=>setRecipeDetail({...recipeDetail, notes:e.target.value})}
+          setRecipeDetail={setRecipeDetail}
         />
+        
       </div>
 
-      </>}
-
-      
     </div>
   );
 }

@@ -27,12 +27,10 @@ $recipecard-container-right: 100% - $recipecard-container-left;
   }
 }
 
-.recipedetail-button-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
+
+
+
+
 
 .recipedetail-deletebtn {
   position: absolute;
@@ -40,13 +38,8 @@ $recipecard-container-right: 100% - $recipecard-container-left;
   left: $space-8;
 }
 
-.recipedetail-button-container-left {
 
-}
 
-.recipedetail-button-container-right {
-  
-}
 
 .recipedetail-container-left {
   width: $recipecard-container-left;
