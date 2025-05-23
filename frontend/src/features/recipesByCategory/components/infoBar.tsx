@@ -14,6 +14,7 @@ interface Props {
   setIsBulkEditing: (hookval: boolean) => void,
   recipeCardDisplay: recipeCardDisplay,
   toggleCardDisplay: () => void,
+  showRecipeDetail: boolean,
 };
 
 export default function InfoBar(props: Props) {
@@ -25,6 +26,7 @@ export default function InfoBar(props: Props) {
         setMode={props.setMode}
         setShowRecipeDetail={props.setShowRecipeDetail}
         setCurrentRecipe={props.setCurrentRecipe}
+        showRecipeDetail={props.showRecipeDetail}
       />
     </div>
     <div className="right">

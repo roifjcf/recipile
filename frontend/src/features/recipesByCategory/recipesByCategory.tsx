@@ -16,6 +16,7 @@ interface Props {
   tags: Tag[],
   kaomoji: string,
   setRecipes: (hookval: Recipe[]) => void,
+  showRecipeDetail: boolean,
 };
 
 export default function RecipesByCategory({
@@ -29,6 +30,7 @@ export default function RecipesByCategory({
   tags,
   kaomoji,
   setRecipes,
+  showRecipeDetail,
 }: Props) {
 
 
@@ -77,6 +79,7 @@ export default function RecipesByCategory({
         setIsBulkEditing={setIsBulkEditing}
         recipeCardDisplay={recipeCardDisplay}
         toggleCardDisplay={toggleCardDisplay}
+        showRecipeDetail={showRecipeDetail}
       />
       <RecipeCards
         recipes={recipes}

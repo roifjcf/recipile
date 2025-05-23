@@ -136,6 +136,7 @@ export default function Home() {
         tags={tags}
         kaomoji={kaomoji}
         setRecipes={setRecipes}
+        showRecipeDetail={showRecipeDetail}
       />
       :
       <SearchResult

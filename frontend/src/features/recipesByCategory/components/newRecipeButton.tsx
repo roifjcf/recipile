@@ -1,6 +1,7 @@
 import { Mode, Recipe } from "@/common/type";
 
 interface Props {
+  showRecipeDetail: boolean,
   setMode: (hookval: Mode) => void,
   setShowRecipeDetail: (hookval: boolean) => void,
   setCurrentRecipe: (hookval: Recipe) => void,
@@ -22,14 +23,17 @@ const newRecipeTemplate: Recipe = {
 };
 
 export default function NewRecipeButton(props: Props) {
+
+  const handleClick = () => {
+    if (props.showRecipeDetail) {return;}
+    props.setMode("new");
+    props.setShowRecipeDetail(true);
+    props.setCurrentRecipe({...newRecipeTemplate});
+  };
+
   return <button
           id="new-recipe"
-          onClick={()=>{
-              props.setMode("new");
-              props.setShowRecipeDetail(true);
-              props.setCurrentRecipe({...newRecipeTemplate})
-            }}
-          
+          onClick={handleClick}
           >
             Add recipe
           </button>
