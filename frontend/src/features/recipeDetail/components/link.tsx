@@ -15,17 +15,16 @@ export default function Link({
   recipeDetail,
 }: Props) {
 
-  const ViewMode = () => <a href={url} target="_blank">
+  const renderViewMode = () => <a href={url} target="_blank">
                           <Icon src={"link-outline"} hoverable={true}/>
                         </a>;
 
-  const EditMode = () => <input
+  const renderEditMode = () => <input
                             type="text"
                             value={url}
                             onChange={(e)=>setRecipeDetail({...recipeDetail, external_links: e.target.value})}
                             placeholder="External link"
                           />
 
-  return mode === "view" ?  <ViewMode/> : <EditMode/>;
-
+  return mode === "view" ?  renderViewMode() : renderEditMode();
 }

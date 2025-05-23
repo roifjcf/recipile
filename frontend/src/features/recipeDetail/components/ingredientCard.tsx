@@ -33,7 +33,7 @@ export default function IngredientCard({
   handleAddNewRecord,
 }: Props) {
 
-  const ViewMode = () => {
+  const renderViewMode = () => {
     return (
       <ul>
         {recipeDetail["ingredients"].map((ingr, index) =>
@@ -46,7 +46,7 @@ export default function IngredientCard({
     );
   }
 
-  const EditMode = () => {
+  const renderEditMode = () => {
     return (
       <>
         <ul>
@@ -79,7 +79,7 @@ export default function IngredientCard({
   return (
     <div>
       <h4>Ingredients</h4>
-      {mode === "view" ?  <ViewMode /> : <EditMode /> }
+      {mode === "view" ?  renderViewMode() : renderEditMode() }
     </div>
   );
 }

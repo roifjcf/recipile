@@ -1,4 +1,5 @@
 import { Mode, Recipe } from "@/common/type";
+import { useState } from "react";
 
 interface Props {
   name: string,
@@ -18,15 +19,16 @@ export default function Name({
     setRecipeDetail({...recipeDetail, name: e.target.value});
   };
 
-  const ViewMode = () => <h3>{name}</h3>;
+  const renderViewMode = () => <h3>{name}</h3>;
 
-  const EditMode = () => <input
+  const renderEditMode = () => <input
                             type="text"
                             value={name}
                             onChange={handleNameChange}
                             placeholder="Recipe name"
                           />;
-
-  return mode === "view" ?  <ViewMode/> : <EditMode/>;
+  
+  // https://stackoverflow.com/questions/42573017/in-react-es6-why-does-the-input-field-lose-focus-after-typing-a-character
+  return mode === "view" ?  renderViewMode() : renderEditMode();
 
 };

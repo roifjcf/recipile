@@ -28,9 +28,9 @@ export default function StepCard({
 
   const { steps } = recipeDetail;
 
-  const ViewMode = () => <ul>{steps.map((s, index) => <li key={index}>{s}</li>)}</ul>;
+  const renderViewMode = () => <ul>{steps.map((s, index) => <li key={index}>{s}</li>)}</ul>;
   
-  const EditMode = () => {
+  const renderEditMode = () => {
     return (
       <ul>
 
@@ -71,7 +71,7 @@ export default function StepCard({
   return (
     <div>
       <h4>Steps</h4>
-      {mode === "view" ?  <ViewMode/> : <EditMode/> }
+      {mode === "view" ?  renderViewMode() : renderEditMode() }
     </div>
   );
 }

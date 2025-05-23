@@ -13,7 +13,7 @@ interface Props {
 export default function MiniStats({ mode, recipeDetail, onChange }: Props) {
   const inEditMode = mode === "update" || mode === "new";
 
-  const PrepTime = () => {
+  const renderPrepTime = () => {
     return (
       <div className="ministats-item">
         <Icon src={"time-outline"} />
@@ -32,7 +32,7 @@ export default function MiniStats({ mode, recipeDetail, onChange }: Props) {
     );
   }
 
-  const Serving = () => {
+  const renderServing = () => {
     return (
       <div className="ministats-item">
         <Icon src={"serving-outline"} />
@@ -53,8 +53,8 @@ export default function MiniStats({ mode, recipeDetail, onChange }: Props) {
 
   return (
     <div className="ministats-container">
-      <PrepTime />
-      <Serving />
+      {renderPrepTime()}
+      {renderServing()}
     </div>
   );
 
