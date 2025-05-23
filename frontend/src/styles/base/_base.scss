@@ -169,3 +169,7 @@ button {
     border: none;
   }
 }
+
+.active-button {
+  background-color: var(--primary);
+}
