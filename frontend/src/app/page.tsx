@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Navbar from "@/components/navbar";
 import PushNotification from "../components/pushNotification";
@@ -11,24 +11,29 @@ import {recipeAPI, categoryAPI, tagAPI, ingredientAPI} from "@/utils/api"
 import { getRandomKaomoji } from "@/utils/helper";
 import RecipesByCategory from "@/features/recipesByCategory/recipesByCategory";
 import SideBar from "@/features/sideBar/sideBar";
+import SearchResult from "@/features/recipeSearchByCategory/searchResult";
 
 export default function Home() {
-  // others
+  // app features
   const [showPushNotification, setShowPushNotification] = useState<boolean>(false);
   const [pushNotificationMessage, setPushNotificationMessage] = useState<string>('');
 
-  const [showRecipeDetail, setShowRecipeDetail] = useState<boolean>(false);
   const [kaomoji, setKaomoji] = useState<string>("");
   const [mode, setMode] = useState<Mode>("view"); // toggles recipe detail edit
   const [recipeCardDisplay, setRecipeCardDisplay] = useState<recipeCardDisplay>("full"); // different recipe card layouts
+  
+  const [showRecipeDetail, setShowRecipeDetail] = useState<boolean>(false);
+  const [currentCategory, setCurrentCategory] = useState<Category | null>(null);
+  const [currentRecipe, setCurrentRecipe] = useState<Recipe | null>(null);
+
+  const [debouncedSearchInput, setDebouncedSearchInput] = useState<string>("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   // data hooks
   const [categories, setCategories] = useState<Category[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [recipes, setRecipes] = useState<Recipe[]>([])
-  const [currentCategory, setCurrentCategory] = useState<Category | null>(null);
-  const [currentRecipe, setCurrentRecipe] = useState<Recipe | null>(null);
 
   /////////////////////////////
 
@@ -87,22 +92,74 @@ export default function Home() {
     else { setRecipeCardDisplay("full") }
   }
 
+  const handleDebounceChange = (e: any) => {
+    setDebouncedSearchInput(e.target.value);
+  }
+
+  const handleResetSearchInput = () => {
+    setDebouncedSearchInput("");
+    if (searchInputRef.current) {
+      searchInputRef.current.value = "";
+    }
+  };
 
 
 
 
 
-  
+
+
+
+
   
   return (
     <div className="page-main-container">
-      <Navbar />
 
       <SideBar
         categories={categories}
         currentCategory={currentCategory}
         setCurrentCategory={setCurrentCategory}
+        handleResetSearchInput={handleResetSearchInput}
       />
+
+      {/* displays search results if the search bar is not empty,
+      otherwise displays recipes by category */}
+      {debouncedSearchInput === "" ?
+      <RecipesByCategory
+        currentCategory={currentCategory}
+        setMode={setMode}
+        setShowRecipeDetail={setShowRecipeDetail}
+        setCurrentRecipe={setCurrentRecipe}
+        recipeCardDisplay={recipeCardDisplay}
+        toggleCardDisplay={toggleCardDisplay}
+        recipes={recipes}
+        tags={tags}
+        kaomoji={kaomoji}
+        setRecipes={setRecipes}
+      />
+      :
+      <SearchResult
+        recipes={recipes}
+        debouncedSearchInput={debouncedSearchInput}
+        tags={tags}
+        recipeCardDisplay={recipeCardDisplay}
+        setCurrentRecipe={setCurrentRecipe}
+        setShowRecipeDetail={setShowRecipeDetail}
+        setRecipes={setRecipes}
+      />
+      }
+
+
+
+
+      {/* vvvvvvv fixed positon stuff */}
+
+      <Navbar
+        handleDebounceChange={handleDebounceChange}
+        handleResetSearchInput={handleResetSearchInput}
+        searchInputRef={searchInputRef}
+      />
+
 
       { showRecipeDetail && currentRecipe && ingredients && tags && currentCategory && recipes &&
       <RecipeDetail
@@ -121,18 +178,7 @@ export default function Home() {
         handleDeleteRecipe={handleDeleteRecipe}
       />}
 
-      <RecipesByCategory
-        currentCategory={currentCategory}
-        setMode={setMode}
-        setShowRecipeDetail={setShowRecipeDetail}
-        setCurrentRecipe={setCurrentRecipe}
-        recipeCardDisplay={recipeCardDisplay}
-        toggleCardDisplay={toggleCardDisplay}
-        recipes={recipes}
-        tags={tags}
-        kaomoji={kaomoji}
-        setRecipes={setRecipes}
-      />
+      
 
     </div>
   );

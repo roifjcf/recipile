@@ -10,13 +10,16 @@ import { useState } from "react";
 import ManageAddItem from "./manageAddItem";
 
 interface Props {
+  /** general props */
   mode: Mode,
   recipeTags: string[], // a list of tag name, not id!
   tags: Tag[],
+
+  /** for editable tags */
   handleRemoveTag?: (tagid:string) => void,
-  recipeDetail: Recipe,
-  setRecipeDetail: (hookval:Recipe) => void,
-  handleAddNewRecord: (table: Tables, content: any) => void,
+  recipeDetail?: Recipe,
+  setRecipeDetail?: (hookval:Recipe) => void,
+  handleAddNewRecord?: (table: Tables, content: any) => void,
 };
 
 export default function Tags({
@@ -36,6 +39,9 @@ export default function Tags({
   const [selectedTag, setSelectedTag] = useState<string>(""); // tag name
 
   const handleAddExistingTag = () => {
+    if (!recipeDetail) {return;}
+    if (!setRecipeDetail) {return;}
+
     if (selectedTag === "") return;
     let updatedTags = [...recipeDetail.tags];
 

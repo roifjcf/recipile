@@ -18,12 +18,12 @@ interface Props {
   recipes: Recipe[],
   tags: Tag[],
   recipeCardDisplay: recipeCardDisplay,
-  setRecipes: (hookval: Recipe[]) => void,
   setCurrentRecipe: (hookval: Recipe) => void,
   setShowRecipeDetail: (hookval: boolean) => void,
-  isBulkEditing: boolean,
-  isChecked: (id: number) => boolean,
-  handleUpdateEditList: (id: number, e: React.MouseEvent) => void,
+  setRecipes: (hookval: Recipe[]) => void,
+  isBulkEditing?: boolean,
+  isChecked?: (id: number) => boolean,
+  handleUpdateEditList?: (id: number, e: React.MouseEvent) => void,
 };
 
 
@@ -32,6 +32,8 @@ interface Props {
 
 
 export default function RecipeCard(props : Props) {
+
+  const canDelete = props.isBulkEditing && props.isChecked && props.handleUpdateEditList;
 
   const handlePin = async (val: number, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -60,7 +62,9 @@ export default function RecipeCard(props : Props) {
   
   return (
     <div className="recipecard-container round-corner" onClick={handleShowRecipeDetail}>
+      
       {props.recipeCardDisplay === "full" && <RecipeImage mode="view"/>}
+
       <div className="recipecard-text-info-container">
         <div className="recipecard-text-info-container-top">
           <div className="left">
@@ -69,8 +73,8 @@ export default function RecipeCard(props : Props) {
           <div className="right">
             {props.recipe.pinned === 1 && <Icon src="star-fill" hoverable={true} onClick={(e)=>handlePin(props.recipe.pinned, e)} />}
             {props.recipe.pinned === 0 && <Icon src="star-outline" hoverable={true} onClick={(e)=>handlePin(props.recipe.pinned, e)} />}
-            {props.isBulkEditing && !props.isChecked(props.recipe.id) && <Icon src="checkbox-unchecked" hoverable={true} onClick={(e)=>{props.handleUpdateEditList(props.recipe.id, e)}}/>}
-            {props.isBulkEditing && props.isChecked(props.recipe.id) && <Icon src="checkbox-checked" hoverable={true} onClick={(e)=>{props.handleUpdateEditList(props.recipe.id, e)}}/>}
+            {canDelete && <Icon src="checkbox-unchecked" hoverable={true} onClick={(e)=>{props.handleUpdateEditList!(props.recipe.id, e)}}/>}
+            {canDelete && <Icon src="checkbox-checked" hoverable={true} onClick={(e)=>{props.handleUpdateEditList!(props.recipe.id, e)}}/>}
           </div>
         </div>
         <div className="recipecard-text-info-container-bottom">
@@ -79,7 +83,11 @@ export default function RecipeCard(props : Props) {
             recipeDetail={props.recipe}
             onChange={undefined}
             />
-          <Tags mode="view" recipeTags={props.recipe.tags} tags={props.tags} />
+          <Tags
+            mode="view"
+            recipeTags={props.recipe.tags}
+            tags={props.tags}
+          />
         </div>
       </div>
     </div>

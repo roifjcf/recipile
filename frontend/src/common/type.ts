@@ -1,5 +1,5 @@
 /*
-  Basic interfaces
+  Basic data
 */
 export interface Recipe {
   id: number,
@@ -31,6 +31,10 @@ export interface Ingredient {
   name: string,
   unit: string
 }
+
+
+
+
 
 
 /*
@@ -87,3 +91,10 @@ export type Tables = "recipes" | "ingredients" | "tags" | "categories";
 export type RecipeField = "name" | "ingredient" | "step" | "externalLink";
 export type Mode = "view" | "update" | "new";
 export type recipeCardDisplay = "simple" | "full";
+
+
+
+
+/*
+  Props
+*/

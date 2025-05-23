@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import Icon from "@/components/icon";
 import { useEffect, useState } from 'react';
-
+import SearchBar from '@/components/searchBar';
 
 const links = [
   {
@@ -22,7 +22,20 @@ const links = [
   },
 ];
 
-export default function Navbar() {
+interface Props {
+  handleDebounceChange: (e: any) => void,
+  handleResetSearchInput: () => void,
+  searchInputRef: React.RefObject<HTMLInputElement | null>,
+}
+
+
+export default function Navbar({
+  handleDebounceChange,
+  handleResetSearchInput,
+  searchInputRef,
+}: Props) {
+  
+  
   const [currPath, setCurrPath] = useState<string>("");
 
   useEffect(() => {
@@ -43,6 +56,11 @@ export default function Navbar() {
         <Icon src={link["iconSrc"]} hoverable={true} />
         <p>{link["text"]}</p>
       </Link>)}
+      {currPath === "/" && <SearchBar
+                              handleDebounceChange={handleDebounceChange}
+                              handleResetSearchInput={handleResetSearchInput}
+                              searchInputRef={searchInputRef}
+                            />}
     </div>
 
 

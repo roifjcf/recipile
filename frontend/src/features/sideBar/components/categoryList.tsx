@@ -5,11 +5,13 @@ interface Props {
   categories: Category[],
   currentCategory: Category | null,
   setCurrentCategory: (data: Category) => void,
+  handleResetSearchInput: () => void,
 }
 
 export default function CategoryList (props:Props) {
 
   const handleClick = (cat: Category) => {
+    props.handleResetSearchInput();
     props.setCurrentCategory(cat);
   }
   

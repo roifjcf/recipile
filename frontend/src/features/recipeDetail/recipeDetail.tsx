@@ -237,6 +237,10 @@ export default function RecipeDetail({
       </div>
       
 
+
+
+
+
       {/* right column */}
       <div className="recipedetail-container-right">
         <ButtonGroup

@@ -22,11 +22,6 @@ export const findIngredientUnitByid = (id: number, records: Ingredient[] | null 
 
 
 
-
-
-
-
-
 export const validateData = (table: Tables, data: any) => {
   /**
    * Checks if all property values are valid before calling the API (POST / UPDATE)

@@ -93,7 +93,7 @@ input, select, option, textarea {
     border: $size-xs solid var(--outline);
   }
   &::placeholder {
-  color: var(--on-surface-variant);
+    color: var(--on-surface-variant);
   }
 }
 
@@ -161,4 +161,11 @@ button {
   border-radius: $radius-sm;
   background-color: var(--tertiary-container);
   color: var(--on-tertiary-container);
+}
+
+.borderless {
+  border: none;
+  &:focus {
+    border: none;
+  }
 }

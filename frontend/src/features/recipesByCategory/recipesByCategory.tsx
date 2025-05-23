@@ -65,7 +65,7 @@ export default function RecipesByCategory({
 
 
   return (
-    <div className="recipesbycategory-container">
+    <div className="page-right-column">
       <InfoBar
         currentCategory={currentCategory}
         setMode={setMode}
