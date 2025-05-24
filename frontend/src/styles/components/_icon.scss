@@ -1,8 +1,26 @@
 @use '../themes/theme' as *;
 @use '../abstracts/variables' as *;
 
-.icon {
+.icon-container {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+  overflow: visible;
+}
+
+.icon-img {
   $size: 20px;
   width: $size;
   height: $size;
+}
+
+.icon-description {
+  position: absolute;
+  top: -200%;
+  z-index: $z-index-overlay;
+  white-space: nowrap;
 }

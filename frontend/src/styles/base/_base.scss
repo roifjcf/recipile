@@ -155,12 +155,12 @@ button {
   width: 300px;
 }
 
-.version-tag {
+.label {
   padding: $space-1 $space-2;
 
   border-radius: $radius-sm;
-  background-color: var(--tertiary-container);
-  color: var(--on-tertiary-container);
+  background-color: var(--secondary-container);
+  color: var(--on-secondary-container);
 }
 
 .borderless {

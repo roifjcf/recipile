@@ -8,25 +8,35 @@ export default function Icon({
   altsrc, // image on hover
   hoverable = false, // changes the cursor to pointer if true
   onClick,
-  className
+  className,
+  description, // appears on hover
 }: IconProps) {
+
+  const [isHovering, setIsHovering] = useState<boolean>(false); // display control for prop `description`
 
   const srcDefault = `icons/${src}.png`;
   const srcActive = (altsrc) ? `icons/${altsrc}.png` : srcDefault;
   const [currSrc, setCurrSrc] = useState<string>(srcDefault);
-  const handleMouseEnter = () => altsrc && setCurrSrc(srcActive);
-  const handleMouseLeave = () => altsrc && setCurrSrc(srcDefault);
+  const showAltIcon = () => altsrc && setCurrSrc(srcActive);
+  const showDefaultIcon = () => altsrc && setCurrSrc(srcDefault);
 
   return(
-    <img
-      className={"icon" + (hoverable ? " clickable" : "") + " " + (className || "")}
-      src={currSrc}
-      alt={currSrc}
-      draggable={false}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={onClick ?? undefined}
-    />
+    <div
+      className="icon-container"
+      onMouseEnter={()=> setIsHovering(true)}
+      onMouseLeave={()=> setIsHovering(false)}
+    >
+      {isHovering && description && <span className="icon-description label">{description}</span>}
+      <img
+        className={"icon-img" + (hoverable ? " clickable" : "") + " " + (className || "")}
+        src={currSrc}
+        alt={currSrc}
+        draggable={false}
+        onMouseEnter={showAltIcon}
+        onMouseLeave={showDefaultIcon}
+        onClick={onClick ?? undefined}
+      />
+    </div>
   );
   
 }

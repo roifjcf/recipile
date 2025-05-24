@@ -18,6 +18,7 @@ export default function ExpandableIcons({
   hoverable,
   onClick,
   className,
+  description,
 }: Props) {
 
 
@@ -48,9 +49,17 @@ export default function ExpandableIcons({
           hoverable={icon["hoverable"]}
           onClick={icon["onClick"]}
           className={icon["className"]}
+          description={icon["description"]}
         />)}
 
-      <Icon src={src} altsrc={altsrc} hoverable={hoverable} onClick={handleClick} className={className} />
+      <Icon
+        src={src}
+        altsrc={altsrc} 
+        hoverable={hoverable} 
+        onClick={handleClick} 
+        className={className}
+        description={description}
+      />
 
     </div>
 

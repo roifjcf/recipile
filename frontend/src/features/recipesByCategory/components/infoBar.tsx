@@ -26,16 +26,19 @@ export default function InfoBar(props: Props) {
       src: "display-list",
       hoverable: true,
       onClick: () => props.toggleCardDisplay("list"),
+      description: "List",
     },
     {
       src: "display-simple",
       hoverable: true,
       onClick: () => props.toggleCardDisplay("simple"),
+      description: "Simple",
     },
     {
       src: "display-full",
       hoverable: true,
       onClick: () => props.toggleCardDisplay("full"),
+      description: "Full",
     },
     
   ];
@@ -46,6 +49,7 @@ export default function InfoBar(props: Props) {
       altsrc: "bin-fill",
       hoverable: true,
       onClick: ()=>{props.handleDeleteRecipes(props.recipesToEdit)},
+      description: "Delete",
     }
   ];
   
@@ -73,12 +77,14 @@ export default function InfoBar(props: Props) {
         src="checkbox-unchecked"
         hoverable={true}
         onClick={()=>{props.setIsBulkEditing(!props.isBulkEditing)}}
+        description="Multi-select"
       />
 
       <ExpandableIcons
         iconsToDisplay={displayButtonGroup}
         src="display-outline"
         hoverable={true}
+        description="Layout"
       />
     </div>
   </div>);

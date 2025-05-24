@@ -106,4 +106,5 @@ export interface IconProps {
   onClick?: ((...args: any[]) => void) | undefined;
   className?: string;
   key?: number;
+  description?: string;
 }
