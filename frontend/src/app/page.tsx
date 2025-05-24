@@ -87,9 +87,8 @@ export default function Home() {
     }
   }
 
-  const toggleCardDisplay = () => {
-    if (recipeCardDisplay === "full") { setRecipeCardDisplay("simple") }
-    else { setRecipeCardDisplay("full") }
+  const toggleCardDisplay = (displayMode: recipeCardDisplay) => {
+    setRecipeCardDisplay(displayMode);
   }
 
   const handleDebounceChange = (e: any) => {

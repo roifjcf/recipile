@@ -22,7 +22,7 @@ interface Props {
   setShowRecipeDetail: (hookval: boolean) => void,
   setRecipes: (hookval: Recipe[]) => void,
   isBulkEditing?: boolean,
-  isChecked?: (id: number) => boolean,
+  isChecked?: boolean,
   handleUpdateEditList?: (id: number, e: React.MouseEvent) => void,
 };
 
@@ -33,7 +33,12 @@ interface Props {
 
 export default function RecipeCard(props : Props) {
 
-  const canDelete = props.isBulkEditing && props.isChecked && props.handleUpdateEditList;
+
+
+
+
+
+  const canDelete = props.isBulkEditing && props.handleUpdateEditList;
 
   const handlePin = async (val: number, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -60,6 +65,11 @@ export default function RecipeCard(props : Props) {
     props.setShowRecipeDetail(true);
   }
   
+
+
+console.log(props.isChecked);
+
+
   return (
     <div className="recipecard-container round-corner" onClick={handleShowRecipeDetail}>
       
@@ -73,8 +83,8 @@ export default function RecipeCard(props : Props) {
           <div className="right">
             {props.recipe.pinned === 1 && <Icon src="star-fill" hoverable={true} onClick={(e)=>handlePin(props.recipe.pinned, e)} />}
             {props.recipe.pinned === 0 && <Icon src="star-outline" hoverable={true} onClick={(e)=>handlePin(props.recipe.pinned, e)} />}
-            {canDelete && <Icon src="checkbox-unchecked" hoverable={true} onClick={(e)=>{props.handleUpdateEditList!(props.recipe.id, e)}}/>}
-            {canDelete && <Icon src="checkbox-checked" hoverable={true} onClick={(e)=>{props.handleUpdateEditList!(props.recipe.id, e)}}/>}
+            {canDelete && !props.isChecked && <Icon src="checkbox-unchecked" hoverable={true} onClick={(e)=>{props.handleUpdateEditList!(props.recipe.id, e)}}/>}
+            {canDelete && props.isChecked && <Icon src="checkbox-checked" hoverable={true} onClick={(e)=>{props.handleUpdateEditList!(props.recipe.id, e)}}/>}
           </div>
         </div>
         <div className="recipecard-text-info-container-bottom">

@@ -11,7 +11,7 @@ interface Props {
   setShowRecipeDetail: (hookval: boolean) => void,
   setCurrentRecipe: (hookval: Recipe) => void,
   recipeCardDisplay: recipeCardDisplay,
-  toggleCardDisplay: () => void,
+  toggleCardDisplay: (hookval: recipeCardDisplay) => void,
   recipes: Recipe[],
   tags: Tag[],
   kaomoji: string,
@@ -43,6 +43,7 @@ export default function RecipesByCategory({
   const [isBulkEditing, setIsBulkEditing] = useState<boolean>(false); // multiple selection feature
 
   const handleUpdateEditList = (id: number, e: React.MouseEvent) => {
+    /** Toggles selection */
     e.stopPropagation();
     const newSet = new Set(recipesToEdit);
     if (!newSet.has(id)) {newSet.add(id);}

@@ -1,22 +1,15 @@
 'use client';
 
+import { IconProps } from "@/common/type";
 import { useState } from "react";
-
-interface Props {
-  src: string;
-  altsrc?: string | undefined;
-  hoverable?: boolean;
-  onClick?: ((...args: any[]) => void) | undefined;
-  className?: string;
-};
 
 export default function Icon({
   src,
-  altsrc,
-  hoverable = false,
+  altsrc, // image on hover
+  hoverable = false, // changes the cursor to pointer if true
   onClick,
   className
-}: Props) {
+}: IconProps) {
 
   const srcDefault = `icons/${src}.png`;
   const srcActive = (altsrc) ? `icons/${altsrc}.png` : srcDefault;

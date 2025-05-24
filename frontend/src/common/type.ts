@@ -41,10 +41,10 @@ export interface Ingredient {
   Extra interfaces for API
 */
 export interface CategoryAPIAddParam { name: string };
-export interface CategoryAPIUpdateParam { content: string };
+export interface CategoryAPIUpdateParam extends CategoryAPIAddParam { };
 
 export interface TagAPIAddParam { name: string };
-export interface TagAPIUpdateParam { content: string };
+export interface TagAPIUpdateParam extends TagAPIAddParam { };
 
 export interface IngredientAPIAddParam { name: string, unit: string };
 export interface IngredientAPIUpdateParam extends IngredientAPIAddParam { id: string | number };
@@ -90,11 +90,20 @@ export const isIngredient = (item: Category | Tag | Ingredient): item is Ingredi
 export type Tables = "recipes" | "ingredients" | "tags" | "categories";
 export type RecipeField = "name" | "ingredient" | "step" | "externalLink";
 export type Mode = "view" | "update" | "new";
-export type recipeCardDisplay = "simple" | "full";
+export type recipeCardDisplay = "simple" | "full" | "list";
 
 
 
 
 /*
-  Props
+  Other props
 */
+
+export interface IconProps {
+  src: string;
+  altsrc?: string | undefined;
+  hoverable?: boolean;
+  onClick?: ((...args: any[]) => void) | undefined;
+  className?: string;
+  key?: number;
+}

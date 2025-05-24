@@ -34,7 +34,7 @@ export default function RecipeCards(props: Props) {
         setCurrentRecipe={props.setCurrentRecipe}
         setShowRecipeDetail={props.setShowRecipeDetail}
         isBulkEditing={props.isBulkEditing}
-        isChecked={(id: number) => props.recipesToEdit.has(id)}
+        isChecked={props.isChecked(recipe["id"])}
         handleUpdateEditList={props.handleUpdateEditList}
       />) }
     </div>
