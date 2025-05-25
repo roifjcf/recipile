@@ -8,7 +8,7 @@ import RecipeDetail from "@/features/recipeDetail/recipeDetail";
 
 import { RecipeInterface, CategoryInterface, TagInterface, IngredientInterface, Mode, RecipeCardDisplay, TagSetOperation, SideBarDisplay } from "@/common/type";
 import {recipeAPI, categoryAPI, tagAPI, ingredientAPI} from "@/utils/api"
-import { getRandomKaomoji } from "@/utils/helper";
+import { getRandomKaomoji, loadTheme } from "@/utils/helper";
 import RecipesByCategory from "@/features/recipesByGroup/recipesByGroup";
 import SideBar from "@/features/sideBar/sideBar";
 import SearchResult from "@/features/recipeSearch/searchResult";
@@ -82,14 +82,10 @@ export default function Home() {
     fetchData();
   }, []);
 
-  
+
   useEffect(() => {
     /** Theme init */
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      const html = document.documentElement;
-      html.setAttribute('data-theme', 'dark');
-    }
+    loadTheme();
   }, []);
 
 

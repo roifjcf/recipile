@@ -9,6 +9,7 @@ import { CategoryInterface, TagInterface, IngredientInterface, Tables } from "@/
 import Navbar from "@/components/navbar";
 import { categoryAPI, tagAPI, ingredientAPI } from "@/utils/api";
 import DatabaseEditCard from "@/features/databaseEditCard/databaseEditCard";
+import { loadTheme } from "@/utils/helper";
 
 
 export default function Page() {
@@ -36,6 +37,11 @@ export default function Page() {
     };
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    /** Theme init */
+    loadTheme();
   }, []);
 
 

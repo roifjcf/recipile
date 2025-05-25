@@ -13,14 +13,27 @@ export const findIngredientUnitByid = (id: number, records: IngredientInterface[
   return records?.find(record => record.id === id)?.unit || "";
 };
 
+export const removeEmptyItem = (list:string[]) => { return list.filter((item) => item !== ''); };
+
+export const loadTheme = () => {
+  const savedTheme = localStorage.getItem('theme');
+  const html = document.documentElement;
+  if (savedTheme === 'dark') {
+    html.setAttribute('data-theme', 'dark');
+  } else {
+    // default to OS preference
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    html.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+  }
+}
 
 
 
 
 
-
-
-
+/**
+ * Data validation
+ */
 
 export const validateData = (table: Tables, data: any) => {
   /**
@@ -76,10 +89,9 @@ export const validateData = (table: Tables, data: any) => {
 
 
 
-
-
-export const removeEmptyItem = (list:string[]) => { return list.filter((item) => item !== ''); };
-
+/**
+ * Misc
+ */
 
 export const getCurrentDate = (): string => {
   /** Gets the current date in the format yyyy-mm-dd */

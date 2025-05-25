@@ -24,9 +24,9 @@ const links = [
 ];
 
 interface Props {
-  handleDebounceChange: (e: any) => void,
-  handleResetSearchInput: () => void,
-  searchInputRef: React.RefObject<HTMLInputElement | null>,
+  handleDebounceChange?: (e: any) => void,
+  handleResetSearchInput?: () => void,
+  searchInputRef?: React.RefObject<HTMLInputElement | null>,
 }
 
 
@@ -38,6 +38,7 @@ export default function Navbar({
   
   
   const [currPath, setCurrPath] = useState<string>("");
+  const showSearchBar = handleDebounceChange && handleResetSearchInput && searchInputRef;
 
   useEffect(() => {
     setCurrPath(window.location.pathname);
@@ -57,11 +58,14 @@ export default function Navbar({
         <Icon src={link["iconSrc"]} hoverable={true} />
         <p>{link["text"]}</p>
       </Link>)}
-      {currPath === "/" && <SearchBar
-                              handleDebounceChange={handleDebounceChange}
-                              handleResetSearchInput={handleResetSearchInput}
-                              searchInputRef={searchInputRef}
-                            />}
+
+      {currPath === "/" && showSearchBar &&
+      <SearchBar
+        handleDebounceChange={handleDebounceChange}
+        handleResetSearchInput={handleResetSearchInput}
+        searchInputRef={searchInputRef}
+      />}
+      
     </div>
 
 
