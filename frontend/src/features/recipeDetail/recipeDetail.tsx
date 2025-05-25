@@ -211,10 +211,7 @@ export default function RecipeDetail({
 
       {/* left column */}
       <div className="recipedetail-container-left">
-        {/* delete button under edit(update) mode */}
-        {mode === "update" &&
-        <Icon className="recipedetail-deletebtn" src="bin-outline" altsrc="bin-fill"
-        hoverable={true} onClick={()=>{handleDeleteRecipe(recipeDetail.id); handleClose();}}/>}
+        
 
         {/* image content */}
         <RecipeImage mode={mode}/>
@@ -233,7 +230,15 @@ export default function RecipeDetail({
             handleAddNewRecord={handleAddNewRecord}
           />
           <MiniStats mode={mode} recipeDetail={recipeDetail} onChange={[handleUpdatePreptime, handleUpdateServing]} />
-        </div>        
+        </div>
+
+        {/* delete button under edit(update) mode */}
+        {mode === "update" &&
+          <div className="recipedetail-deletebtn">
+            <Icon src="bin-outline" altsrc="bin-fill"
+            hoverable={true} onClick={()=>{handleDeleteRecipe(recipeDetail.id); handleClose();}}/>
+          </div>
+        }
       </div>
       
 

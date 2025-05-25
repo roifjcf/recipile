@@ -5,5 +5,21 @@
 .recipeimage-container {
   width: 100%;
   height: 250px;
+
+  position: relative;
+
   background-color: var(--surface-container-low);
+}
+
+
+.recipeimage-button {
+  position: absolute;
+  bottom: $space-4;
+  right: $space-4;
+}
+
+.recipeimage-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

@@ -45,6 +45,7 @@ $recipecard-container-right: 100% - $recipecard-container-left;
   width: $recipecard-container-left;
   height: 100%;
 
+  position: relative;
   display: flex;
   flex-direction: column;
 }
