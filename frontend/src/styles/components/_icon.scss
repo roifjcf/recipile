@@ -2,7 +2,6 @@
 @use '../abstracts/variables' as *;
 
 .icon-container {
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,6 +20,6 @@
 .icon-description {
   position: absolute;
   top: -200%;
-  z-index: $z-index-overlay;
+  z-index: $z-index-tooltip;
   white-space: nowrap;
 }
