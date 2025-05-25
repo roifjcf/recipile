@@ -5,7 +5,7 @@ Management page for categories, tags, and ingredients
 
 import { useEffect, useState } from "react";
 
-import { Category, Tag, Ingredient, Tables } from "@/common/type";
+import { CategoryInterface, TagInterface, IngredientInterface, Tables } from "@/common/type";
 import Navbar from "@/components/navbar";
 import { categoryAPI, tagAPI, ingredientAPI } from "@/utils/api";
 import DatabaseEditCard from "@/features/databaseEditCard/databaseEditCard";
@@ -13,9 +13,9 @@ import DatabaseEditCard from "@/features/databaseEditCard/databaseEditCard";
 
 export default function Page() {
   
-  const [categories, setCategories] = useState<Category[] | null>(null);
-  const [tags, setTags] = useState<Tag[] | null>(null);
-  const [ingredients, setIngredients] = useState<Ingredient[] | null>(null);
+  const [categories, setCategories] = useState<CategoryInterface[] | null>(null);
+  const [tags, setTags] = useState<TagInterface[] | null>(null);
+  const [ingredients, setIngredients] = useState<IngredientInterface[] | null>(null);
 
   /** Init */
   useEffect(() => {

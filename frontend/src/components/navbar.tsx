@@ -47,7 +47,7 @@ export default function Navbar({
 
     <div className="navbar-brand-info">
       <h3>Recipile</h3>
-      <span className='version-tag'>Alpha</span>
+      <span className="label">Alpha</span>
     </div>
 
     <div className='navbar-button-container-mid'>

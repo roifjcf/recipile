@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { Recipe, Tag, Ingredient, Category, Tables, Mode } from "@/common/type";
+import { RecipeInterface, TagInterface, IngredientInterface, CategoryInterface, Tables, Mode } from "@/common/type";
 
 import Icon from "@/components/icon";
 import MiniStats from "@/components/miniStats";
@@ -25,16 +25,16 @@ import ButtonGroup from "./components/buttonGroup";
 
 
 interface Props {
-  tags: Tag[],
-  setTags: (data: Tag[]) => void,
-  ingredients: Ingredient[],
-  setIngredients: (data: Ingredient[]) => void,
-  recipe: Recipe,
-  setCurrentRecipe: (data:Recipe | null) => void,
+  tags: TagInterface[],
+  setTags: (data: TagInterface[]) => void,
+  ingredients: IngredientInterface[],
+  setIngredients: (data: IngredientInterface[]) => void,
+  recipe: RecipeInterface,
+  setCurrentRecipe: (data:RecipeInterface | null) => void,
   mode: Mode,
   setMode: (data: Mode) => void
-  currentCategory: Category,
-  recipes: Recipe[],
+  currentCategory: CategoryInterface,
+  recipes: RecipeInterface[],
   setRecipes: (data: any) => void,
   setShowRecipeDetail: (data:boolean) => void,
   handleDeleteRecipe: (id:number) => void,
@@ -59,7 +59,7 @@ export default function RecipeDetail({
   /**
    * General
    */
-  const [recipeDetail, setRecipeDetail] = useState<Recipe>({...recipe});
+  const [recipeDetail, setRecipeDetail] = useState<RecipeInterface>({...recipe});
 
   const resetEditState = () => {
     setMode("view");
@@ -92,7 +92,7 @@ export default function RecipeDetail({
     await recipeAPI.update(recipeDetail);
     setCurrentRecipe({...recipeDetail});
     setRecipeDetail({...recipeDetail});
-    setRecipes(recipes.map((recipe: Recipe) => recipe.id === recipeDetail.id ? {...recipeDetail} : recipe));
+    setRecipes(recipes.map((recipe: RecipeInterface) => recipe.id === recipeDetail.id ? {...recipeDetail} : recipe));
     setMode("view");
   };
 

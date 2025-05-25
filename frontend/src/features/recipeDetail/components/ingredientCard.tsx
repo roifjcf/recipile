@@ -2,7 +2,7 @@
  * For component <RecipeDetail />
  */
 
-import { Ingredient, Mode, Recipe, Tables } from "@/common/type"
+import { IngredientInterface, Mode, RecipeInterface, Tables } from "@/common/type"
 
 import Icon from "@/components/icon";
 import ManageAddItem from "@/components/manageAddItem";
@@ -11,8 +11,8 @@ import { findRecordNameByid, findIngredientUnitByid } from "@/utils/helper";
 
 interface Props {
   mode: Mode,
-  recipeDetail: Recipe,
-  ingredients: Ingredient[],
+  recipeDetail: RecipeInterface,
+  ingredients: IngredientInterface[],
   selectedIngredient: string,
   setSelectedIngredient?: ((data: string) => void) | undefined,
   handleRemoveIngredient?: ((id: string) => void) | undefined,

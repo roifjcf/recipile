@@ -19,6 +19,7 @@
 @use 'components/ministats';
 @use 'components/recipecard';
 @use 'components/recipeimage';
+@use 'components/tag';
 @use 'components/tags';
 @use 'components/searchbar';
 
@@ -42,3 +43,4 @@
 
 @use 'features/sidebar/categorylist';
 @use 'features/sidebar/sidebar';
+@use 'features/sidebar/taglist';

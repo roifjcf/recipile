@@ -1,15 +1,15 @@
-import { Recipe, Category, Tag, Ingredient, RecipeAPIAddParam, Tables } from "@/common/type";
+import { RecipeInterface, CategoryInterface, TagInterface, IngredientInterface, RecipeAPIAddParam, Tables } from "@/common/type";
 
-export const findRecordNameByid = (id: number, records: Category[] | Tag[] | Ingredient[] | Recipe[] | null ) => {
+export const findRecordNameByid = (id: number, records: CategoryInterface[] | TagInterface[] | IngredientInterface[] | RecipeInterface[] | null ) => {
   return records?.find(record => record.id === id)?.name || "";
 };
 
-export const findRecordidByName = (name: string, records: Category[] | Tag[] | Ingredient[] | Recipe[]  | null ) => {
+export const findRecordidByName = (name: string, records: CategoryInterface[] | TagInterface[] | IngredientInterface[] | RecipeInterface[]  | null ) => {
   /** the name is a unique value (by the db schema) */
   return records?.find(record => record.name === name)?.id || "";
 };
 
-export const findIngredientUnitByid = (id: number, records: Ingredient[] | null ) => {
+export const findIngredientUnitByid = (id: number, records: IngredientInterface[] | null ) => {
   return records?.find(record => record.id === id)?.unit || "";
 };
 
@@ -26,7 +26,7 @@ export const validateData = (table: Tables, data: any) => {
   /**
    * Checks if all property values are valid before calling the API (POST / UPDATE)
    */
-  const validateRecipe = (data: Recipe | RecipeAPIAddParam) => {
+  const validateRecipe = (data: RecipeInterface | RecipeAPIAddParam) => {
     /** To validate: name, serving size, prep time  */
     if (data.name === "") return [false, "Invalid recipe name"];
     if (data.serving < 1 || !Number.isInteger(data.serving)) return [false, "Invalid serving size"];
@@ -34,18 +34,18 @@ export const validateData = (table: Tables, data: any) => {
     return [true, "All properties are valid!"];
     
   }
-  const validateTag = (data: Tag) => {
+  const validateTag = (data: TagInterface) => {
     /** To validate: name  */
     if (data.name === "") return [false, "Invalid tag name"];
     return [true, "All properties are valid!"];
   }
-  const validateIngredient = (data: Ingredient) => {
+  const validateIngredient = (data: IngredientInterface) => {
     /** To validate: name, unit  */
     if (data.name === "") return [false, "Invalid ingredient name"];
     if (data.unit === "") return [false, "Invalid ingredient unit"];
     return [true, "All properties are valid!"];
   }
-  const validateCategory = (data: Category) => {
+  const validateCategory = (data: CategoryInterface) => {
     /** To validate: name  */
     if (data.name === "") return [false, "Invalid category name"];
     return [true, "All properties are valid!"];

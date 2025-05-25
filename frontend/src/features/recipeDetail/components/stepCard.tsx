@@ -1,12 +1,12 @@
 /**
  * Step component
  */
-import { Mode, Recipe } from "@/common/type"
+import { Mode, RecipeInterface } from "@/common/type"
 import Icon from "@/components/icon";
 
 interface Props {
   mode: Mode,
-  recipeDetail: Recipe,
+  recipeDetail: RecipeInterface,
   handleRemoveStep?: ((index: number) => void),
   handleUpdateStep?: ((e: any, index: number) => void),
   handleReorder?: ((option: "up" | "down", index: number) => void),

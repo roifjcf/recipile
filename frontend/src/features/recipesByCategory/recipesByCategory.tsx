@@ -1,22 +1,25 @@
 "use client";
-import { Category, Mode, Recipe, recipeCardDisplay, Tag } from "@/common/type";
+import { CategoryInterface, Mode, RecipeInterface, RecipeCardDisplay, TagInterface, SideBarDisplay, TagSetOperation } from "@/common/type";
 import InfoBar from "./components/infoBar";
 import RecipeCards from "./components/recipeCards";
 import { useState } from "react";
 import { recipeAPI } from "@/utils/api";
 
 interface Props {
-  currentCategory: Category | null,
+  currentCategory: CategoryInterface | null,
   setMode: (hookval: Mode) => void,
   setShowRecipeDetail: (hookval: boolean) => void,
-  setCurrentRecipe: (hookval: Recipe) => void,
-  recipeCardDisplay: recipeCardDisplay,
-  toggleCardDisplay: (hookval: recipeCardDisplay) => void,
-  recipes: Recipe[],
-  tags: Tag[],
+  setCurrentRecipe: (hookval: RecipeInterface) => void,
+  recipeCardDisplay: RecipeCardDisplay,
+  toggleCardDisplay: (hookval: RecipeCardDisplay) => void,
+  recipes: RecipeInterface[],
+  tags: TagInterface[],
   kaomoji: string,
-  setRecipes: (hookval: Recipe[]) => void,
+  setRecipes: (hookval: RecipeInterface[]) => void,
   showRecipeDetail: boolean,
+  selectedTags: Set<TagInterface>,
+  currentGroup: SideBarDisplay,
+  tagSetOperation: TagSetOperation,
 };
 
 export default function RecipesByCategory({
@@ -31,6 +34,9 @@ export default function RecipesByCategory({
   kaomoji,
   setRecipes,
   showRecipeDetail,
+  selectedTags,
+  currentGroup,
+  tagSetOperation,
 }: Props) {
 
 
@@ -67,6 +73,47 @@ export default function RecipesByCategory({
 
 
 
+  const getCurrentRecipe = (
+    currentGroup: SideBarDisplay,
+    tagSetOperation: TagSetOperation
+  ) => {
+    /** Gets a list of recipes to render */
+
+    if (currentGroup === "category") {
+      return currentCategory ? recipes.filter(recipe => recipe["categories"].includes(currentCategory["id"].toString())) : []
+
+    } else if (currentGroup === "tag") {
+      const selectedTagsArr = Array.from(selectedTags).map(t=>t["id"].toString()); // id of selected tags
+      const res: RecipeInterface[] = [];
+      
+      if (tagSetOperation === "union") {
+        for (const recipe of recipes) {
+          for (const id of recipe["tags"]) {
+            if (selectedTagsArr.includes(id)) {
+              res.push(recipe);
+            }
+          }
+        }
+      } else if (tagSetOperation === "intersection") {
+        for (const recipe of recipes) {
+          const currIdList = recipe["tags"];
+          let canAdd = true;
+          for (const tagId of selectedTagsArr) {
+            if (!currIdList.includes(tagId)) { canAdd = false; break; }
+          }
+          if (canAdd) {res.push(recipe)}
+        }
+      }
+
+      return res;
+    
+      } else {
+      return [];
+    }
+
+  }
+
+
   return (
     <div className="page-right-column">
       <InfoBar
@@ -81,11 +128,13 @@ export default function RecipesByCategory({
         recipeCardDisplay={recipeCardDisplay}
         toggleCardDisplay={toggleCardDisplay}
         showRecipeDetail={showRecipeDetail}
+        currentGroup={currentGroup}
       />
+
       <RecipeCards
         recipes={recipes}
         tags={tags}
-        currentRecipes={currentCategory ? recipes.filter(recipe => recipe["categories"].includes(currentCategory["id"].toString())) : []}
+        currentRecipes={getCurrentRecipe(currentGroup, tagSetOperation)}
         kaomoji={kaomoji}
         recipeCardDisplay={recipeCardDisplay}
         setRecipes={setRecipes}

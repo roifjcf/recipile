@@ -1,25 +1,30 @@
 'use client';
-import { Category } from "@/common/type";
+import { CategoryInterface } from "@/common/type";
 
 interface Props {
-  categories: Category[],
-  currentCategory: Category | null,
-  setCurrentCategory: (data: Category) => void,
+  categories: CategoryInterface[],
+  currentCategory: CategoryInterface | null,
+  setCurrentCategory: (data: CategoryInterface) => void,
   handleResetSearchInput: () => void,
 }
 
-export default function CategoryList (props:Props) {
+export default function CategoryList ({
+  categories,
+  currentCategory,
+  setCurrentCategory,
+  handleResetSearchInput,
+}: Props) {
 
-  const handleClick = (cat: Category) => {
-    props.handleResetSearchInput();
-    props.setCurrentCategory(cat);
+  const handleClick = (cat: CategoryInterface) => {
+    handleResetSearchInput();
+    setCurrentCategory(cat);
   }
   
   return(
     <ul>
-      {props.categories.map((cat, index) =>
+      {categories.map((cat, index) =>
       <li
-        className={`categorylist-item${cat === props.currentCategory ? " categorylist-item-selected" : ""}`}
+        className={`categorylist-item${cat === currentCategory ? " categorylist-item-selected" : ""}`}
         key={index}
         onClick={()=>handleClick(cat)}
       > 

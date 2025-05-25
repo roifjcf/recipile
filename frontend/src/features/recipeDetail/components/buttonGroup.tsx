@@ -1,11 +1,11 @@
-import { Mode, Recipe, Tables } from "@/common/type";
+import { Mode, RecipeInterface, Tables } from "@/common/type";
 import Icon from "@/components/icon";
 
 interface Props {
   mode: Mode,
   setMode: (hoolval: Mode) => void,
   handleClose: () => void,
-  recipeDetail: Recipe,
+  recipeDetail: RecipeInterface,
   resetEditState: () => void,
   handleUpdate: () => void,
   handleAddNewRecord: (table: Tables, content: any) => void,

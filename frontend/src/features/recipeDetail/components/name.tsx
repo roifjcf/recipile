@@ -1,11 +1,11 @@
-import { Mode, Recipe } from "@/common/type";
+import { Mode, RecipeInterface } from "@/common/type";
 import { useState } from "react";
 
 interface Props {
   name: string,
   mode: Mode,
-  recipeDetail: Recipe,
-  setRecipeDetail: (hookval: Recipe) => void,
+  recipeDetail: RecipeInterface,
+  setRecipeDetail: (hookval: RecipeInterface) => void,
 }
 
 export default function Name({

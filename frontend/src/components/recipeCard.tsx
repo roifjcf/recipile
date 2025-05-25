@@ -3,7 +3,7 @@
 */
 
 'use client';
-import { Recipe, recipeCardDisplay, Tag } from "@/common/type";
+import { RecipeInterface, RecipeCardDisplay, TagInterface } from "@/common/type";
 
 import Icon from "@/components/icon";
 import MiniStats from "@/components/miniStats";
@@ -14,13 +14,13 @@ import { recipeAPI } from "@/utils/api";
 
 interface Props {
   key: number,
-  recipe: Recipe,
-  recipes: Recipe[],
-  tags: Tag[],
-  recipeCardDisplay: recipeCardDisplay,
-  setCurrentRecipe: (hookval: Recipe) => void,
+  recipe: RecipeInterface,
+  recipes: RecipeInterface[],
+  tags: TagInterface[],
+  recipeCardDisplay: RecipeCardDisplay,
+  setCurrentRecipe: (hookval: RecipeInterface) => void,
   setShowRecipeDetail: (hookval: boolean) => void,
-  setRecipes: (hookval: Recipe[]) => void,
+  setRecipes: (hookval: RecipeInterface[]) => void,
   isBulkEditing?: boolean,
   isChecked?: boolean,
   handleUpdateEditList?: (id: number, e: React.MouseEvent) => void,
@@ -65,11 +65,6 @@ export default function RecipeCard(props : Props) {
     props.setShowRecipeDetail(true);
   }
   
-
-
-console.log(props.isChecked);
-
-
   return (
     <div className="recipecard-container round-corner" onClick={handleShowRecipeDetail}>
       

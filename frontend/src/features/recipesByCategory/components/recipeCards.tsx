@@ -1,14 +1,14 @@
-import { Recipe, recipeCardDisplay, Tag } from "@/common/type";
+import { RecipeInterface, RecipeCardDisplay, TagInterface } from "@/common/type";
 import RecipeCard from "@/components/recipeCard";
 
 interface Props {
-  recipes: Recipe[],
-  tags: Tag[],
-  currentRecipes: Recipe[],
+  recipes: RecipeInterface[],
+  tags: TagInterface[],
+  currentRecipes: RecipeInterface[],
   kaomoji: string,
-  recipeCardDisplay: recipeCardDisplay,
-  setRecipes: (hookval: Recipe[]) => void,
-  setCurrentRecipe: (hookval: Recipe) => void,
+  recipeCardDisplay: RecipeCardDisplay,
+  setRecipes: (hookval: RecipeInterface[]) => void,
+  setCurrentRecipe: (hookval: RecipeInterface) => void,
   setShowRecipeDetail: (hookval: boolean) => void,
   isBulkEditing: boolean,
   isChecked: (id: number) => boolean,

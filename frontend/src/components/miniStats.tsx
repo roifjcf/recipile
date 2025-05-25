@@ -1,12 +1,12 @@
 /**
  * For displaying the status of prep_time and serving
  */
-import { Mode, Recipe } from "@/common/type";
+import { Mode, RecipeInterface } from "@/common/type";
 import Icon from "@/components/icon";
 
 interface Props {
   mode: Mode,
-  recipeDetail: Recipe,
+  recipeDetail: RecipeInterface,
   onChange?: ((...args: any[]) => void)[] | undefined,
 };
 

@@ -1,13 +1,13 @@
-import { Mode, Recipe } from "@/common/type";
+import { Mode, RecipeInterface } from "@/common/type";
 
 interface Props {
   showRecipeDetail: boolean,
   setMode: (hookval: Mode) => void,
   setShowRecipeDetail: (hookval: boolean) => void,
-  setCurrentRecipe: (hookval: Recipe) => void,
+  setCurrentRecipe: (hookval: RecipeInterface) => void,
 };
 
-const newRecipeTemplate: Recipe = {
+const newRecipeTemplate: RecipeInterface = {
   id: -1,
   name: "",
   ingredients: [],

@@ -5,7 +5,7 @@ import {
   TagAPIAddParam, TagAPIUpdateParam,
   IngredientAPIAddParam, IngredientAPIUpdateParam,
   RecipeAPIAddParam, RecipeAPIUpdateColumnParam,
-  Recipe
+  RecipeInterface
 } from "@/common/type";
 
 const api = axios.create({
@@ -53,7 +53,7 @@ export const ingredientAPI = {
 export const recipeAPI = {
   get: () => handleRequest(() => api.get("recipes")),
   add: (content: RecipeAPIAddParam) => handleRequest(() => api.post("recipes", content, {headers: {'Content-Type': 'application/json'}})),
-  update: (content: Recipe) => {handleRequest(() => api.put("recipes", content, {headers: {'Content-Type': 'application/json'}}))},
+  update: (content: RecipeInterface) => {handleRequest(() => api.put("recipes", content, {headers: {'Content-Type': 'application/json'}}))},
   updateColumn: (id: string | number, content: RecipeAPIUpdateColumnParam) => handleRequest(() => api.put(`recipes/${id}`, null, {params: content})),
   delete: (id: number | string) => handleRequest(() => api.delete(`recipes/${id}`)),
 };

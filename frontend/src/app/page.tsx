@@ -6,7 +6,7 @@ import Navbar from "@/components/navbar";
 import PushNotification from "../components/pushNotification";
 import RecipeDetail from "@/features/recipeDetail/recipeDetail";
 
-import { Recipe, Category, Tag, Ingredient, Mode, recipeCardDisplay } from "@/common/type";
+import { RecipeInterface, CategoryInterface, TagInterface, IngredientInterface, Mode, RecipeCardDisplay, TagSetOperation, SideBarDisplay } from "@/common/type";
 import {recipeAPI, categoryAPI, tagAPI, ingredientAPI} from "@/utils/api"
 import { getRandomKaomoji } from "@/utils/helper";
 import RecipesByCategory from "@/features/recipesByCategory/recipesByCategory";
@@ -14,28 +14,41 @@ import SideBar from "@/features/sideBar/sideBar";
 import SearchResult from "@/features/recipeSearchByCategory/searchResult";
 
 export default function Home() {
-  // app features
+
+  /** Feature hooks */
   const [showPushNotification, setShowPushNotification] = useState<boolean>(false);
   const [pushNotificationMessage, setPushNotificationMessage] = useState<string>('');
 
-  const [kaomoji, setKaomoji] = useState<string>("");
+  const [kaomoji, setKaomoji] = useState<string>("");// kaomoji
   const [mode, setMode] = useState<Mode>("view"); // toggles recipe detail edit
-  const [recipeCardDisplay, setRecipeCardDisplay] = useState<recipeCardDisplay>("full"); // different recipe card layouts
-  
-  const [showRecipeDetail, setShowRecipeDetail] = useState<boolean>(false);
-  const [currentCategory, setCurrentCategory] = useState<Category | null>(null);
-  const [currentRecipe, setCurrentRecipe] = useState<Recipe | null>(null);
+  const [recipeCardDisplay, setRecipeCardDisplay] = useState<RecipeCardDisplay>("full"); // different layouts for recipe card display
+  const [showRecipeDetail, setShowRecipeDetail] = useState<boolean>(false); // toggles the modal
 
+  // side bar stuff
+  const [currentCategory, setCurrentCategory] = useState<CategoryInterface | null>(null);
+  const [currentRecipe, setCurrentRecipe] = useState<RecipeInterface | null>(null);
+  const [selectedTags, setSelectedTags] = useState<Set<TagInterface>>(new Set());
+  const [tagSetOperation, setTagSetOperation] = useState<TagSetOperation>("intersection");
+  const [currentGroup, setCurrentGroup] = useState<SideBarDisplay>("category"); // way to group recipes (e.g. by tags or categories)
+  
+  // debounced search (auto complete?)
   const [debouncedSearchInput, setDebouncedSearchInput] = useState<string>("");
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // data hooks
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [tags, setTags] = useState<Tag[]>([]);
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [recipes, setRecipes] = useState<Recipe[]>([])
+
+
+
+  /** Data hooks */
+  const [categories, setCategories] = useState<CategoryInterface[]>([]);
+  const [tags, setTags] = useState<TagInterface[]>([]);
+  const [ingredients, setIngredients] = useState<IngredientInterface[]>([]);
+  const [recipes, setRecipes] = useState<RecipeInterface[]>([])
 
   /////////////////////////////
+
+
+
+
 
   const handleShowPushNotification = () => {
     setShowPushNotification(true);
@@ -87,7 +100,7 @@ export default function Home() {
     }
   }
 
-  const toggleCardDisplay = (displayMode: recipeCardDisplay) => {
+  const toggleCardDisplay = (displayMode: RecipeCardDisplay) => {
     setRecipeCardDisplay(displayMode);
   }
 
@@ -116,9 +129,15 @@ export default function Home() {
 
       <SideBar
         categories={categories}
+        tags={tags}
+        handleResetSearchInput={handleResetSearchInput}
         currentCategory={currentCategory}
         setCurrentCategory={setCurrentCategory}
-        handleResetSearchInput={handleResetSearchInput}
+        selectedTags={selectedTags}
+        setSelectedTags={setSelectedTags}
+        setTagSetOperation={setTagSetOperation}
+        currentGroup={currentGroup}
+        setCurrentGroup={setCurrentGroup}
       />
 
       {/* displays search results if the search bar is not empty,
@@ -136,6 +155,9 @@ export default function Home() {
         kaomoji={kaomoji}
         setRecipes={setRecipes}
         showRecipeDetail={showRecipeDetail}
+        selectedTags={selectedTags}
+        currentGroup={currentGroup}
+        tagSetOperation={tagSetOperation}
       />
       :
       <SearchResult

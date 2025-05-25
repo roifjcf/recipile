@@ -7,12 +7,12 @@
 
 import { useState } from "react";
 
-import { Tables, isIngredient, Category, Tag, Ingredient } from "@/common/type";
+import { Tables, isIngredient, CategoryInterface, TagInterface, IngredientInterface } from "@/common/type";
 import Icon from "@/components/icon";
 
 interface Props {
   key: number,
-  item: Category | Tag | Ingredient,
+  item: CategoryInterface | TagInterface | IngredientInterface,
   table: Tables,
   handleDelete: (table:Tables, id:string | number) => void,
   handleUpdate: (table:Tables, id:string | number, content: any) => void,
@@ -20,8 +20,8 @@ interface Props {
 
 export default function ManageItem (props:Props) {
 
-  const [item, setItem] = useState<Category | Tag | Ingredient>(props.item);
-  const [modifiedItem, setModifiedItem] = useState<Category | Tag | Ingredient>(props.item);
+  const [item, setItem] = useState<CategoryInterface | TagInterface | IngredientInterface>(props.item);
+  const [modifiedItem, setModifiedItem] = useState<CategoryInterface | TagInterface | IngredientInterface>(props.item);
   const [isInEditMode, setIsInEditMode] = useState<boolean>(false);
 
   const handleCancel = () => {

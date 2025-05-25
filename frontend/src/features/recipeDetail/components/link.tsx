@@ -1,11 +1,11 @@
-import { Mode, Recipe } from "@/common/type";
+import { Mode, RecipeInterface } from "@/common/type";
 import Icon from "@/components/icon";
 
 interface Props {
   mode: Mode
   url: string,
-  recipeDetail: Recipe,
-  setRecipeDetail: (hookval: Recipe) => void,
+  recipeDetail: RecipeInterface,
+  setRecipeDetail: (hookval: RecipeInterface) => void,
 };
 
 export default function Link({

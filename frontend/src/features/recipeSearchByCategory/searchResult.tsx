@@ -1,17 +1,17 @@
-import { Recipe, recipeCardDisplay, Tag } from "@/common/type";
+import { RecipeInterface, RecipeCardDisplay, TagInterface } from "@/common/type";
 import RecipeCard from "@/components/recipeCard";
 
 
 
 
 interface Props {
-  recipes: Recipe[],
+  recipes: RecipeInterface[],
   debouncedSearchInput: string,
-  tags: Tag[],
-  recipeCardDisplay: recipeCardDisplay,
-  setCurrentRecipe: (hookval: Recipe) => void,
+  tags: TagInterface[],
+  recipeCardDisplay: RecipeCardDisplay,
+  setCurrentRecipe: (hookval: RecipeInterface) => void,
   setShowRecipeDetail: (hookval: boolean) => void,
-  setRecipes: (hookval: Recipe[]) => void,
+  setRecipes: (hookval: RecipeInterface[]) => void,
 };
 
 
@@ -26,8 +26,8 @@ export default function SearchResult({
   setRecipes,
 }: Props) {
 
-const renderSearchResult = (searchTerm: string, recipes: Recipe[]) => {
-    let listToRender: Recipe[];
+const renderSearchResult = (searchTerm: string, recipes: RecipeInterface[]) => {
+    let listToRender: RecipeInterface[];
     if (searchTerm === "") {
       listToRender = [];
     } else {

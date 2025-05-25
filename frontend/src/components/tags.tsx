@@ -3,22 +3,23 @@
  */
 
 "use client";
-import { Mode, Recipe, Tables, Tag } from "@/common/type"
+import { Mode, RecipeInterface, Tables, TagInterface } from "@/common/type"
 import Icon from "@/components/icon";
-import { findRecordidByName, findRecordNameByid } from "@/utils/helper";
+import { findRecordidByName, findRecordNameByid,  } from "@/utils/helper";
 import { useState } from "react";
 import ManageAddItem from "./manageAddItem";
+import Tag from "./tag";
 
 interface Props {
   /** general props */
   mode: Mode,
-  recipeTags: string[], // a list of tag name, not id!
-  tags: Tag[],
+  recipeTags: string[], // a list of tag ids!
+  tags: TagInterface[], // all tags
 
   /** for editable tags */
   handleRemoveTag?: (tagid:string) => void,
-  recipeDetail?: Recipe,
-  setRecipeDetail?: (hookval:Recipe) => void,
+  recipeDetail?: RecipeInterface,
+  setRecipeDetail?: (hookval:RecipeInterface) => void,
   handleAddNewRecord?: (table: Tables, content: any) => void,
 };
 
@@ -36,7 +37,10 @@ export default function Tags({
 
 
 
-  const [selectedTag, setSelectedTag] = useState<string>(""); // tag name
+  const [selectedTag, setSelectedTag] = useState<string>(""); // currenty selected tag name, for the `select` element
+
+
+
 
   const handleAddExistingTag = () => {
     if (!recipeDetail) {return;}
@@ -51,35 +55,26 @@ export default function Tags({
     setRecipeDetail({...recipeDetail, tags:updatedTags});
   };
 
-  const renderView = (tag: string) => (<>
-                                        <Icon src={"tag-outline"} />
-                                        <p>{findRecordNameByid(parseInt(tag), tags)}</p>
-                                      </>);
-                                    
-  const renderEdit = (tag: string) => (<>
-                                        <Icon src={"tag-outline"} />
-                                        <p>{findRecordNameByid(parseInt(tag), tags)}</p>
-                                        <Icon src={"bin-outline"}
-                                          altsrc={"bin-fill"}
-                                          hoverable={true}
-                                          onClick={()=>handleRemoveTag!(tag)}
-                                        />
-                                      </>);
 
 
 
 
   return (
     <ul className="tags-container">
+
       {recipeTags.map((tag, index) =>
-        <li className="tags-label" key={index}>
-          {mode === "view" ?  renderView(tag) : renderEdit(tag) }
-        </li>
+        <Tag
+          mode={mode}
+          tag={findRecordNameByid(parseInt(tag), tags)}
+          key={index}
+          handleRemoveTag={handleRemoveTag}
+        />
       )}
+
       {mode !== "view" && 
       <>
         <select className="inline" value={selectedTag} onChange={e=>setSelectedTag(e.target.value)}>
-          {tags.map((tag: Tag, index: number) =>
+          {tags.map((tag: TagInterface, index: number) =>
           <option key={index} value={tag["name"]}>{tag["name"]}</option>)}
         </select>
         <Icon src={"add-outline"} hoverable={true} onClick={handleAddExistingTag} />

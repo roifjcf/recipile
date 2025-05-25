@@ -1,7 +1,7 @@
 /*
   Basic data
 */
-export interface Recipe {
+export interface RecipeInterface {
   id: number,
   name: string,
   ingredients: string[][],
@@ -16,17 +16,17 @@ export interface Recipe {
   tags: string[], // id
 }
 
-export interface Category {
+export interface CategoryInterface {
   id: number,
   name: string
 }
 
-export interface Tag {
+export interface TagInterface {
   id: number,
   name: string
 }
 
-export interface Ingredient {
+export interface IngredientInterface {
   id: number,
   name: string,
   unit: string
@@ -76,7 +76,7 @@ export interface RecipeAPIUpdateColumnParam {
 /*
   Type guards
 */
-export const isIngredient = (item: Category | Tag | Ingredient): item is Ingredient => {
+export const isIngredient = (item: CategoryInterface | TagInterface | IngredientInterface): item is IngredientInterface => {
   return 'unit' in item;
 };
 
@@ -90,7 +90,9 @@ export const isIngredient = (item: Category | Tag | Ingredient): item is Ingredi
 export type Tables = "recipes" | "ingredients" | "tags" | "categories";
 export type RecipeField = "name" | "ingredient" | "step" | "externalLink";
 export type Mode = "view" | "update" | "new";
-export type recipeCardDisplay = "simple" | "full" | "list";
+export type RecipeCardDisplay = "simple" | "full" | "list";
+export type TagSetOperation = "intersection" | "union";
+export type SideBarDisplay = "category" | "tag";
 
 
 

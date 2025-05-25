@@ -1,21 +1,22 @@
-import { Category, IconProps, Mode, Recipe, recipeCardDisplay } from "@/common/type";
+import { CategoryInterface, IconProps, Mode, RecipeInterface, RecipeCardDisplay, SideBarDisplay } from "@/common/type";
 
 import Icon from "@/components/icon";
 import NewRecipeButton from "./newRecipeButton";
 import ExpandableIcons from "./expandableIcons";
 
 interface Props {
-  currentCategory: Category | null,
+  currentCategory: CategoryInterface | null,
   setMode: (hookval: Mode) => void,
   setShowRecipeDetail: (hookval: boolean) => void,
-  setCurrentRecipe: (hookval: Recipe) => void,
+  setCurrentRecipe: (hookval: RecipeInterface) => void,
   isBulkEditing: boolean,
   handleDeleteRecipes:(idSet: Set<number>) => Promise<void>,
   recipesToEdit: Set<number>,
   setIsBulkEditing: (hookval: boolean) => void,
-  recipeCardDisplay: recipeCardDisplay,
-  toggleCardDisplay: (hookval: recipeCardDisplay) => void,
+  recipeCardDisplay: RecipeCardDisplay,
+  toggleCardDisplay: (hookval: RecipeCardDisplay) => void,
   showRecipeDetail: boolean,
+  currentGroup: SideBarDisplay,
 };
 
 
@@ -58,6 +59,7 @@ export default function InfoBar(props: Props) {
   return (
   <div className="infobar-container">
     
+    {props.currentGroup === "category" ?
     <div className="left">
       <h1>{props.currentCategory?.name}</h1>
       <NewRecipeButton
@@ -66,7 +68,7 @@ export default function InfoBar(props: Props) {
         setCurrentRecipe={props.setCurrentRecipe}
         showRecipeDetail={props.showRecipeDetail}
       />
-    </div>
+    </div> : <div className="left"></div>}
     
     <div className="right">
       {/* {props.isBulkEditing && <Icon src="bin-outline" altsrc="bin-fill" hoverable={true} onClick={()=>{props.handleDeleteRecipes(props.recipesToEdit)}} />} */}

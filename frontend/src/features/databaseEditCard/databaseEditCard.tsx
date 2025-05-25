@@ -1,11 +1,11 @@
-import { Category, Ingredient, Tables, Tag } from "@/common/type";
+import { CategoryInterface, IngredientInterface, Tables, TagInterface } from "@/common/type";
 import ManageAddItem from "@/components/manageAddItem";
 import ManageItem from "@/components/manageItem";
 
 interface Props {
   table: Tables,
   title: string,
-  data: Category[] | Tag[] | Ingredient[] | null,
+  data: CategoryInterface[] | TagInterface[] | IngredientInterface[] | null,
   handleAdd: (table: Tables, content: any) => void,
   handleUpdate: (table: Tables, id: string | number, content: any) => void,
   handleDelete: (table: Tables, id: string | number) => void,
@@ -26,7 +26,7 @@ export default function DatabaseEditCard({
       <h2>{title}</h2>
       <ManageAddItem table={table} handleAdd={handleAdd} />
 
-      {data && data.map((item: Category | Tag | Ingredient)=>
+      {data && data.map((item: CategoryInterface | TagInterface | IngredientInterface)=>
       <ManageItem
         key={item.id}
         handleUpdate={handleUpdate}
