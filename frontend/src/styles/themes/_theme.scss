@@ -113,15 +113,15 @@
   --neutral-container: #F2F2F2;
   --on-neutral-container: #888888;
 
-  --surface: #302B2B;
+  --surface: #302e2e;
   --on-surface: #FFFCF6;
   --on-surface-variant: #E0DCD5;
 
-  --surface-container-lowest: #393737;
-  --surface-container-low: #494646;
-  --surface-container: #585555;
-  --surface-container-high: #686464;
-  --surface-container-highest: #787373;
+  --surface-container-lowest: hsl(0, 0%, 22%);
+  --surface-container-low: hsl(0, 0%, 28%);
+  --surface-container: hsl(0, 0%, 36%);
+  --surface-container-high: hsl(0, 0%, 40%);
+  --surface-container-highest: hsl(0, 0%, 46%);
 
   --selection: #FBCD84;
   --on-selection: #302B2B;
