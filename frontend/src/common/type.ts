@@ -14,6 +14,8 @@ export interface RecipeInterface {
   notes: string,
   categories: string[], // id
   tags: string[], // id
+  img_filename: string,
+  img_main: string | null,
 }
 
 export interface CategoryInterface {
@@ -60,7 +62,9 @@ export interface RecipeAPIAddParam {
   prep_time: number,
   notes: string,
   categories: string[],
-  tags: string[]
+  tags: string[],
+  img_filename: string,
+  img_main: string | null,
 };
 export interface RecipeAPIUpdateColumnParam {
   id: string | number,

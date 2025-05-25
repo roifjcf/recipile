@@ -214,7 +214,11 @@ export default function RecipeDetail({
         
 
         {/* image content */}
-        <RecipeImage mode={mode}/>
+        <RecipeImage
+          mode={mode}
+          recipe={recipeDetail}
+          setRecipeDetail={setRecipeDetail}
+        />
 
         {/* text content */}
         <div className="recipedetail-text-info-container-left">

@@ -6,8 +6,7 @@ $recipecard-container-left: 40%;
 $recipecard-container-right: 100% - $recipecard-container-left;
 
 .recipedetail-container {
-  max-width: 1000px; // sum (width, margin-left, margin-right) = 70%
-  min-width: 800px;
+  width: 800px; // sum (width, margin-left, margin-right) = 70%
   height: 70%; // sum (height, margin-top, margin-bottom) = 100%
 
   display: flex;

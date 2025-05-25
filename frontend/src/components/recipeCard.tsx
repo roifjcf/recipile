@@ -68,7 +68,11 @@ export default function RecipeCard(props : Props) {
   return (
     <div className="recipecard-container round-corner" onClick={handleShowRecipeDetail}>
       
-      {props.recipeCardDisplay === "full" && <RecipeImage mode="view"/>}
+      {props.recipeCardDisplay === "full" &&
+      <RecipeImage
+        mode="view"
+        recipe={props.recipe}
+      />}
 
       <div className="recipecard-text-info-container">
         <div className="recipecard-text-info-container-top">

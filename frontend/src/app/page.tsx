@@ -8,7 +8,7 @@ import RecipeDetail from "@/features/recipeDetail/recipeDetail";
 
 import { RecipeInterface, CategoryInterface, TagInterface, IngredientInterface, Mode, RecipeCardDisplay, TagSetOperation, SideBarDisplay } from "@/common/type";
 import {recipeAPI, categoryAPI, tagAPI, ingredientAPI} from "@/utils/api"
-import { getRandomKaomoji, loadTheme } from "@/utils/helper";
+import { convertImgUrl, getRandomKaomoji, loadTheme } from "@/utils/helper";
 import RecipesByCategory from "@/features/recipesByGroup/recipesByGroup";
 import SideBar from "@/features/sideBar/sideBar";
 import SearchResult from "@/features/recipeSearch/searchResult";
@@ -47,9 +47,6 @@ export default function Home() {
   /////////////////////////////
 
 
-
-
-
   const handleShowPushNotification = () => {
     setShowPushNotification(true);
     setTimeout(() => { setShowPushNotification(false); }, 6000);
@@ -67,7 +64,9 @@ export default function Home() {
           tagAPI.get(),
           ingredientAPI.get(),
         ]);
-
+        recipeData.forEach((recipe: RecipeInterface) => {
+          return recipe["img_main"] = convertImgUrl(recipe["img_main"]);
+        });
         setCategories(categoryData);
         setCurrentCategory(categoryData[0]);
         setRecipes([...recipeData].sort((a,b) => b["pinned"]-a["pinned"]));
@@ -130,7 +129,6 @@ export default function Home() {
   
   return (
     <div className="page-main-container">
-
       <SideBar
         categories={categories}
         tags={tags}

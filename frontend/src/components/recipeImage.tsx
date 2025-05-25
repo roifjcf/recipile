@@ -1,20 +1,23 @@
-import { Mode } from "@/common/type"
+import { Mode, RecipeInterface } from "@/common/type"
 import { useRef, useState } from "react";
 import Icon from "@/components/icon";
 
 
 interface Props {
   mode: Mode,
+  recipe: RecipeInterface,
+  setRecipeDetail?: (hookval:RecipeInterface) => void,
 };
 
 
-export default function RecipeImage(props: Props) {
+export default function RecipeImage({
+  mode,
+  recipe,
+  setRecipeDetail,
+}: Props) {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imageURL, setImageURL] = useState<string | null>(null);
-
-
-
+  const src = recipe["img_main"];
 
   const handleButtonClick = () => {
     fileInputRef.current?.click(); // Open the file picker
@@ -24,38 +27,51 @@ export default function RecipeImage(props: Props) {
     const file = e.target.files?.[0];
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
+
       reader.onloadend = () => {
-        setImageURL(reader.result as string);
+        const base64String = reader.result as string;
+        setRecipeDetail && setRecipeDetail({
+          ...recipe,
+          img_main: base64String,
+        });
       };
-      reader.readAsDataURL(file); // Convert file to base64
+
+      reader.readAsDataURL(file);
     } else {
       // setImageURL(null);
     }
   };
 
+  const renderEdit = () => {
+    return (
+      <>
+        <input
+        type="file"
+        accept="image/*" // image only
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        style={{ display: "none" }}
+        />  
+        <div className="recipeimage-button">
+          <Icon
+            src={"upload"}
+            hoverable={true}
+            onClick={handleButtonClick}
+            description="Upload image"
+          />
+        </div>
+      </>
+    );
+  }
 
   return (
   <div className="recipeimage-container">
-    <input
-      type="file"
-      accept="image/*" // image only
-      ref={fileInputRef}
-      onChange={handleFileChange}
-      style={{ display: "none" }}
-    />  
-    <div className="recipeimage-button">
-      <Icon
-        src={"upload"}
-        hoverable={true}
-        onClick={handleButtonClick}
-        description="Upload image"
-      />
-    </div>
     
+    {mode !== "view" && renderEdit()}
 
-    {imageURL && 
+    {src && 
       <img
-        src={imageURL}
+        src={src}
         alt="Preview"
         className="recipeimage-img"
       />

@@ -27,7 +27,11 @@ export const loadTheme = () => {
   }
 }
 
-
+export const convertImgUrl = (s: string | null) => {
+  /** Converts the image retrieved from the database */
+  if (!s) {return null;}
+  return s !== "" ? `data:image/jpeg;base64,${s}` : null;
+}
 
 
 

@@ -117,6 +117,8 @@ def db_init(DB_ADDRESS: str) -> None:
       notes           TEXT DEFAULT '',
       categories      TEXT NOT NULL, -- a list of category ids (foreign keys)
       tags            TEXT NOT NULL, -- a list og tag ids (foreign keys)
+      img_filename    TEXT DEFAULT '',
+      img_main        BLOB
       CHECK (pinned = 0 OR 1 AND serving >= 1 AND prep_time >= 0)
     );
   """

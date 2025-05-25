@@ -25,6 +25,14 @@ app.register_blueprint(ingredientapi.ingredientapi)
 ################################################
 # debug
 
+
+
+def convertToBinaryData(filename):
+    # Convert digital data to binary format
+    with open(filename, 'rb') as file:
+        blobData = file.read()
+    return blobData
+
 conn = sqlite3.connect(DB_ADDRESS)
 cur = conn.cursor()
 
@@ -69,7 +77,9 @@ dummy_recipes = [
     20,
     "what a deal",
     "['1']",
-    "['1', '3']"
+    "['1', '3']",
+    "seal",
+    convertToBinaryData("/home/roifjcf/Downloads/seal.jpg"),
     ],
     [
     "f1bsh", 
@@ -82,7 +92,9 @@ dummy_recipes = [
     20,
     "what a deal",
     "['1']",
-    "['1']"
+    "['1']",
+    "",
+    None
     ],
     [
     "fibsh123", 
@@ -95,7 +107,9 @@ dummy_recipes = [
     20,
     "what a deal",
     "['1']",
-    "['1']"
+    "['1']",
+    "",
+    None
     ],
     [
     "udon", 
@@ -108,7 +122,9 @@ dummy_recipes = [
     15,
     "what a deal",
     "['2']",
-    "['2']"
+    "['2']",
+    "",
+    None
     ]
 ]
 

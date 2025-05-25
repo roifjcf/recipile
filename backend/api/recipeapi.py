@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 import traceback
 import json
+import base64
 
 from appconfig import *
 import dbinterface
@@ -8,7 +9,18 @@ import helper
 
 recipeapi = Blueprint('recipeapi', __name__)
 
+def convertToBinaryData(filename):
+  # Converts digital data to binary format
+  # https://pynative.com/python-sqlite-blob-insert-and-retrieve-digital-data/
+  with open(filename, 'rb') as file:
+      blobData = file.read()
+  return blobData
 
+
+def base64_to_binary(s):
+  if s.startswith("data:"):
+    s = s.split(",")[1]
+  return base64.b64decode(s)
 
 def get_res_obj(res):
   """ Converts a fetched sql record to an object """
@@ -24,27 +36,42 @@ def get_res_obj(res):
               "prep_time": res[8],
               "notes": res[9],
               "categories": helper.str_to_list(res[10]),
-              "tags": helper.str_to_list(res[11])
+              "tags": helper.str_to_list(res[11]),
+              "img_filename": res[12],
+              "img_main": base64.b64encode(res[13]).decode("utf-8") if (res[13]) else None
             }
   return res_obj
 
 
 
+
 RECIPE_FIELDS = [
   'id', 'name', 'ingredients', 'steps', 'external_links', 'created',
-  'pinned', 'serving', 'prep_time', 'notes', 'categories', 'tags'
+  'pinned', 'serving', 'prep_time', 'notes', 'categories', 'tags', 'img_filename', 'img_main'
 ]
+
+
 def extract_and_validate_data(data, required_fields):
   """Extracts and JSON-serializes list fields, validates presence of all required fields."""
   values = []
   for f in required_fields:
     if f not in data:
       raise ValueError(f"Missing '{f}' parameter.")
+    if f == "img_main":
+      values.append(base64_to_binary(data[f]))
+      continue
     value = json.dumps(data[f]) if isinstance(data[f], list) else data[f]
     values.append(value)
   return values
 
-
+def extract_and_validate_binary_data(data, required_fields):
+  values = []
+  for f in required_fields:
+    if f not in data:
+      raise ValueError(f"Missing '{f}' parameter.")
+    value = file.read(data[f])
+    values.append(value)
+  return values
 
 
 
@@ -52,20 +79,24 @@ def extract_and_validate_data(data, required_fields):
 @recipeapi.route('/recipes', methods=['GET', 'POST', 'PUT'])
 def recipe_info():
   try:
+
     if request.method == 'GET': # Gets all recipes, returns a list of objects
       res = dbinterface.general.get_all(DB_ADDRESS, "recipes") # a list
-      return jsonify([get_res_obj(r) for r in res] if res else []), 200
+      data = jsonify([get_res_obj(r) for r in res] if res else [])
+      return data, 200
 
+    ###############
     data = request.get_json()
-
     if request.method == "POST":
       values = extract_and_validate_data(data, RECIPE_FIELDS[1:])
       dbinterface.recipes.add_recipe(DB_ADDRESS, values)
       return jsonify({"message": "Added one recipe."}), 200
+
     elif request.method == "PUT":
       values = extract_and_validate_data(data, RECIPE_FIELDS)
       dbinterface.recipes.replace_record(DB_ADDRESS, values)
       return jsonify({"message": "Updated one recipe."}), 200
+
   except ValueError as ve:
     return helper.handle_response_400(str(ve))
   except Exception as e:
