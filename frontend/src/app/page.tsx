@@ -82,7 +82,15 @@ export default function Home() {
     fetchData();
   }, []);
 
-
+  
+  useEffect(() => {
+    /** Theme init */
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      const html = document.documentElement;
+      html.setAttribute('data-theme', 'dark');
+    }
+  }, []);
 
 
 

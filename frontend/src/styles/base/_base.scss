@@ -32,6 +32,11 @@
 ::-webkit-scrollbar-thumb:hover {
 }
 
+html {
+  color: var(--on-surface);
+  background-color: var(--surface);
+}
+
 body {
   width: 100vw;
   height: 100vh;

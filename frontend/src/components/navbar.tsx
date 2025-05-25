@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Icon from "@/components/icon";
 import { useEffect, useState } from 'react';
 import SearchBar from '@/components/searchBar';
+import ThemeButton from './themeButton';
 
 const links = [
   {
@@ -65,7 +66,7 @@ export default function Navbar({
 
 
     <div className='navbar-button-container-right'>
-      <Icon src='contrast-outline' hoverable={true}/>
+      <ThemeButton />
       <Icon src='language-outline' hoverable={true}/>
       <Icon src='setting-outline' hoverable={true}/>
     </div>
