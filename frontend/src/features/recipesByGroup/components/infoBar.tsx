@@ -3,6 +3,7 @@ import { CategoryInterface, IconProps, Mode, RecipeInterface, RecipeCardDisplay,
 import Icon from "@/components/icon";
 import NewRecipeButton from "./newRecipeButton";
 import ExpandableIcons from "./expandableIcons";
+import Category from "@/components/category";
 
 interface Props {
   currentCategory: CategoryInterface | null,
@@ -61,7 +62,9 @@ export default function InfoBar(props: Props) {
     
     {props.currentGroup === "category" ?
     <div className="left">
-      <h1>{props.currentCategory?.name}</h1>
+      <Category
+        content={props.currentCategory?.name}
+      />
       <NewRecipeButton
         setMode={props.setMode}
         setShowRecipeDetail={props.setShowRecipeDetail}

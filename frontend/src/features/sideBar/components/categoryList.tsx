@@ -1,5 +1,6 @@
 'use client';
 import { CategoryInterface } from "@/common/type";
+import Category from "@/components/category";
 
 interface Props {
   categories: CategoryInterface[],
@@ -23,13 +24,13 @@ export default function CategoryList ({
   return(
     <ul>
       {categories.map((cat, index) =>
-      <li
-        className={`categorylist-item${cat === currentCategory ? " categorylist-item-selected" : ""}`}
-        key={index}
-        onClick={()=>handleClick(cat)}
-      > 
-        {cat.name}
-      </li>)}
+        <Category
+          content={cat["name"]}
+          className={`categorylist-item${cat === currentCategory ? " categorylist-item-selected" : ""}`}
+          key={index}
+          listItem={true}
+          onClick={()=>handleClick(cat)}
+        />)}
     </ul>
   )
 }
