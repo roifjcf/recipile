@@ -28,7 +28,9 @@ export default function Icon({
     >
       {isHovering && description && <span className="icon-description label">{description}</span>}
       <img
-        className={"icon-img" + (hoverable ? " clickable" : "") + " " + (className || "")}
+        className={"icon-img"
+                      + (hoverable ? " clickable" : "") + " "
+                      + (className || "")}
         src={currSrc}
         alt={currSrc}
         draggable={false}

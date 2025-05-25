@@ -12,6 +12,7 @@ interface Props {
 
   selectedTags: Set<TagInterface>,
   setSelectedTags: (hookval: Set<TagInterface>) => void,
+  tagSetOperation: TagSetOperation,
   setTagSetOperation: (hookval: TagSetOperation) => void,
 
   currentGroup: SideBarDisplay,
@@ -31,6 +32,7 @@ export default function SideBar({
 
   selectedTags,
   setSelectedTags,
+  tagSetOperation,
   setTagSetOperation,
   
   currentGroup,
@@ -78,6 +80,7 @@ export default function SideBar({
         selectedTags={selectedTags}
         setSelectedTags={setSelectedTags}
         handleResetSearchInput={handleResetSearchInput}
+        tagSetOperation={tagSetOperation}
         setTagSetOperation={setTagSetOperation}
       />}
     </div>

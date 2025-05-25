@@ -28,7 +28,7 @@ export default function Home() {
   const [currentCategory, setCurrentCategory] = useState<CategoryInterface | null>(null);
   const [currentRecipe, setCurrentRecipe] = useState<RecipeInterface | null>(null);
   const [selectedTags, setSelectedTags] = useState<Set<TagInterface>>(new Set());
-  const [tagSetOperation, setTagSetOperation] = useState<TagSetOperation>("intersection");
+  const [tagSetOperation, setTagSetOperation] = useState<TagSetOperation>("union");
   const [currentGroup, setCurrentGroup] = useState<SideBarDisplay>("category"); // way to group recipes (e.g. by tags or categories)
   
   // debounced search (auto complete?)
@@ -139,6 +139,7 @@ export default function Home() {
         setCurrentCategory={setCurrentCategory}
         selectedTags={selectedTags}
         setSelectedTags={setSelectedTags}
+        tagSetOperation={tagSetOperation}
         setTagSetOperation={setTagSetOperation}
         currentGroup={currentGroup}
         setCurrentGroup={setCurrentGroup}

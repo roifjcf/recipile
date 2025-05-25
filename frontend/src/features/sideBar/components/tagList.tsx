@@ -7,6 +7,7 @@ interface Props {
   selectedTags: Set<TagInterface>,
   setSelectedTags: (hookval: Set<TagInterface>) => void,
   handleResetSearchInput: () => void,
+  tagSetOperation: TagSetOperation,
   setTagSetOperation: (hookval: TagSetOperation) => void,
 }
 
@@ -15,6 +16,7 @@ export default function TagList({
   selectedTags,
   setSelectedTags,
   handleResetSearchInput,
+  tagSetOperation,
   setTagSetOperation,
 }: Props) {
 
@@ -36,21 +38,24 @@ export default function TagList({
     setSelectedTags(new Set());
   }
 
+  
   return (
     <div className="taglist-container">
 
       <div className="taglist-buttons">
         <Icon
-          src={"intersection"}
-          hoverable={true}
-          onClick={()=>setTagSetOperation("intersection")}
-          description="Intersection"
-        />
-        <Icon
           src={"union"}
           hoverable={true}
           onClick={()=>setTagSetOperation("union")}
           description="Union"
+          className={tagSetOperation === "union" ? "taglist-button-active" : ""}
+        />
+        <Icon
+          src={"intersection"}
+          hoverable={true}
+          onClick={()=>setTagSetOperation("intersection")}
+          description="Intersection"
+          className={tagSetOperation === "intersection" ? "taglist-button-active" : ""}
         />
         <Icon
           src={"reset-outline"}

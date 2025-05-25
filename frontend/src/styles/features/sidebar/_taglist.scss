@@ -1,5 +1,6 @@
 @use '../../themes/theme' as *;
 @use '../../abstracts/variables' as *;
+@import '../../abstracts/mixins';
 
 .taglist-container {
   padding: 0 $space-8;
@@ -18,9 +19,8 @@
   flex-direction: row;
 }
 
-.taglist-buttons-selected {
-  // var(--secondary);
-  filter: brightness(0) saturate(100%) invert(94%) sepia(11%) saturate(709%) hue-rotate(142deg) brightness(92%) contrast(91%);
+.taglist-button-active {
+  @include filter-on-secondary-container;
 }
 
 .taglist-tags {

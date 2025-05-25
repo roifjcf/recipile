@@ -137,6 +137,7 @@ button {
 
 /////////////////////////////////////////////
 
+// General classes
 
 .clickable {
   &:hover {
@@ -178,3 +179,4 @@ button {
 .active-button {
   background-color: var(--primary);
 }
+
