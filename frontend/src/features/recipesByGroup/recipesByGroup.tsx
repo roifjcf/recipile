@@ -83,6 +83,11 @@ export default function RecipesByGroup({
       return currentCategory ? recipes.filter(recipe => recipe["categories"].includes(currentCategory["id"].toString())) : []
 
     } else if (currentGroup === "tag") {
+      if (selectedTags.size === 0) {
+        if (tagSetOperation === "union") { return recipes; }
+        if (tagSetOperation === "intersection") { return []; }
+      }
+
       const selectedTagsArr = Array.from(selectedTags).map(t=>t["id"].toString()); // id of selected tags
       const res: RecipeInterface[] = [];
       
@@ -105,7 +110,7 @@ export default function RecipesByGroup({
         }
       }
 
-      return res;
+      return Array.from(new Set(res)); // removes duplicates
     
       } else {
       return [];
