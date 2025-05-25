@@ -29,17 +29,17 @@
 
 @use 'features/databaseeditcard/databaseeditcard';
 
-@use 'features/recipesbycategory/expandableicons';
-@use 'features/recipesbycategory/infobar';
-@use 'features/recipesbycategory/recipecards';
-@use 'features/recipesbycategory/recipesbycategory';
+@use 'features/recipesbygroup/expandableicons';
+@use 'features/recipesbygroup/infobar';
+@use 'features/recipesbygroup/recipecards';
+@use 'features/recipesbygroup/recipesbygroup';
 
 @use 'features/recipedetail/buttongroup';
 @use 'features/recipedetail/ingredientcard';
 @use 'features/recipedetail/notecard';
 @use 'features/recipedetail/recipedetail';
 
-@use 'features/recipesearchbycategory/searchresult';
+@use 'features/recipesearch/searchresult';
 
 @use 'features/sidebar/categorylist';
 @use 'features/sidebar/sidebar';

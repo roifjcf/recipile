@@ -22,7 +22,7 @@ interface Props {
   tagSetOperation: TagSetOperation,
 };
 
-export default function RecipesByCategory({
+export default function RecipesByGroup({
   currentCategory,
   setMode,
   setShowRecipeDetail,

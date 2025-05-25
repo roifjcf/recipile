@@ -9,9 +9,9 @@ import RecipeDetail from "@/features/recipeDetail/recipeDetail";
 import { RecipeInterface, CategoryInterface, TagInterface, IngredientInterface, Mode, RecipeCardDisplay, TagSetOperation, SideBarDisplay } from "@/common/type";
 import {recipeAPI, categoryAPI, tagAPI, ingredientAPI} from "@/utils/api"
 import { getRandomKaomoji } from "@/utils/helper";
-import RecipesByCategory from "@/features/recipesByCategory/recipesByCategory";
+import RecipesByCategory from "@/features/recipesByGroup/recipesByGroup";
 import SideBar from "@/features/sideBar/sideBar";
-import SearchResult from "@/features/recipeSearchByCategory/searchResult";
+import SearchResult from "@/features/recipeSearch/searchResult";
 
 export default function Home() {
 
