@@ -19,3 +19,9 @@
   border: 1px solid var(--outline-variant);
   border-radius: $radius-full;
 }
+
+.expandableicons-divisor {
+  width: $size-xs;
+  height: 50%;
+  background-color: var(--outline-variant);
+}

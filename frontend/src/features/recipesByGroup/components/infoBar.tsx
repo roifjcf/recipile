@@ -55,7 +55,23 @@ export default function InfoBar(props: Props) {
     }
   ];
   
-
+  const sortGroup: IconProps[] = [
+    {
+      src: "sort-alpha",
+      hoverable: true,
+      description: "By name",
+    },
+    {
+      src: "date-range",
+      hoverable: true,
+      description: "By date",
+    },
+    {
+      src: "sort",
+      hoverable: true,
+      description: "Default", // sort by pinned then id
+    },
+  ];
 
   return (
   <div className="infobar-container">
@@ -74,8 +90,13 @@ export default function InfoBar(props: Props) {
     </div> : <div className="left"></div>}
     
     <div className="right">
-      {/* {props.isBulkEditing && <Icon src="bin-outline" altsrc="bin-fill" hoverable={true} onClick={()=>{props.handleDeleteRecipes(props.recipesToEdit)}} />} */}
-      {/* <Icon src="checkbox-unchecked" hoverable={true} onClick={()=>{props.setIsBulkEditing(!props.isBulkEditing)}}/> */}
+      
+      <ExpandableIcons
+        iconsToDisplay={sortGroup}
+        src="sort"
+        hoverable={true}
+        description="Sort"
+      />
 
       <ExpandableIcons
         iconsToDisplay={multipleSelectButtonGroup}

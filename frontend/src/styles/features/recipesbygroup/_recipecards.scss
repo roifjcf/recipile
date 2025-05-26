@@ -8,8 +8,6 @@
   padding: 0 $space-4;
 
   overflow-y: scroll;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
   justify-items: center;
   align-items: start;
 
@@ -20,6 +18,18 @@
     content: "";
     height: $size-8xl;
   }
+}
+
+.recipecards-container-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.recipecards-container-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-4;
 }
 
 .recipecards-msg {

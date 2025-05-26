@@ -16,6 +16,7 @@ $recipecard-container-right: 100% - $recipecard-container-left;
   right: 50%;
   transform: translate(50%, -50%);
   z-index: $z-index-modal;
+  overflow: hidden;
 
   background-color: var(--surface);
   box-shadow: 0 0 $size-xl var(--shadow);

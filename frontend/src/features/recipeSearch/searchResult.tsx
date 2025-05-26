@@ -1,5 +1,5 @@
 import { RecipeInterface, RecipeCardDisplay, TagInterface } from "@/common/type";
-import RecipeCard from "@/components/recipeCard";
+import RecipeCard from "@/components/recipeCard/recipeCard";
 
 
 

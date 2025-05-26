@@ -8,11 +8,17 @@ interface Props {
   mode: Mode,
   recipeDetail: RecipeInterface,
   onChange?: ((...args: any[]) => void)[] | undefined,
+  simpleMode? : boolean
 };
 
-export default function MiniStats({ mode, recipeDetail, onChange }: Props) {
+export default function MiniStats({
+  mode, 
+  recipeDetail, 
+  onChange,
+  simpleMode = false
+}: Props) {
   const inEditMode = mode === "update" || mode === "new";
-
+  
   const renderPrepTime = () => {
     return (
       <div className="ministats-item">

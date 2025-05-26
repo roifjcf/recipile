@@ -1,5 +1,5 @@
 import { RecipeInterface, RecipeCardDisplay, TagInterface } from "@/common/type";
-import RecipeCard from "@/components/recipeCard";
+import RecipeCard from "@/components/recipeCard/recipeCard";
 
 interface Props {
   recipes: RecipeInterface[],
@@ -18,11 +18,14 @@ interface Props {
 
 export default function RecipeCards(props: Props) {
 
-
+  const style = "recipecards-container" + (props.recipeCardDisplay === "list"
+    ? " recipecards-container-list"
+    : " recipecards-container-grid");
+  
   return (
   <div>
     {props.currentRecipes.length > 0 ?
-    <div className="recipecards-container">
+    <div className={style} >
       {props.currentRecipes.map((recipe, index) =>
       <RecipeCard
         key={index}

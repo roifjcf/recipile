@@ -18,15 +18,14 @@
 @use 'components/icon';
 @use 'components/manageadditem';
 @use 'components/ministats';
-@use 'components/recipecard';
 @use 'components/recipeimage';
 @use 'components/tag';
 @use 'components/tags';
 @use 'components/searchbar';
 
-
-
-
+@use 'components/recipecard/recipecardfulldisplay';
+@use 'components/recipecard/recipecardlistdisplay';
+@use 'components/recipecard/recipecardsimpledisplay';
 
 @use 'features/databaseeditcard/databaseeditcard';
 @use 'features/databaseeditcard/iconselector';
