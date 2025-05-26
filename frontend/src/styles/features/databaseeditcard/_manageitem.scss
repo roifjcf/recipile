@@ -7,10 +7,18 @@ $width-right: 100% - $width-left;
 .manageitem-container {
   width: 100%;
   height: $size-3xl;
+  padding: $space-6 $space-2;
+
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  border-radius: $radius-sm;
+
+  &:nth-child(even) {
+    background-color: var(--surface-container-low);
+  }
 }
 
 .manageitem-container-left {

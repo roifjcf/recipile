@@ -2,6 +2,7 @@
 @use '../abstracts/variables' as *;
 
 .category_container {
+  gap: $space-2;
   display: flex;
   flex-direction: row;
 }

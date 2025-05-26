@@ -11,10 +11,15 @@ import Icon from "@/components/icon";
 
 interface Props {
   table: Tables,
-  handleAdd?: (table: Tables, content: any) => void
+  handleAdd?: (table: Tables, content: any) => void,
+  className?: string,
 };
 
-export default function ManageAddItem({ table, handleAdd }: Props) {
+export default function ManageAddItem({
+  table,
+  handleAdd,
+  className,
+}: Props) {
 
   const [value1, setValue1] = useState<string>(""); // name
   const [value2, setValue2] = useState<string>(""); // unit (for ingredient records)

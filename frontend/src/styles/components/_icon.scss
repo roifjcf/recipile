@@ -9,12 +9,18 @@
 
   position: relative;
   overflow: visible;
+
+  
 }
 
 .icon-img {
   $size: 20px;
   width: $size;
   height: $size;
+
+  [data-theme="dark"] & {
+    filter: brightness(0) invert(1);
+  }
 }
 
 .icon-description {

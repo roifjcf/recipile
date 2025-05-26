@@ -23,7 +23,7 @@ export default function DatabaseEditCard({
 
   return (
     <div className="databaseeditcard-container">
-      <h2>{title}</h2>
+      <h2 className="databaseeditcard-title">{title}</h2>
       <ManageAddItem table={table} handleAdd={handleAdd} />
 
       {data && data.map((item: CategoryInterface | TagInterface | IngredientInterface)=>
