@@ -48,6 +48,7 @@ export default function Navbar({
   <div className="navbar-container">
 
     <div className="navbar-brand-info">
+      <Icon src={"stack"} />
       <h3>Recipile</h3>
       <span className="label">Alpha</span>
     </div>
