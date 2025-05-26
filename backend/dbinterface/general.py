@@ -82,7 +82,8 @@ def db_init(DB_ADDRESS: str) -> None:
   query = """
     CREATE TABLE IF NOT EXISTS categories (
       id              INTEGER PRIMARY KEY AUTOINCREMENT,
-      name            TEXT NOT NULL UNIQUE
+      name            TEXT NOT NULL UNIQUE,
+      icon_file_name  TEXT DEFAULT ''
     );
   """
   execute_query_no_return(DB_ADDRESS, query, action)

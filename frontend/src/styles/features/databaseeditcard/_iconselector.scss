@@ -1,0 +1,25 @@
+@use '../../themes/theme' as *;
+@use '../../abstracts/variables' as *;
+
+.iconselector-container {
+  width: 300px;
+  padding: $space-4;
+  gap: $space-1;
+
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+
+  position: absolute;
+  top: 0;
+  left: 10%;
+
+  background-color: var(--surface);
+  border-radius: $radius-sm;
+  z-index: $z-index-popover;
+}
+
+.iconselector-icon {
+
+}

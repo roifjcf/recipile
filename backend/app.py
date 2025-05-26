@@ -54,9 +54,9 @@ dummy_ingredients = [
     ]
 
 dummy_categories = [
-    "category 1",
-    "category 2",
-    "category 3"
+    ["category 1",""],
+    ["category 2",""],
+    ["category 3",""],
     ]
 
 dummy_tags = [

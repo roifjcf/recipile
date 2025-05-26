@@ -1,7 +1,8 @@
+import { CategoryInterface } from "@/common/type";
 import Icon from "./icon";
 
 interface Props {
-  content?: string,
+  category: CategoryInterface,
   className?: string,
   iconUrl?: string,
   listItem?: boolean,
@@ -10,7 +11,7 @@ interface Props {
 }
 
 export default function Category({
-  content,
+  category,
   iconUrl,
   listItem = false,
   className,
@@ -20,18 +21,20 @@ export default function Category({
 
   const renderListItem = () => {
     return (
-      <li className={className} onClick={onClick}>
+      <li className={className + " category_container"} onClick={onClick}>
+        {category["icon_file_name"] !== "" && <Icon src={"food/" + category["icon_file_name"]} />}
         {iconUrl && iconUrl !== "" && <Icon src={iconUrl} />}
-        <p>{content}</p>
+        <p>{category["name"]}</p>
       </li>
     );
   }
 
   const renderHeader = () => {
     return (
-      <div className={className} onClick={onClick}>
+      <div className={className + " category_container"} onClick={onClick}>
+        {category["icon_file_name"] !== "" && <Icon src={"food/" + category["icon_file_name"]} />}
         {iconUrl && iconUrl !== "" && <Icon src={iconUrl} />}
-        <h2>{content}</h2>
+        <h2>{category["name"]}</h2>
       </div>
     );
   }

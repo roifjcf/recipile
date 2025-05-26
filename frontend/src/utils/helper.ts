@@ -1,4 +1,12 @@
+import { kaomoji } from "@/common/constant";
 import { RecipeInterface, CategoryInterface, TagInterface, IngredientInterface, RecipeAPIAddParam, Tables } from "@/common/type";
+import fs from 'fs';
+import path from 'path';
+
+
+
+
+
 
 export const findRecordNameByid = (id: number, records: CategoryInterface[] | TagInterface[] | IngredientInterface[] | RecipeInterface[] | null ) => {
   return records?.find(record => record.id === id)?.name || "";
@@ -14,6 +22,13 @@ export const findIngredientUnitByid = (id: number, records: IngredientInterface[
 };
 
 export const removeEmptyItem = (list:string[]) => { return list.filter((item) => item !== ''); };
+
+
+
+
+
+
+
 
 export const loadTheme = () => {
   const savedTheme = localStorage.getItem('theme');
@@ -32,6 +47,14 @@ export const convertImgUrl = (s: string | null) => {
   if (!s) {return null;}
   return s !== "" ? `data:image/jpeg;base64,${s}` : null;
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -108,20 +131,5 @@ export const getCurrentDate = (): string => {
 
 
 export const getRandomKaomoji = (): string => {
-  const l = [
-    "(*¯︶¯*)",
-    "＼(≧▽≦)／",
-    "⸜( ´ ꒳ ` )⸝",
-    "( = ⩊ = )",
-    "(„• ᴗ •„)",
-    "(´ ∀ ` *)",
-    "( ´ ꒳ ` )",
-    "( ` ω ´ )",
-    "(つ≧▽≦)つ",
-    "(つ✧ω✧)つ",
-    "( ˙꒳​˙ )",
-    "Σ(°△°|||)︴",
-    "٩(ˊᗜˋ*)و",
-  ];
-  return l[Math.floor(Math.random() * l.length)];
+  return kaomoji[Math.floor(Math.random() * kaomoji.length)];
 }

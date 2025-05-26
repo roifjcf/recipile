@@ -1,6 +1,6 @@
 import { CategoryInterface, IngredientInterface, Tables, TagInterface } from "@/common/type";
 import ManageAddItem from "@/components/manageAddItem";
-import ManageItem from "@/components/manageItem";
+import ManageItem from "@/features/databaseEditCard/components/manageItem";
 
 interface Props {
   table: Tables,

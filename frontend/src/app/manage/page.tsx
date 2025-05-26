@@ -12,6 +12,12 @@ import DatabaseEditCard from "@/features/databaseEditCard/databaseEditCard";
 import { loadTheme } from "@/utils/helper";
 
 
+
+
+
+
+
+
 export default function Page() {
   
   const [categories, setCategories] = useState<CategoryInterface[] | null>(null);
@@ -86,7 +92,7 @@ export default function Page() {
         break;
       case 'categories':
         if (!categories) { return; }
-        categoryAPI.update(id, content);
+        categoryAPI.update(content);
         break;
       default:
         break;

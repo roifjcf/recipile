@@ -1,5 +1,5 @@
-@use '../themes/theme' as *;
-@use '../abstracts/variables' as *;
+@use '../../themes/theme' as *;
+@use '../../abstracts/variables' as *;
 
 $width-left: 90%;
 $width-right: 100% - $width-left;
@@ -19,6 +19,7 @@ $width-right: 100% - $width-left;
 
   display: flex;
   flex-direction: row;
+  position: relative;
 
   .left {
     width: 150px;
@@ -40,7 +41,4 @@ $width-right: 100% - $width-left;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-}
-
-.manageitem-container-left-item {
 }

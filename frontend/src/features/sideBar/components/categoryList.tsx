@@ -25,7 +25,7 @@ export default function CategoryList ({
     <ul>
       {categories.map((cat, index) =>
         <Category
-          content={cat["name"]}
+          category={cat}
           className={`categorylist-item${cat === currentCategory ? " categorylist-item-selected" : ""}`}
           key={index}
           listItem={true}

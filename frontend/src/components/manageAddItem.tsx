@@ -27,6 +27,8 @@ export default function ManageAddItem({ table, handleAdd }: Props) {
   const handleSubmit = () => {
     if (table === "ingredients") {
       handleAdd?.(table, {"name": value1, "unit": value2});
+    } else if (table === "categories") {
+      handleAdd?.(table, {"name": value1, "icon_file_name": ""});
     } else {
       handleAdd?.(table, {"name": value1});
     }
@@ -35,15 +37,31 @@ export default function ManageAddItem({ table, handleAdd }: Props) {
 
   return (
   <div className="manageadditem-container">
+    
     <div className="left">
-      <input className="input-mid" type="text" value={value1} placeholder="name" onChange={(e)=>{setValue1(e.target.value)}} />
+      <input
+        className="input-mid"
+        type="text"
+        value={value1}
+        placeholder="name"
+        onChange={(e)=>{setValue1(e.target.value)}}
+      />
+
       { table === "ingredients" &&
-      <input className="input-small" type="text" value={value2} placeholder="unit" onChange={(e)=>{setValue2(e.target.value)}} />}
+      <input
+        className="input-small"
+        type="text"
+        value={value2}
+        placeholder="unit"
+        onChange={(e)=>{setValue2(e.target.value)}}
+      />}
     </div>
+
     <div className="right">
       <Icon src="add-outline" hoverable={true} onClick={handleSubmit} />
       <Icon src="reset-outline" hoverable={true} onClick={reset} />
     </div>
+
   </div>
   )
 }

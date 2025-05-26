@@ -8,6 +8,11 @@ import {
   RecipeInterface
 } from "@/common/type";
 
+
+/**
+ * Database-related
+ */
+
 const api = axios.create({
   baseURL: ROOT_URL,
 });
@@ -26,7 +31,7 @@ const handleRequest = async (fn:() => Promise<any>) => {
 export const categoryAPI = {
   get: () => handleRequest(() => api.get("categories")),
   add: (content: CategoryAPIAddParam) => handleRequest(() => api.post("categories", null, {params: content})),
-  update: (id: number | string, content: CategoryAPIUpdateParam) => handleRequest(() => api.put(`categories/${id}`, null, {params: content})),
+  update: (content: CategoryAPIUpdateParam) => handleRequest(() => api.put("categories", null, {params: content})),
   delete: (id: number | string) => handleRequest(() => api.delete(`categories/${id}`)),
 };
 /*
@@ -57,3 +62,6 @@ export const recipeAPI = {
   updateColumn: (id: string | number, content: RecipeAPIUpdateColumnParam) => handleRequest(() => api.put(`recipes/${id}`, null, {params: content})),
   delete: (id: number | string) => handleRequest(() => api.delete(`recipes/${id}`)),
 };
+
+
+

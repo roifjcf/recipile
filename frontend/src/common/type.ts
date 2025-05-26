@@ -20,7 +20,8 @@ export interface RecipeInterface {
 
 export interface CategoryInterface {
   id: number,
-  name: string
+  name: string,
+  icon_file_name: string,
 }
 
 export interface TagInterface {
@@ -42,8 +43,12 @@ export interface IngredientInterface {
 /*
   Extra interfaces for API
 */
-export interface CategoryAPIAddParam { name: string };
-export interface CategoryAPIUpdateParam extends CategoryAPIAddParam { };
+export interface CategoryAPIAddParam {
+  name: string,
+  icon_file_name: string,
+};
+export interface CategoryAPIUpdateParam extends CategoryAPIAddParam { id: string | number };
+
 
 export interface TagAPIAddParam { name: string };
 export interface TagAPIUpdateParam extends TagAPIAddParam { };
@@ -80,6 +85,9 @@ export interface RecipeAPIUpdateColumnParam {
 /*
   Type guards
 */
+export const isCategory = (item: CategoryInterface | TagInterface | IngredientInterface): item is CategoryInterface => {
+  return 'icon_file_name' in item;
+};
 export const isIngredient = (item: CategoryInterface | TagInterface | IngredientInterface): item is IngredientInterface => {
   return 'unit' in item;
 };

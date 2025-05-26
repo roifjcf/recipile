@@ -13,9 +13,10 @@
 
 @use 'layout/navbar';
 
+
+@use 'components/category';
 @use 'components/icon';
 @use 'components/manageadditem';
-@use 'components/manageitem';
 @use 'components/ministats';
 @use 'components/recipecard';
 @use 'components/recipeimage';
@@ -28,6 +29,9 @@
 
 
 @use 'features/databaseeditcard/databaseeditcard';
+@use 'features/databaseeditcard/iconselector';
+@use 'features/databaseeditcard/manageitem';
+
 
 @use 'features/recipesbygroup/expandableicons';
 @use 'features/recipesbygroup/infobar';

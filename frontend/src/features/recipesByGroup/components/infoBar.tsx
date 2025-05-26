@@ -62,9 +62,9 @@ export default function InfoBar(props: Props) {
     
     {props.currentGroup === "category" ?
     <div className="left">
-      <Category
-        content={props.currentCategory?.name}
-      />
+      {props.currentCategory && <Category
+        category={props.currentCategory}
+      />}
       <NewRecipeButton
         setMode={props.setMode}
         setShowRecipeDetail={props.setShowRecipeDetail}

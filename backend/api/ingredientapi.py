@@ -41,7 +41,7 @@ def ingredient_info():
       return helper.handle_response_500("An error occurred while adding the new ingredient.")
   elif request.method == 'PUT':
     """
-    Replaces an ingredient (updates all fields of an ingredients)
+    Replaces an ingredient (updates all fields of an ingredient)
     """
     try:
       fields = ['id', 'name', 'unit']
