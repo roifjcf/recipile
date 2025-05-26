@@ -31,10 +31,10 @@ export const removeEmptyItem = (list:string[]) => { return list.filter((item) =>
 
 
 export const loadTheme = () => {
-  const savedTheme = localStorage.getItem('theme');
+  const savedTheme = localStorage.getItem('theme'); // 'dark' or 'light'
   const html = document.documentElement;
-  if (savedTheme === 'dark') {
-    html.setAttribute('data-theme', 'dark');
+  if (savedTheme) {
+    html.setAttribute('data-theme', savedTheme);
   } else {
     // default to OS preference
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
