@@ -51,10 +51,15 @@ export default function RecipesByGroup({
   const handleUpdateEditList = (id: number, e: React.MouseEvent) => {
     /** Toggles selection */
     e.stopPropagation();
-    const newSet = new Set(recipesToEdit);
-    if (!newSet.has(id)) {newSet.add(id);}
-    else {newSet.delete(id);}
-    setRecipesToEdit(newSet);
+    setRecipesToEdit(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
   }
 
   const handleDeleteRecipes = async (idSet: Set<number>) => {
@@ -119,6 +124,7 @@ export default function RecipesByGroup({
   }
 
 
+
   return (
     <div className="page-right-column">
       <InfoBar
@@ -146,7 +152,6 @@ export default function RecipesByGroup({
         setCurrentRecipe={setCurrentRecipe}
         setShowRecipeDetail={setShowRecipeDetail}
         isBulkEditing={isBulkEditing}
-        isChecked={(id: number) => recipesToEdit.has(id)}
         handleUpdateEditList={handleUpdateEditList}
         recipesToEdit={recipesToEdit}
       />

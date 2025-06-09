@@ -11,7 +11,8 @@ interface Props {
   handlePin: (val: number, e: React.MouseEvent) => void,
   handleShowRecipeDetail: () => void,
   handleUpdateEditList?: (id: number, e: React.MouseEvent) => void,
-  isChecked?: boolean,
+  recipesToEdit: Set<number>,
+
 };
 
 export default function RecipeCardFullDisplay({
@@ -21,7 +22,7 @@ export default function RecipeCardFullDisplay({
   handlePin,
   handleShowRecipeDetail,
   handleUpdateEditList,
-  isChecked,
+  recipesToEdit,
 }: Props) {
 
 
@@ -49,7 +50,7 @@ export default function RecipeCardFullDisplay({
               recipe={recipe}
               handlePin={handlePin}
               handleUpdateEditList={handleUpdateEditList}
-              isChecked={isChecked}
+              recipesToEdit={recipesToEdit}
             />
           </div>
         </div>

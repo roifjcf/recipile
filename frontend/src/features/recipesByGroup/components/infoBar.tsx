@@ -57,6 +57,16 @@ export default function InfoBar(props: Props) {
   
   const sortGroup: IconProps[] = [
     {
+      src: "serving-outline",
+      hoverable: true,
+      description: "Serving size", // sort by pinned then id
+    },
+    {
+      src: "time-outline",
+      hoverable: true,
+      description: "Time", // sort by pinned then id
+    },
+    {
       src: "sort-alpha",
       hoverable: true,
       description: "By name",
@@ -70,7 +80,7 @@ export default function InfoBar(props: Props) {
       src: "sort",
       hoverable: true,
       description: "Default", // sort by pinned then id
-    },
+    }
   ];
 
   return (

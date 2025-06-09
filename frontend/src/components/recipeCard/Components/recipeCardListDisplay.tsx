@@ -10,7 +10,7 @@ interface Props {
   handlePin: (val: number, e: React.MouseEvent) => void,
   handleShowRecipeDetail: () => void,
   handleUpdateEditList?: (id: number, e: React.MouseEvent) => void,
-  isChecked?: boolean,
+  recipesToEdit: Set<number>,
 };
 
 export default function RecipeCardListDisplay({
@@ -20,7 +20,7 @@ export default function RecipeCardListDisplay({
   handlePin,
   handleShowRecipeDetail,
   handleUpdateEditList,
-  isChecked,
+  recipesToEdit,
 }: Props) {
 
 
@@ -33,7 +33,7 @@ export default function RecipeCardListDisplay({
           recipe={recipe}
           handlePin={handlePin}
           handleUpdateEditList={handleUpdateEditList}
-          isChecked={isChecked}
+          recipesToEdit={recipesToEdit}
         />
         <p>{recipe.name}</p>
         <MiniStats

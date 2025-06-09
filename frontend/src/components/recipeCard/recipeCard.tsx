@@ -19,9 +19,9 @@ interface Props {
   setShowRecipeDetail: (hookval: boolean) => void,
   setRecipes: (hookval: RecipeInterface[]) => void,
   isBulkEditing?: boolean,
-  isChecked?: boolean,
   key?: number,
   handleUpdateEditList?: (id: number, e: React.MouseEvent) => void,
+  recipesToEdit: Set<number>,
 };
 
 
@@ -36,8 +36,8 @@ export default function RecipeCard({
   setShowRecipeDetail,
   setRecipes,
   isBulkEditing,
-  isChecked,
   handleUpdateEditList,
+  recipesToEdit,
 } : Props) {
 
 
@@ -82,7 +82,7 @@ export default function RecipeCard({
     handlePin,
     handleShowRecipeDetail,
     handleUpdateEditList,
-    isChecked,
+    recipesToEdit,
   }
 
   const display = {

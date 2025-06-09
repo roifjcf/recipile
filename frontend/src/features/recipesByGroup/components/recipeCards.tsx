@@ -11,7 +11,6 @@ interface Props {
   setCurrentRecipe: (hookval: RecipeInterface) => void,
   setShowRecipeDetail: (hookval: boolean) => void,
   isBulkEditing: boolean,
-  isChecked: (id: number) => boolean,
   handleUpdateEditList: (id: number, e: React.MouseEvent) => void,
   recipesToEdit: Set<number>,
 };
@@ -37,8 +36,8 @@ export default function RecipeCards(props: Props) {
         setCurrentRecipe={props.setCurrentRecipe}
         setShowRecipeDetail={props.setShowRecipeDetail}
         isBulkEditing={props.isBulkEditing}
-        isChecked={props.isChecked(recipe["id"])}
         handleUpdateEditList={props.handleUpdateEditList}
+        recipesToEdit={props.recipesToEdit}
       />) }
     </div>
     :
