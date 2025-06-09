@@ -4,14 +4,15 @@
 */
 'use client';
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { Tables } from "@/common/type";
 import Icon from "@/components/icon";
+import ManageContext from "@/app/manage/manageContext";
 
 interface Props {
   table: Tables,
-  handleAdd?: (table: Tables, content: any) => void,
+  handleAdd?: (table: Tables, content: any) => Promise<(string | boolean)[]>,
   className?: string,
 };
 
@@ -21,22 +22,28 @@ export default function ManageAddItem({
   className,
 }: Props) {
 
-  const [value1, setValue1] = useState<string>(""); // name
-  const [value2, setValue2] = useState<string>(""); // unit (for ingredient records)
+  const [valueName, setValueName] = useState<string>(""); // name
+  const [valueUnit, setValueUnit] = useState<string>(""); // unit (for ingredient records)
+  const context = useContext(ManageContext);
 
   const reset = () => {
-    setValue1("");
-    setValue2("");
+    setValueName("");
+    setValueUnit("");
   }
   
-  const handleSubmit = () => {
-    if (table === "ingredients") {
-      handleAdd?.(table, {"name": value1, "unit": value2});
-    } else if (table === "categories") {
-      handleAdd?.(table, {"name": value1, "icon_file_name": ""});
-    } else {
-      handleAdd?.(table, {"name": value1});
+  const handleSubmit = async () => {
+    let params = {};
+    if (table === "ingredients") { params = {"name": valueName, "unit": valueUnit};}
+    else if (table === "categories") { params = {"name": valueName, "icon_file_name": ""};}
+    else { params = {"name": valueName};}
+
+    if (handleAdd) {
+      const [isSuccessfulUpdate, message] = await handleAdd(table, params);
+      if (typeof message === "string") {
+        context?.addNotificationMessage?.(message);
+      }
     }
+
     reset();
   }
 
@@ -47,18 +54,18 @@ export default function ManageAddItem({
       <input
         className="input-mid"
         type="text"
-        value={value1}
+        value={valueName}
         placeholder="name"
-        onChange={(e)=>{setValue1(e.target.value)}}
+        onChange={(e)=>{setValueName(e.target.value)}}
       />
 
       { table === "ingredients" &&
       <input
         className="input-small"
         type="text"
-        value={value2}
+        value={valueUnit}
         placeholder="unit"
-        onChange={(e)=>{setValue2(e.target.value)}}
+        onChange={(e)=>{setValueUnit(e.target.value)}}
       />}
     </div>
 

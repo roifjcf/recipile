@@ -6,7 +6,7 @@ interface Props {
   table: Tables,
   title: string,
   data: CategoryInterface[] | TagInterface[] | IngredientInterface[] | null,
-  handleAdd: (table: Tables, content: any) => void,
+  handleAdd: (table: Tables, content: any) => Promise<(string | boolean)[]>,
   handleUpdate: (table:Tables, id:string | number, content: any) => Promise<(string | boolean)[]>,
   handleDelete: (table: Tables, id: string | number) => void,
 };

@@ -30,11 +30,9 @@ def ingredient_info():
     """
     try:
       name = request.args.get('name')
-      unit = request.args.get('unit')
+      unit = request.args.get('unit') if request.args.get('unit') else ""
       if not name:
         return helper.handle_response_400("Missing 'name' parameter.")
-      if not unit:
-        return helper.handle_response_400("Missing 'unit' parameter.")
       dbinterface.ingredients.add_ingredient(DB_ADDRESS, [ name, unit ])
       return jsonify({"message": "Added one ingredient."}), 200
     except Exception as e:

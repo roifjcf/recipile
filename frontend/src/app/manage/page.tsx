@@ -25,7 +25,7 @@ export default function Page() {
   const [categories, setCategories] = useState<CategoryInterface[] | null>(null);
   const [tags, setTags] = useState<TagInterface[] | null>(null);
   const [ingredients, setIngredients] = useState<IngredientInterface[] | null>(null);
-  const [messageQueue, setMessageQueue] = useState<string[]>(["a", "b"]); // for push notification
+  const [messageQueue, setMessageQueue] = useState<string[]>([]); // for push notification
 
   /** Init */
   useEffect(() => {
@@ -80,6 +80,9 @@ export default function Page() {
     }
   }
 
+
+
+  
   const handleUpdate = async (table: Tables, id: string | number, content: any) => {
     /*
     Updates a record, returns true if updated successfully, otherwise false
@@ -107,28 +110,36 @@ export default function Page() {
     /*
     Adds a new record
     */
-    switch (table) {
-      case 'tags':
-        if (!tags) { return; }
-        await tagAPI.add(content);
-        const [tagData] = await Promise.all([tagAPI.get()]);
-        setTags(tagData);
-        break;
-      case 'ingredients':
-        if (!ingredients) { return; }
-        await ingredientAPI.add(content);
-        const [ingredientData] = await Promise.all([ingredientAPI.get()]);
-        setIngredients(ingredientData);
-        break;
-      case 'categories':
-        if (!categories) { return; }
-        await categoryAPI.add(content);
-        const [categoryData] = await Promise.all([categoryAPI.get()]);
-        setCategories(categoryData);
-        break;
-      default:
-        break;
+
+    const validate = async () => {
+      const [isValidData, message] = await validateData(table, content);
+      if (isValidData) {
+        if (table === "categories") {
+          await categoryAPI.add(content);
+          const [categoryData] = await Promise.all([categoryAPI.get()]);
+          setCategories(categoryData);
+        }
+        if (table === "ingredients") {
+          await ingredientAPI.add(content);
+          const [ingredientData] = await Promise.all([ingredientAPI.get()]);
+          setIngredients(ingredientData);
+        }
+        if (table === "tags") {
+          await tagAPI.add(content);
+          const [tagData] = await Promise.all([tagAPI.get()]);
+          setTags(tagData);
+        }
+        return [isValidData, message];
+      } else {
+        return [isValidData, message];
+      }
     }
+
+    if (table === "tags" && !tags) { return [false, "tags is undefined!"]; }
+    if (table === "ingredients" && !ingredients) { return [false, "ingredients is undefined"]; }
+    if (table === "categories" && !categories) { return [false, "categories is undefined"]; }
+    const res = validate();
+    return res;
   }
 
 
