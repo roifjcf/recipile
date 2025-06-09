@@ -9,7 +9,9 @@ import { CategoryInterface, TagInterface, IngredientInterface, Tables } from "@/
 import Navbar from "@/components/navbar";
 import { categoryAPI, tagAPI, ingredientAPI } from "@/utils/api";
 import DatabaseEditCard from "@/features/databaseEditCard/databaseEditCard";
-import { loadTheme } from "@/utils/helper";
+import { loadTheme, validateData } from "@/utils/helper";
+import PushNotification from "@/components/pushNotification";
+import ManageContext from "./manageContext";
 
 
 
@@ -23,6 +25,7 @@ export default function Page() {
   const [categories, setCategories] = useState<CategoryInterface[] | null>(null);
   const [tags, setTags] = useState<TagInterface[] | null>(null);
   const [ingredients, setIngredients] = useState<IngredientInterface[] | null>(null);
+  const [messageQueue, setMessageQueue] = useState<string[]>(["a", "b"]); // for push notification
 
   /** Init */
   useEffect(() => {
@@ -79,24 +82,25 @@ export default function Page() {
 
   const handleUpdate = async (table: Tables, id: string | number, content: any) => {
     /*
-    Updates a record
+    Updates a record, returns true if updated successfully, otherwise false
     */
-    switch (table) {
-      case 'tags':
-        if (!tags) { return; }
-        tagAPI.update(id, content);
-        break;
-      case 'ingredients':
-        if (!ingredients) { return; }
-        ingredientAPI.update(content);
-        break;
-      case 'categories':
-        if (!categories) { return; }
-        categoryAPI.update(content);
-        break;
-      default:
-        break;
-    }
+    const validate = async () => {
+      const [isValidData, message] = await validateData(table, content);
+        if (isValidData) {
+          if (table === "categories") {categoryAPI.update(content);}
+          if (table === "ingredients") {ingredientAPI.update(content);}
+          if (table === "tags") {tagAPI.update(id, content);}
+          return [isValidData, message];
+        } else {
+          return [isValidData, message];
+        }
+    };
+
+    if (table === "tags" && !tags) { return [false, "tags is undefined!"]; }
+    if (table === "ingredients" && !ingredients) { return [false, "ingredients is undefined"]; }
+    if (table === "categories" && !categories) { return [false, "categories is undefined"]; }
+    const res = validate();
+    return res;
   };
 
   const handleAdd = async (table: Tables, content: any) => {
@@ -129,45 +133,57 @@ export default function Page() {
 
 
 
+  /** Misc */
 
+  const addNotificationMessage = (msg: string) => {
+    const queueToUpdate = [...messageQueue];
+    queueToUpdate.push(msg);
+    setMessageQueue(queueToUpdate);
+  }
 
-
-
+  const context = {
+    addNotificationMessage: addNotificationMessage,
+  };
 
 
 
 
   
   return (
-  <div className="manage-main-container">
-    <Navbar />
+  <ManageContext.Provider value={context}>
+    <div className="manage-main-container">
+      <Navbar />
 
-    <DatabaseEditCard
-      table="categories"
-      title="Categories"
-      data={categories}
-      handleAdd={handleAdd}
-      handleUpdate={handleUpdate}
-      handleDelete={handleDelete}
-    />
-    <DatabaseEditCard
-      table="ingredients"
-      title="Ingredients"
-      data={ingredients}
-      handleAdd={handleAdd}
-      handleUpdate={handleUpdate}
-      handleDelete={handleDelete}
-    />
-    <DatabaseEditCard
-      table="tags"
-      title="Tags"
-      data={tags}
-      handleAdd={handleAdd}
-      handleUpdate={handleUpdate}
-      handleDelete={handleDelete}
-    />
+      <DatabaseEditCard
+        table="categories"
+        title="Categories"
+        data={categories}
+        handleAdd={handleAdd}
+        handleUpdate={handleUpdate}
+        handleDelete={handleDelete}
+      />
+      <DatabaseEditCard
+        table="ingredients"
+        title="Ingredients"
+        data={ingredients}
+        handleAdd={handleAdd}
+        handleUpdate={handleUpdate}
+        handleDelete={handleDelete}
+      />
+      <DatabaseEditCard
+        table="tags"
+        title="Tags"
+        data={tags}
+        handleAdd={handleAdd}
+        handleUpdate={handleUpdate}
+        handleDelete={handleDelete}
+      />
 
-    
-  </div>
+      <PushNotification
+        messageQueue={messageQueue}
+        setMessageQueue={setMessageQueue}
+      />
+    </div>
+  </ManageContext.Provider>
   );
 }

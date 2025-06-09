@@ -1,8 +1,6 @@
 import { kaomoji } from "@/common/constant";
 import { RecipeInterface, CategoryInterface, TagInterface, IngredientInterface, RecipeAPIAddParam, Tables } from "@/common/type";
-import fs from 'fs';
-import path from 'path';
-
+import { categoryAPI } from "./api";
 
 
 
@@ -62,11 +60,34 @@ export const convertImgUrl = (s: string | null) => {
  * Data validation
  */
 
-export const validateData = (table: Tables, data: any) => {
+const checkIfNameExists = async (table: Tables, data: any) => {
+  try {
+    switch (table) {
+      case "categories":
+        const res = await categoryAPI.get();
+        return (res.filter((r:CategoryInterface) =>
+                  r["id"] !== data["id"] && data["name"] === r["name"])
+                  .length > 0)? true : false;
+        break;
+      case "ingredients":
+        break;
+      case "recipes":
+        break;
+      case "tags":
+        break;
+      default:
+        break;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const validateData = async (table: Tables, data: any) => {
   /**
    * Checks if all property values are valid before calling the API (POST / UPDATE)
    */
-  const validateRecipe = (data: RecipeInterface | RecipeAPIAddParam) => {
+  const validateRecipe = async (data: RecipeInterface | RecipeAPIAddParam) => {
     /** To validate: name, serving size, prep time  */
     if (data.name === "") return [false, "Invalid recipe name"];
     if (data.serving < 1 || !Number.isInteger(data.serving)) return [false, "Invalid serving size"];
@@ -74,27 +95,32 @@ export const validateData = (table: Tables, data: any) => {
     return [true, "All properties are valid!"];
     
   }
-  const validateTag = (data: TagInterface) => {
+  const validateTag = async (data: TagInterface) => {
     /** To validate: name  */
     if (data.name === "") return [false, "Invalid tag name"];
     return [true, "All properties are valid!"];
   }
-  const validateIngredient = (data: IngredientInterface) => {
+  const validateIngredient = async (data: IngredientInterface) => {
     /** To validate: name, unit  */
     if (data.name === "") return [false, "Invalid ingredient name"];
     if (data.unit === "") return [false, "Invalid ingredient unit"];
     return [true, "All properties are valid!"];
   }
-  const validateCategory = (data: CategoryInterface) => {
+  const validateCategory = async (data: CategoryInterface) => {
     /** To validate: name  */
     if (data.name === "") return [false, "Invalid category name"];
+    const res = await checkIfNameExists(table, data);
+    if (res) { return [false, "The name was taken by another category!"] }
     return [true, "All properties are valid!"];
   }
 
+  
   if (table === "recipes") {return validateRecipe(data)}
   if (table === "tags") {return validateTag(data)}
   if (table === "ingredients") {return validateIngredient(data)}
   if (table === "categories") {return validateCategory(data)}
+  
+
   return [false, "Invalid table name"];
 };
 

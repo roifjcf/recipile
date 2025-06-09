@@ -136,7 +136,6 @@ button {
 }
 
 /////////////////////////////////////////////
-
 // General classes
 
 .clickable {
@@ -180,3 +179,38 @@ button {
   background-color: var(--primary);
 }
 
+/////////////////////////////////////////////
+// Animation
+
+@keyframes raiseFromBottom {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animation-raise-up {
+  animation: raiseFromBottom 1s ease-out forwards;
+}
+
+
+
+
+@keyframes raiseToTop {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.animation-raise-to-top {
+  animation: raiseToTop 1s ease-in forwards;
+}

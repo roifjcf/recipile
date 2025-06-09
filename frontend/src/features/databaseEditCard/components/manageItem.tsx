@@ -5,18 +5,19 @@
 
 'use client';
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { Tables, isIngredient, CategoryInterface, TagInterface, IngredientInterface, isCategory } from "@/common/type";
 import Icon from "@/components/icon";
 import IconSelector from "./iconSelector";
+import ManageContext from "@/app/manage/manageContext";
 
 interface Props {
   key: number,
   item: CategoryInterface | TagInterface | IngredientInterface,
   table: Tables,
   handleDelete: (table:Tables, id:string | number) => void,
-  handleUpdate: (table:Tables, id:string | number, content: any) => void,
+  handleUpdate: (table:Tables, id:string | number, content: any) => Promise<(string | boolean)[]>,
 };
 
 export default function ManageItem (props:Props) {
@@ -25,6 +26,7 @@ export default function ManageItem (props:Props) {
   const [modifiedItem, setModifiedItem] = useState<CategoryInterface | TagInterface | IngredientInterface>(props.item);
   const [isInEditMode, setIsInEditMode] = useState<boolean>(false);
   const [showIconSelector, setShowIconSelector] = useState<boolean>(false);
+  const context = useContext(ManageContext);
 
   const handleCancel = () => {
     setIsInEditMode(false);
@@ -32,8 +34,7 @@ export default function ManageItem (props:Props) {
     setModifiedItem(item);
   };
 
-  const handleConfirm = () => {
-    setItem({...modifiedItem});
+  const handleConfirm = async () => {
     let params = {};
     if (isIngredient(modifiedItem)) { 
       params = { id: modifiedItem.id, name: modifiedItem.name, unit: modifiedItem.unit || "" }
@@ -42,10 +43,17 @@ export default function ManageItem (props:Props) {
     } else {
       params = { content: modifiedItem.name };
     }
-    console.log(params);
-    props.handleUpdate(props.table, item["id"], params);
+    const [isSuccessfulUpdate, message] = await props.handleUpdate(props.table, item["id"], params);
+
+    if (isSuccessfulUpdate) {
+      setItem({...modifiedItem}); // update the hook if the database is updated successfully
+    }
+
     setIsInEditMode(false);
     setShowIconSelector(false);
+    if (typeof message === "string") {
+      context?.addNotificationMessage?.(message);
+    }
   }
 
 
