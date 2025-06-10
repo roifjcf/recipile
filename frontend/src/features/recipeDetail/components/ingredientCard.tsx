@@ -18,7 +18,7 @@ interface Props {
   handleRemoveIngredient?: ((id: string) => void) | undefined,
   handleUpdateIngredientAmount?: ((e: any, index: number) => void) | undefined,
   handleAddExistingIngredient?: (() => void) | undefined,
-  handleAddNewRecord?: ((table: Tables, content: any) => void) | undefined,
+  handleAddNewRecord?: (table: Tables, content: any) => Promise<(string | boolean)[]>,
 };
 
 export default function IngredientCard({

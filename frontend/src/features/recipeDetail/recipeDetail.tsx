@@ -86,7 +86,7 @@ export default function RecipeDetail({
     /**
      * Updates the hooks and the (recipe) record in the database
      */
-    const [isValid, msg] = validateData("recipes", recipeDetail);
+    const [isValid, msg] = await validateData("recipes", recipeDetail);
     if (!isValid) {console.log(msg); return;}
 
     await recipeAPI.update(recipeDetail);
@@ -100,8 +100,40 @@ export default function RecipeDetail({
     /**
      * Adds a new ingredient / tag to the database
      */
-    const [isValid, msg] = validateData(table, recipeDetail);
-    if (!isValid) {console.log(msg); return;}
+    const [isValid, msg] = await validateData(table, recipeDetail);
+    if (!isValid) {
+      return [false, msg];
+    }
+
+    if (table === "recipes") {
+      content["created"] = getCurrentDate();
+      content["categories"] = [currentCategory["id"].toString()];
+      delete content["id"];
+      await recipeAPI.add(content);
+      // update hooks
+      const [recipeData] = await Promise.all([recipeAPI.get()]);
+      const id = findRecordidByName(content["name"], recipeData);
+      if (id !== "") {
+        content["id"] = id;
+        setRecipeDetail(content);
+        setRecipes([...recipes, content]);
+      }
+      setMode("view");
+
+    } else if (table === "tags") {
+      await tagAPI.add(content);
+      const [tagData] = await Promise.all([tagAPI.get()]);
+      setTags(tagData);
+
+    } else if (table === "ingredients") {
+      await ingredientAPI.add(content);
+      const [ingredientData] = await Promise.all([ingredientAPI.get()]);
+      setIngredients(ingredientData);
+
+    }
+    
+    return [true, msg];
+
     switch (table) {
       case 'recipes':
         content["created"] = getCurrentDate();

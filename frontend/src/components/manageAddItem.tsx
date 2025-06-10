@@ -12,7 +12,7 @@ import ManageContext from "@/app/manage/manageContext";
 
 interface Props {
   table: Tables,
-  handleAdd?: (table: Tables, content: any) => Promise<(string | boolean)[]>,
+  handleAdd?: (table: Tables, content: any) => Promise<(string | boolean)[]>, // [successful, msg]
   className?: string,
 };
 
@@ -21,6 +21,11 @@ export default function ManageAddItem({
   handleAdd,
   className,
 }: Props) {
+
+
+
+
+
 
   const [valueName, setValueName] = useState<string>(""); // name
   const [valueUnit, setValueUnit] = useState<string>(""); // unit (for ingredient records)
@@ -46,6 +51,18 @@ export default function ManageAddItem({
 
     reset();
   }
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
   <div className="manageadditem-container">

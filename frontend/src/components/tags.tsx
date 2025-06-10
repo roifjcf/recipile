@@ -20,7 +20,7 @@ interface Props {
   handleRemoveTag?: (tagid:string) => void,
   recipeDetail?: RecipeInterface,
   setRecipeDetail?: (hookval:RecipeInterface) => void,
-  handleAddNewRecord?: (table: Tables, content: any) => void,
+  handleAddNewRecord?: (table: Tables, content: any) => Promise<(string | boolean)[]>,
 };
 
 export default function Tags({

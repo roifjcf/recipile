@@ -8,7 +8,7 @@ interface Props {
   recipeDetail: RecipeInterface,
   resetEditState: () => void,
   handleUpdate: () => void,
-  handleAddNewRecord: (table: Tables, content: any) => void,
+  handleAddNewRecord: (table: Tables, content: any) => Promise<(string | boolean)[]>,
 };
 
 export default function ButtonGroup({
