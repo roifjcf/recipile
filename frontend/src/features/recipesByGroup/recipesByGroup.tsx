@@ -1,5 +1,5 @@
 "use client";
-import { CategoryInterface, Mode, RecipeInterface, RecipeCardDisplay, TagInterface, SideBarDisplay, TagSetOperation } from "@/common/type";
+import { CategoryInterface, Modes, RecipeInterface, RecipeCardDisplay, TagInterface, SideBarDisplay, TagSetOperation } from "@/common/type";
 import InfoBar from "./components/infoBar";
 import RecipeCards from "./components/recipeCards";
 import { useState } from "react";
@@ -7,7 +7,7 @@ import { recipeAPI } from "@/utils/api";
 
 interface Props {
   currentCategory: CategoryInterface | null,
-  setMode: (hookval: Mode) => void,
+  setMode: (hookval: Modes) => void,
   setShowRecipeDetail: (hookval: boolean) => void,
   setCurrentRecipe: (hookval: RecipeInterface) => void,
   recipeCardDisplay: RecipeCardDisplay,

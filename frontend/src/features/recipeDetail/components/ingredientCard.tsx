@@ -2,7 +2,7 @@
  * For component <RecipeDetail />
  */
 
-import { IngredientInterface, Mode, RecipeInterface, Tables } from "@/common/type"
+import { IngredientInterface, Modes, RecipeInterface, Tables } from "@/common/type"
 
 import Icon from "@/components/icon";
 import ManageAddItem from "@/components/manageAddItem";
@@ -10,7 +10,7 @@ import ManageAddItem from "@/components/manageAddItem";
 import { findRecordNameByid, findIngredientUnitByid } from "@/utils/helper";
 
 interface Props {
-  mode: Mode,
+  mode: Modes,
   recipeDetail: RecipeInterface,
   ingredients: IngredientInterface[],
   selectedIngredient: string,

@@ -1,8 +1,8 @@
-import { Mode } from "@/common/type";
+import { Modes } from "@/common/type";
 import Icon from "./icon";
 
 interface Props {
-  mode: Mode,
+  mode: Modes,
   tag: string, // tag name
   key?: number,
   handleRemoveTag?: (tagid:string) => void,

@@ -1,8 +1,8 @@
-import { Mode, RecipeInterface } from "@/common/type"
+import { Modes, RecipeInterface } from "@/common/type"
 import Icon from "@/components/icon";
 
 interface Props {
-  mode: Mode,
+  mode: Modes,
   recipeDetail: RecipeInterface,
   setRecipeDetail: (hookval: RecipeInterface) => void,
 };

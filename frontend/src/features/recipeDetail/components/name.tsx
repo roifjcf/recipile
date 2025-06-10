@@ -1,9 +1,9 @@
-import { Mode, RecipeInterface } from "@/common/type";
+import { Modes, RecipeInterface } from "@/common/type";
 import { useState } from "react";
 
 interface Props {
   name: string,
-  mode: Mode,
+  mode: Modes,
   recipeDetail: RecipeInterface,
   setRecipeDetail: (hookval: RecipeInterface) => void,
 }

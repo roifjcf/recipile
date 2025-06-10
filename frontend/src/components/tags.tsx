@@ -3,7 +3,7 @@
  */
 
 "use client";
-import { Mode, RecipeInterface, Tables, TagInterface } from "@/common/type"
+import { Modes, RecipeInterface, Tables, TagInterface } from "@/common/type"
 import Icon from "@/components/icon";
 import { findRecordidByName, findRecordNameByid,  } from "@/utils/helper";
 import { useState } from "react";
@@ -12,7 +12,7 @@ import Tag from "./tag";
 
 interface Props {
   /** general props */
-  mode: Mode,
+  mode: Modes,
   recipeTags: string[], // a list of tag ids!
   tags: TagInterface[], // all tags
 

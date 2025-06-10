@@ -6,13 +6,14 @@ import Navbar from "@/components/navbar";
 import PushNotification from "../components/pushNotification";
 import RecipeDetail from "@/features/recipeDetail/recipeDetail";
 
-import { RecipeInterface, CategoryInterface, TagInterface, IngredientInterface, Mode, RecipeCardDisplay, TagSetOperation, SideBarDisplay } from "@/common/type";
+import { RecipeInterface, CategoryInterface, TagInterface, IngredientInterface, Modes, RecipeCardDisplay, TagSetOperation, SideBarDisplay, RecipeSortOptions } from "@/common/type";
 import {recipeAPI, categoryAPI, tagAPI, ingredientAPI} from "@/utils/api"
 import { convertImgUrl, getRandomKaomoji, loadTheme } from "@/utils/helper";
 import RecipesByCategory from "@/features/recipesByGroup/recipesByGroup";
 import SideBar from "@/features/sideBar/sideBar";
 import SearchResult from "@/features/recipeSearch/searchResult";
 import PushNotificationContext from "@/contexts/pushNotificationContext";
+import SortMethodContext from "@/contexts/sortMethodContext";
 
 export default function Home() {
 
@@ -20,10 +21,11 @@ export default function Home() {
   const [messageQueue, setMessageQueue] = useState<string[]>([]); // for push notification
 
   const [kaomoji, setKaomoji] = useState<string>("");// kaomoji
-  const [mode, setMode] = useState<Mode>("view"); // toggles recipe detail edit
+  const [mode, setMode] = useState<Modes>("view"); // toggles recipe detail edit
   const [recipeCardDisplay, setRecipeCardDisplay] = useState<RecipeCardDisplay>("full"); // different layouts for recipe card display
   const [showRecipeDetail, setShowRecipeDetail] = useState<boolean>(false); // toggles the modal
 
+  
   // side bar stuff
   const [currentCategory, setCurrentCategory] = useState<CategoryInterface | null>(null);
   const [currentRecipe, setCurrentRecipe] = useState<RecipeInterface | null>(null);
@@ -123,16 +125,20 @@ export default function Home() {
     setMessageQueue(queueToUpdate);
   }
 
-  const context = {
+  const pushNotificationContext = {
     addNotificationMessage: addNotificationMessage,
   };
 
-
+  const sortMethodContext = {
+    setRecipes: setRecipes,
+    recipes: recipes,
+  }
 
 
   
   return (
-    <PushNotificationContext.Provider value={context}>
+    <PushNotificationContext.Provider value={pushNotificationContext}>
+    <SortMethodContext.Provider value={sortMethodContext} >
       <div className="page-main-container">
         <SideBar
           categories={categories}
@@ -214,6 +220,7 @@ export default function Home() {
         />
 
       </div>
+    </SortMethodContext.Provider>
     </PushNotificationContext.Provider>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useContext, useEffect, useState } from "react";
 
-import { RecipeInterface, TagInterface, IngredientInterface, CategoryInterface, Tables, Mode } from "@/common/type";
+import { RecipeInterface, TagInterface, IngredientInterface, CategoryInterface, Tables, Modes } from "@/common/type";
 
 import Icon from "@/components/icon";
 import MiniStats from "@/components/miniStats";
@@ -36,8 +36,8 @@ interface Props {
   setIngredients: (data: IngredientInterface[]) => void,
   recipe: RecipeInterface,
   setCurrentRecipe: (data:RecipeInterface | null) => void,
-  mode: Mode,
-  setMode: (data: Mode) => void
+  mode: Modes,
+  setMode: (data: Modes) => void
   currentCategory: CategoryInterface,
   recipes: RecipeInterface[],
   setRecipes: (data: any) => void,

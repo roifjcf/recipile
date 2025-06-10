@@ -1,7 +1,15 @@
 import { kaomoji } from "@/common/constant";
-import { RecipeInterface, CategoryInterface, TagInterface, IngredientInterface, RecipeAPIAddParam, Tables, Interfaces } from "@/common/type";
+import {
+  RecipeInterface,
+  CategoryInterface,
+  TagInterface,
+  IngredientInterface,
+  RecipeAPIAddParam,
+  Tables,
+  Interfaces,
+  RecipeSortOptions
+  } from "@/common/type";
 import { categoryAPI, ingredientAPI, recipeAPI, tagAPI } from "./api";
-
 
 
 
@@ -20,6 +28,36 @@ export const findIngredientUnitByid = (id: number, records: IngredientInterface[
 };
 
 export const removeEmptyItem = (list:string[]) => { return list.filter((item) => item !== ''); };
+
+
+export const sortRecipe = (recipe: RecipeInterface[], option: RecipeSortOptions, reverse: boolean = false) => {
+  /** Sorts recipes by option, returns a copy of new recipe */
+  if (option === "default") { // pin
+    if (reverse) { return [...recipe].sort((a,b) => a["pinned"]-b["pinned"]) }
+    else { return [...recipe].sort((a,b) => b["pinned"]-a["pinned"]) }
+  } else if (option === "date") {
+    if (reverse) { return [...recipe].sort((a,b) => b["created"].localeCompare(a["created"])) } // Descending (Z–A)
+    else { return [...recipe].sort((a,b) => a["created"].localeCompare(b["created"])) }// Ascending (A–Z)
+  } else if (option === "name") {
+    if (reverse) { return [...recipe].sort((a,b) => b["name"].localeCompare(a["name"])) } // Descending (Z–A)
+    else { return [...recipe].sort((a,b) => a["name"].localeCompare(b["name"])) }// Ascending (A–Z)
+  } else if (option === "time") {
+    if (reverse) { return [...recipe].sort((a,b) => a["prep_time"]-b["prep_time"]) }
+    else { return [...recipe].sort((a,b) => b["prep_time"]-a["prep_time"]) }
+  } else if (option === "serving size") {
+    if (reverse) { return [...recipe].sort((a,b) => a["serving"]-b["serving"]) }
+    else { return [...recipe].sort((a,b) => b["serving"]-a["serving"]) }
+  } else { // default, pim
+    if (reverse) { return [...recipe].sort((a,b) => a["pinned"]-b["pinned"]) }
+    else { return [...recipe].sort((a,b) => b["pinned"]-a["pinned"]) }
+  }
+}
+
+
+
+
+
+
 
 
 
@@ -45,6 +83,9 @@ export const convertImgUrl = (s: string | null) => {
   if (!s) {return null;}
   return s !== "" ? `data:image/jpeg;base64,${s}` : null;
 }
+
+
+
 
 
 
@@ -88,11 +129,6 @@ const checkIfNameExists = async (table: Tables, data: any) => {
     return false;
   }
 };
-
-
-
-
-
 
 
 export const validateData = async (table: Tables, data: any) => {
