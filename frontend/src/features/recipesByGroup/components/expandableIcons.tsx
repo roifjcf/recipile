@@ -7,7 +7,7 @@ interface Props extends IconProps {
 }
 
 const defaultStyle = "expandableicons-container";
-const onToggleStyle = "expandableicons-container expandableicons-expanded";
+const onToggleStyle = defaultStyle + " expandableicons-expanded";
 
 
 

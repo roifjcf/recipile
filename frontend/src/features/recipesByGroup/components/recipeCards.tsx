@@ -43,7 +43,7 @@ export default function RecipeCards(props: Props) {
     :
     <div className="recipecards-msg">
       <p>{props.kaomoji}</p>
-      <p>No recipes under this category!</p>
+      <p>No recipes!</p>
     </div>}
   </div>);
 }
