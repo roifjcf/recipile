@@ -79,6 +79,7 @@ export default function ManageItem (props:Props) {
           src={"add-outline"}
           hoverable={true}
           onClick={()=>setShowIconSelector(!showIconSelector)}
+          description="Add icon"
         />}
       {isCategory(modifiedItem) && modifiedItem.icon_file_name !== "" &&
         <Icon

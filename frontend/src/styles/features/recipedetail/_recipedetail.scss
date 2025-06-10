@@ -29,7 +29,13 @@ $recipecard-container-right: 100% - $recipecard-container-left;
 
 
 
-
+.recipedetail-name-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-2;
+}
 
 
 .recipedetail-deletebtn {

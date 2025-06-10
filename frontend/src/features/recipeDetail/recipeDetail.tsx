@@ -254,8 +254,10 @@ export default function RecipeDetail({
 
         {/* text content */}
         <div className="recipedetail-text-info-container-left">
-          <Name name={recipeDetail["name"]} mode={mode} recipeDetail={recipeDetail} setRecipeDetail={setRecipeDetail} />
-          <Link mode={mode} url={recipeDetail["external_links"]} recipeDetail={recipeDetail} setRecipeDetail={setRecipeDetail} />
+          <div className="recipedetail-name-container">
+            <Name name={recipeDetail["name"]} mode={mode} recipeDetail={recipeDetail} setRecipeDetail={setRecipeDetail} />
+            <Link mode={mode} url={recipeDetail["external_links"]} recipeDetail={recipeDetail} setRecipeDetail={setRecipeDetail} />
+          </div>
           <Tags
             mode={mode}
             recipeTags={recipeDetail["tags"]}

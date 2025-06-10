@@ -25,7 +25,7 @@
 
 .icon-description {
   position: absolute;
-  top: -200%;
+  top: -$space-8;
   z-index: $z-index-tooltip;
   white-space: nowrap;
 }

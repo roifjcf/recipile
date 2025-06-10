@@ -31,7 +31,7 @@ export default function ButtonGroup({
   </>;
 
   const EditMode = () => <>
-    <div>
+    <div className="buttongroup-sub-container-left">
       {mode === "update" && <Icon src={"undo-outline"} hoverable={true} onClick={resetEditState}/>}
       {mode === "update" && <Icon src={"yes-outline"} hoverable={true} onClick={handleUpdate}/>}
       {mode === "new" && <Icon src={"yes-outline"} hoverable={true} onClick={()=>handleAddNewRecord("recipes", {...recipeDetail})}/>}
