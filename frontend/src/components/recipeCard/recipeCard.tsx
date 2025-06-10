@@ -9,6 +9,7 @@ import { recipeAPI } from "@/utils/api";
 import RecipeCardSimpleDisplay from "./Components/recipeCardSimpleDisplay";
 import RecipeCardListDisplay from "./Components/recipeCardListDisplay";
 import RecipeCardFullDisplay from "./Components/recipeCardFullDisplay";
+import { convertImgUrl } from "@/utils/helper";
 
 interface Props {
   recipe: RecipeInterface,
@@ -48,20 +49,17 @@ export default function RecipeCard({
     e.stopPropagation();
     const newData = {
       "id": recipe.id,
-      "content": val === 1 ? 0 : 1,
+      "content": val === 1 ? 0 : 1, // toggles pin state
       "column": "pinned"
     };
-    // hook update
-    let temp = recipes;
-    for (let recipe of temp) {
-      if (recipe["id"] === recipe.id) {
-        recipe["pinned"] = val === 1 ? 0 : 1;
-        break;
-      }
-    }
-    setRecipes([...temp].sort((a,b) => b["pinned"]-a["pinned"]));
     // backend update
-    recipeAPI.updateColumn(recipe.id, newData);
+    await recipeAPI.updateColumn(recipe.id, newData);
+    // hook update
+    const updatedData = await recipeAPI.get();
+    updatedData.forEach((recipe: RecipeInterface) => {
+      return recipe["img_main"] = convertImgUrl(recipe["img_main"]);
+    });
+    setRecipes([...updatedData].sort((a,b) => b["pinned"]-a["pinned"]));
   };
 
   const handleShowRecipeDetail = () => {
