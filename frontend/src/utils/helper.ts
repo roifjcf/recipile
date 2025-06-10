@@ -42,8 +42,8 @@ export const sortRecipe = (recipe: RecipeInterface[], option: RecipeSortOptions,
     if (reverse) { return [...recipe].sort((a,b) => b["name"].localeCompare(a["name"])) } // Descending (Z–A)
     else { return [...recipe].sort((a,b) => a["name"].localeCompare(b["name"])) }// Ascending (A–Z)
   } else if (option === "time") {
-    if (reverse) { return [...recipe].sort((a,b) => a["prep_time"]-b["prep_time"]) }
-    else { return [...recipe].sort((a,b) => b["prep_time"]-a["prep_time"]) }
+    if (reverse) { return [...recipe].sort((a,b) => b["prep_time"]-a["prep_time"]) }
+    else { return [...recipe].sort((a,b) => a["prep_time"]-b["prep_time"]) }
   } else if (option === "serving size") {
     if (reverse) { return [...recipe].sort((a,b) => a["serving"]-b["serving"]) }
     else { return [...recipe].sort((a,b) => b["serving"]-a["serving"]) }
