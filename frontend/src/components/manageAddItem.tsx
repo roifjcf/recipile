@@ -8,7 +8,7 @@ import { useContext, useState } from "react";
 
 import { Tables } from "@/common/type";
 import Icon from "@/components/icon";
-import ManageContext from "@/app/manage/manageContext";
+import PushNotificationContext from "@/contexts/pushNotificationContext";
 
 interface Props {
   table: Tables,
@@ -29,7 +29,7 @@ export default function ManageAddItem({
 
   const [valueName, setValueName] = useState<string>(""); // name
   const [valueUnit, setValueUnit] = useState<string>(""); // unit (for ingredient records)
-  const context = useContext(ManageContext);
+  const context = useContext(PushNotificationContext);
 
   const reset = () => {
     setValueName("");
@@ -37,12 +37,15 @@ export default function ManageAddItem({
   }
   
   const handleSubmit = async () => {
-    let params = {};
-    if (table === "ingredients") { params = {"name": valueName, "unit": valueUnit};}
-    else if (table === "categories") { params = {"name": valueName, "icon_file_name": ""};}
-    else { params = {"name": valueName};}
 
     if (handleAdd) {
+      let params = {};
+      if (table === "ingredients") { params = {"name": valueName, "unit": valueUnit};}
+      else if (table === "categories") { params = {"name": valueName, "icon_file_name": ""};}
+      else { params = {"name": valueName};}
+  
+      console.log(params);
+      
       const [isSuccessfulUpdate, message] = await handleAdd(table, params);
       if (typeof message === "string") {
         context?.addNotificationMessage?.(message);

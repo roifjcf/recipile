@@ -10,7 +10,7 @@ import { useContext, useState } from "react";
 import { Tables, isIngredient, CategoryInterface, TagInterface, IngredientInterface, isCategory } from "@/common/type";
 import Icon from "@/components/icon";
 import IconSelector from "./iconSelector";
-import ManageContext from "@/app/manage/manageContext";
+import PushNotificationContext from "@/contexts/pushNotificationContext";
 
 interface Props {
   key: number,
@@ -26,7 +26,7 @@ export default function ManageItem (props:Props) {
   const [modifiedItem, setModifiedItem] = useState<CategoryInterface | TagInterface | IngredientInterface>(props.item);
   const [isInEditMode, setIsInEditMode] = useState<boolean>(false);
   const [showIconSelector, setShowIconSelector] = useState<boolean>(false);
-  const context = useContext(ManageContext);
+  const context = useContext(PushNotificationContext);
 
   const handleCancel = () => {
     setIsInEditMode(false);

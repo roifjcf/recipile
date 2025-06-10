@@ -1,5 +1,5 @@
 import { kaomoji } from "@/common/constant";
-import { RecipeInterface, CategoryInterface, TagInterface, IngredientInterface, RecipeAPIAddParam, Tables } from "@/common/type";
+import { RecipeInterface, CategoryInterface, TagInterface, IngredientInterface, RecipeAPIAddParam, Tables, Interfaces } from "@/common/type";
 import { categoryAPI, ingredientAPI, recipeAPI, tagAPI } from "./api";
 
 
@@ -71,9 +71,18 @@ const checkIfNameExists = async (table: Tables, data: any) => {
 
     const res = await apis[table].get();
 
-    return res.some((r: any) =>
-      r.name === data.name && r.id !== data.id
-    );
+    if (data["id"]) {
+      // PUT
+      return (res.filter((r:Interfaces) =>
+                (r["id"] !== data["id"] && data["name"] === r["name"]))
+                .length > 0)? true : false;
+    } else {
+      // POST
+      return (res.filter((r:Interfaces) =>
+        (data["name"] === r["name"]))
+        .length > 0)? true : false;
+    }
+
   } catch (error) {
     console.log(error);
     return false;
@@ -102,6 +111,7 @@ export const validateData = async (table: Tables, data: any) => {
 
     return [true, "All properties are valid!"];
   }
+
   const validateTag = async (data: TagInterface) => {
     //name
     if (data.name === "") return [false, "Name cannot be empty!"];

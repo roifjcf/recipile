@@ -12,12 +12,12 @@ import { convertImgUrl, getRandomKaomoji, loadTheme } from "@/utils/helper";
 import RecipesByCategory from "@/features/recipesByGroup/recipesByGroup";
 import SideBar from "@/features/sideBar/sideBar";
 import SearchResult from "@/features/recipeSearch/searchResult";
+import PushNotificationContext from "@/contexts/pushNotificationContext";
 
 export default function Home() {
 
   /** Feature hooks */
-  const [showPushNotification, setShowPushNotification] = useState<boolean>(false);
-  const [pushNotificationMessage, setPushNotificationMessage] = useState<string>('');
+  const [messageQueue, setMessageQueue] = useState<string[]>([]); // for push notification
 
   const [kaomoji, setKaomoji] = useState<string>("");// kaomoji
   const [mode, setMode] = useState<Mode>("view"); // toggles recipe detail edit
@@ -46,11 +46,6 @@ export default function Home() {
 
   /////////////////////////////
 
-
-  const handleShowPushNotification = () => {
-    setShowPushNotification(true);
-    setTimeout(() => { setShowPushNotification(false); }, 6000);
-  }
 
   // init
   useEffect(() => {
@@ -120,91 +115,105 @@ export default function Home() {
 
 
 
+  /** Misc */
 
+  const addNotificationMessage = (msg: string) => {
+    const queueToUpdate = [...messageQueue];
+    queueToUpdate.push(msg);
+    setMessageQueue(queueToUpdate);
+  }
 
+  const context = {
+    addNotificationMessage: addNotificationMessage,
+  };
 
 
 
 
   
   return (
-    <div className="page-main-container">
-      <SideBar
-        categories={categories}
-        tags={tags}
-        handleResetSearchInput={handleResetSearchInput}
-        currentCategory={currentCategory}
-        setCurrentCategory={setCurrentCategory}
-        selectedTags={selectedTags}
-        setSelectedTags={setSelectedTags}
-        tagSetOperation={tagSetOperation}
-        setTagSetOperation={setTagSetOperation}
-        currentGroup={currentGroup}
-        setCurrentGroup={setCurrentGroup}
-      />
+    <PushNotificationContext.Provider value={context}>
+      <div className="page-main-container">
+        <SideBar
+          categories={categories}
+          tags={tags}
+          handleResetSearchInput={handleResetSearchInput}
+          currentCategory={currentCategory}
+          setCurrentCategory={setCurrentCategory}
+          selectedTags={selectedTags}
+          setSelectedTags={setSelectedTags}
+          tagSetOperation={tagSetOperation}
+          setTagSetOperation={setTagSetOperation}
+          currentGroup={currentGroup}
+          setCurrentGroup={setCurrentGroup}
+        />
 
-      {/* displays search results if the search bar is not empty,
-      otherwise displays recipes by category */}
-      {debouncedSearchInput === "" ?
-      <RecipesByCategory
-        currentCategory={currentCategory}
-        setMode={setMode}
-        setShowRecipeDetail={setShowRecipeDetail}
-        setCurrentRecipe={setCurrentRecipe}
-        recipeCardDisplay={recipeCardDisplay}
-        toggleCardDisplay={toggleCardDisplay}
-        recipes={recipes}
-        tags={tags}
-        kaomoji={kaomoji}
-        setRecipes={setRecipes}
-        showRecipeDetail={showRecipeDetail}
-        selectedTags={selectedTags}
-        currentGroup={currentGroup}
-        tagSetOperation={tagSetOperation}
-      />
-      :
-      <SearchResult
-        recipes={recipes}
-        debouncedSearchInput={debouncedSearchInput}
-        tags={tags}
-        recipeCardDisplay={recipeCardDisplay}
-        setCurrentRecipe={setCurrentRecipe}
-        setShowRecipeDetail={setShowRecipeDetail}
-        setRecipes={setRecipes}
-      />
-      }
-
-
-
-
-      {/* vvvvvvv fixed positon stuff */}
-
-      <Navbar
-        handleDebounceChange={handleDebounceChange}
-        handleResetSearchInput={handleResetSearchInput}
-        searchInputRef={searchInputRef}
-      />
+        {/* displays search results if the search bar is not empty,
+        otherwise displays recipes by category */}
+        {debouncedSearchInput === "" ?
+        <RecipesByCategory
+          currentCategory={currentCategory}
+          setMode={setMode}
+          setShowRecipeDetail={setShowRecipeDetail}
+          setCurrentRecipe={setCurrentRecipe}
+          recipeCardDisplay={recipeCardDisplay}
+          toggleCardDisplay={toggleCardDisplay}
+          recipes={recipes}
+          tags={tags}
+          kaomoji={kaomoji}
+          setRecipes={setRecipes}
+          showRecipeDetail={showRecipeDetail}
+          selectedTags={selectedTags}
+          currentGroup={currentGroup}
+          tagSetOperation={tagSetOperation}
+        />
+        :
+        <SearchResult
+          recipes={recipes}
+          debouncedSearchInput={debouncedSearchInput}
+          tags={tags}
+          recipeCardDisplay={recipeCardDisplay}
+          setCurrentRecipe={setCurrentRecipe}
+          setShowRecipeDetail={setShowRecipeDetail}
+          setRecipes={setRecipes}
+        />
+        }
 
 
-      { showRecipeDetail && currentRecipe && ingredients && tags && currentCategory && recipes &&
-      <RecipeDetail
-        tags={tags}
-        setTags={setTags}
-        ingredients={ingredients}
-        setIngredients={setIngredients}
-        recipe={currentRecipe}
-        setCurrentRecipe={setCurrentRecipe}
-        mode={mode}
-        setMode={setMode}
-        currentCategory={currentCategory}
-        recipes={recipes}
-        setRecipes={setRecipes}
-        setShowRecipeDetail={setShowRecipeDetail}
-        handleDeleteRecipe={handleDeleteRecipe}
-      />}
 
-      
 
-    </div>
+        {/* vvvvvvv fixed positon stuff */}
+
+        <Navbar
+          handleDebounceChange={handleDebounceChange}
+          handleResetSearchInput={handleResetSearchInput}
+          searchInputRef={searchInputRef}
+        />
+
+
+        { showRecipeDetail && currentRecipe && ingredients && tags && currentCategory && recipes &&
+        <RecipeDetail
+          tags={tags}
+          setTags={setTags}
+          ingredients={ingredients}
+          setIngredients={setIngredients}
+          recipe={currentRecipe}
+          setCurrentRecipe={setCurrentRecipe}
+          mode={mode}
+          setMode={setMode}
+          currentCategory={currentCategory}
+          recipes={recipes}
+          setRecipes={setRecipes}
+          setShowRecipeDetail={setShowRecipeDetail}
+          handleDeleteRecipe={handleDeleteRecipe}
+        />}
+
+        <PushNotification
+          messageQueue={messageQueue}
+          setMessageQueue={setMessageQueue}
+        />
+
+      </div>
+    </PushNotificationContext.Provider>
   );
 }

@@ -3,7 +3,6 @@
 
 .pushnotification-container {
   width: 200px;
-  margin: 0 auto;
 
   display: flex;
   flex-direction: column;
@@ -11,6 +10,8 @@
   justify-content: center;
   position: fixed;
   top: $space-2;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: $z-index-modal;
 
   

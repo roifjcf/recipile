@@ -105,7 +105,7 @@ export type Mode = "view" | "update" | "new";
 export type RecipeCardDisplay = "simple" | "full" | "list";
 export type TagSetOperation = "intersection" | "union";
 export type SideBarDisplay = "category" | "tag";
-
+export type Interfaces = RecipeInterface | CategoryInterface | IngredientInterface | TagInterface;
 
 
 

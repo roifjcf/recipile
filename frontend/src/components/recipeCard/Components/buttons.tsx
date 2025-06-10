@@ -6,7 +6,7 @@ interface Props {
   recipe: RecipeInterface,
   handlePin: (val: number, e: React.MouseEvent) => void,
   handleUpdateEditList?: (id: number, e: React.MouseEvent) => void,
-  recipesToEdit: Set<number>,
+  recipesToEdit?: Set<number>,
 };
 
 export default function Buttons({
@@ -21,7 +21,7 @@ export default function Buttons({
     handleUpdateEditList?.(recipe.id, e);
   };
 
-  const checkboxImg = recipesToEdit.has(recipe.id) ? "checkbox-checked" : "checkbox-unchecked";
+  const checkboxImg = recipesToEdit?.has(recipe.id) ? "checkbox-checked" : "checkbox-unchecked";
 
   return (
     <>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { RecipeInterface, TagInterface, IngredientInterface, CategoryInterface, Tables, Mode } from "@/common/type";
 
@@ -22,6 +22,11 @@ import {
 import Name from "./components/name";
 import Link from "./components/link";
 import ButtonGroup from "./components/buttonGroup";
+import PushNotificationContext from "@/contexts/pushNotificationContext";
+
+
+
+
 
 
 interface Props {
@@ -40,6 +45,9 @@ interface Props {
   handleDeleteRecipe: (id:number) => void,
 };
 
+
+
+
 export default function RecipeDetail({
   tags,
   setTags,
@@ -56,10 +64,18 @@ export default function RecipeDetail({
   handleDeleteRecipe
 }: Props) {
 
+
+
+
+
+
+  
+
   /**
    * General
    */
   const [recipeDetail, setRecipeDetail] = useState<RecipeInterface>({...recipe});
+  const context = useContext(PushNotificationContext);
 
   const resetEditState = () => {
     setMode("view");
@@ -79,6 +95,9 @@ export default function RecipeDetail({
   }, []);
 
 
+
+
+
   /**
    * API calls (with hook updates)
    */
@@ -86,8 +105,13 @@ export default function RecipeDetail({
     /**
      * Updates the hooks and the (recipe) record in the database
      */
-    const [isValid, msg] = await validateData("recipes", recipeDetail);
-    if (!isValid) {console.log(msg); return;}
+    const [isValid, message] = await validateData("recipes", recipeDetail);
+    if (!isValid) {
+      if (typeof message === "string") {
+        context?.addNotificationMessage?.(message);
+      }
+      return;
+    }
 
     await recipeAPI.update(recipeDetail);
     setCurrentRecipe({...recipeDetail});
@@ -96,11 +120,12 @@ export default function RecipeDetail({
     setMode("view");
   };
 
+
   const handleAddNewRecord = async (table: Tables, content: any) => {
     /**
-     * Adds a new ingredient / tag to the database
+     * Adds a new recipe / ingredient / tag to the database
      */
-    const [isValid, msg] = await validateData(table, recipeDetail);
+    const [isValid, msg] = await validateData(table, content);
     if (!isValid) {
       return [false, msg];
     }
@@ -133,36 +158,11 @@ export default function RecipeDetail({
     }
     
     return [true, msg];
-
-    switch (table) {
-      case 'recipes':
-        content["created"] = getCurrentDate();
-        content["categories"] = [currentCategory["id"].toString()];
-        delete content["id"];
-        await recipeAPI.add(content);
-        // update hooks
-        const [recipeData] = await Promise.all([recipeAPI.get()]);
-        const id = findRecordidByName(content["name"], recipeData);
-        if (id !== "") {
-          content["id"] = id;
-          setRecipeDetail(content);
-          setRecipes([...recipes, content]);
-        }
-        setMode("view");       
-        break;
-      case 'tags':
-        await tagAPI.add(content);
-        const [tagData] = await Promise.all([tagAPI.get()]);
-        setTags(tagData);
-        break;
-      case 'ingredients':
-        await ingredientAPI.add(content);
-        const [ingredientData] = await Promise.all([ingredientAPI.get()]);
-        setIngredients(ingredientData);
-      default:
-        break;
-    }
   }
+
+
+
+
 
 
 

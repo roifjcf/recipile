@@ -11,7 +11,7 @@ import { categoryAPI, tagAPI, ingredientAPI } from "@/utils/api";
 import DatabaseEditCard from "@/features/databaseEditCard/databaseEditCard";
 import { loadTheme, validateData } from "@/utils/helper";
 import PushNotification from "@/components/pushNotification";
-import ManageContext from "./manageContext";
+import PushNotificationContext from "../../contexts/pushNotificationContext";
 
 
 
@@ -161,7 +161,7 @@ export default function Page() {
 
   
   return (
-  <ManageContext.Provider value={context}>
+  <PushNotificationContext.Provider value={context}>
     <div className="manage-main-container">
       <Navbar />
 
@@ -195,6 +195,6 @@ export default function Page() {
         setMessageQueue={setMessageQueue}
       />
     </div>
-  </ManageContext.Provider>
+  </PushNotificationContext.Provider>
   );
 }
