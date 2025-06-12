@@ -28,6 +28,13 @@
 @use 'components/recipecard/recipecardlistdisplay';
 @use 'components/recipecard/recipecardsimpledisplay';
 
+@use 'features/calendar/biweeklyview';
+@use 'features/calendar/calendar';
+@use 'features/calendar/dailyview';
+@use 'features/calendar/day';
+@use 'features/calendar/monthlyview';
+@use 'features/calendar/weeklyview';
+
 @use 'features/databaseeditcard/databaseeditcard';
 @use 'features/databaseeditcard/iconselector';
 @use 'features/databaseeditcard/manageitem';
@@ -48,3 +55,5 @@
 @use 'features/sidebar/categorylist';
 @use 'features/sidebar/sidebar';
 @use 'features/sidebar/taglist';
+
+@use 'features/sidepanel/sidepanel';

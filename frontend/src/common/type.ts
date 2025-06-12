@@ -103,8 +103,9 @@ export type Tables = "recipes" | "ingredients" | "tags" | "categories";
 export type RecipeFields = "name" | "ingredient" | "step" | "externalLink";
 export type Modes = "view" | "update" | "new";
 export type RecipeCardDisplay = "simple" | "full" | "list";
-export type TagSetOperation = "intersection" | "union";
 export type SideBarDisplay = "category" | "tag";
+export type CalendarDisplay = "day" | "week" | "bi-week" | "month";
+export type TagSetOperation = "intersection" | "union";
 export type Interfaces = RecipeInterface | CategoryInterface | IngredientInterface | TagInterface;
 export type RecipeSortOptions = "default" | "date" | "name" | "time" | "serving size";
 

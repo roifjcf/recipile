@@ -30,28 +30,6 @@ export const findIngredientUnitByid = (id: number, records: IngredientInterface[
 export const removeEmptyItem = (list:string[]) => { return list.filter((item) => item !== ''); };
 
 
-export const sortRecipe = (recipe: RecipeInterface[], option: RecipeSortOptions, reverse: boolean = false) => {
-  /** Sorts recipes by option, returns a copy of new recipe */
-  if (option === "default") { // pin
-    if (reverse) { return [...recipe].sort((a,b) => a["pinned"]-b["pinned"]) }
-    else { return [...recipe].sort((a,b) => b["pinned"]-a["pinned"]) }
-  } else if (option === "date") {
-    if (reverse) { return [...recipe].sort((a,b) => b["created"].localeCompare(a["created"])) } // Descending (Z–A)
-    else { return [...recipe].sort((a,b) => a["created"].localeCompare(b["created"])) }// Ascending (A–Z)
-  } else if (option === "name") {
-    if (reverse) { return [...recipe].sort((a,b) => b["name"].localeCompare(a["name"])) } // Descending (Z–A)
-    else { return [...recipe].sort((a,b) => a["name"].localeCompare(b["name"])) }// Ascending (A–Z)
-  } else if (option === "time") {
-    if (reverse) { return [...recipe].sort((a,b) => b["prep_time"]-a["prep_time"]) }
-    else { return [...recipe].sort((a,b) => a["prep_time"]-b["prep_time"]) }
-  } else if (option === "serving size") {
-    if (reverse) { return [...recipe].sort((a,b) => a["serving"]-b["serving"]) }
-    else { return [...recipe].sort((a,b) => b["serving"]-a["serving"]) }
-  } else { // default, pim
-    if (reverse) { return [...recipe].sort((a,b) => a["pinned"]-b["pinned"]) }
-    else { return [...recipe].sort((a,b) => b["pinned"]-a["pinned"]) }
-  }
-}
 
 
 
@@ -217,7 +195,146 @@ export const getCurrentDate = (): string => {
   return `${year}-${month}-${day}`;
 };
 
-
 export const getRandomKaomoji = (): string => {
   return kaomoji[Math.floor(Math.random() * kaomoji.length)];
+}
+
+export const sortRecipe = (recipe: RecipeInterface[], option: RecipeSortOptions, reverse: boolean = false) => {
+  /** Sorts recipes by option, returns a copy of new recipe */
+  if (option === "default") { // pin
+    if (reverse) { return [...recipe].sort((a,b) => a["pinned"]-b["pinned"]) }
+    else { return [...recipe].sort((a,b) => b["pinned"]-a["pinned"]) }
+  } else if (option === "date") {
+    if (reverse) { return [...recipe].sort((a,b) => b["created"].localeCompare(a["created"])) } // Descending (Z–A)
+    else { return [...recipe].sort((a,b) => a["created"].localeCompare(b["created"])) }// Ascending (A–Z)
+  } else if (option === "name") {
+    if (reverse) { return [...recipe].sort((a,b) => b["name"].localeCompare(a["name"])) } // Descending (Z–A)
+    else { return [...recipe].sort((a,b) => a["name"].localeCompare(b["name"])) }// Ascending (A–Z)
+  } else if (option === "time") {
+    if (reverse) { return [...recipe].sort((a,b) => b["prep_time"]-a["prep_time"]) }
+    else { return [...recipe].sort((a,b) => a["prep_time"]-b["prep_time"]) }
+  } else if (option === "serving size") {
+    if (reverse) { return [...recipe].sort((a,b) => a["serving"]-b["serving"]) }
+    else { return [...recipe].sort((a,b) => b["serving"]-a["serving"]) }
+  } else { // default, pim
+    if (reverse) { return [...recipe].sort((a,b) => a["pinned"]-b["pinned"]) }
+    else { return [...recipe].sort((a,b) => b["pinned"]-a["pinned"]) }
+  }
+}
+
+export const numberToMonth = (month: number) => {
+  /** 0-indexed */
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  return monthNames[month] ?? "Invalid month";
+}
+
+export const generateCalendarMonthly = (year: number, month: number, startFromMonday: boolean = true) => {
+  /** 0-indexed */
+  const calendar = [];
+  const firstDate = new Date(year, month, 1);
+  const dayIndex = firstDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+  const totalDaysOfCurrentMonth = new Date(year, month+1, 0).getDate();
+  const totalDaysOfPreviousMonth = new Date(year, month, 0).getDate();
+  
+  let paddings; // the number of padding zeros in the first row
+  if (startFromMonday) {
+    paddings = (dayIndex + 6) % 7;
+  } else { // starts from sunday
+    paddings = dayIndex;
+  }
+
+  // fill the calendar
+  for (let i = paddings-1; i >= 0; i--) {
+    calendar.push(totalDaysOfPreviousMonth-i);
+  }
+  for (let i = 1; i <= totalDaysOfCurrentMonth; i++) {
+    calendar.push(i);
+  }
+  let i = 1;
+  while (calendar.length < 42) {
+    calendar.push(i);
+    i++;
+  }
+
+  return calendar;
+
+  // const calendar2D = [];
+  // for (let i = 0; i < 6; i++) {
+  //   calendar2D.push(calendar.slice(i * 7, i * 7 + 7));
+  // }
+  // return calendar2D;
+}
+
+export const generateCalendarWeekly = (date: Date) => {
+  if (!(date instanceof Date)) {
+    throw new Error("Input must be a Date object");
+  }
+
+  const day = date.getDay(); // 0 (Sun) - 6 (Sat)
+
+  // Calculate how many days to subtract to get Monday
+  const diffToMonday = (day + 6) % 7;
+
+  // Get Monday of the current week
+  const monday = new Date(date);
+  monday.setDate(date.getDate() - diffToMonday);
+
+  // Generate array of day numbers for the week (Mon–Sun)
+  const week = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    week.push(d.getDate());
+  }
+
+  return week;
+  // Output: [9, 10, 11, 12, 13, 14, 15]
+}
+
+export const generateCalendarBiWeekly = (date: Date) => {
+  const day = date.getDay(); // 0 (Sun) to 6 (Sat)
+  const diffToMonday = (day + 6) % 7;
+
+  // Find Monday of the current week
+  const currentMonday = new Date(date);
+  currentMonday.setDate(date.getDate() - diffToMonday);
+
+  const currentWeek = [];
+  const nextWeek = [];
+
+  for (let i = 0; i < 7; i++) {
+    const dayInCurrentWeek = new Date(currentMonday);
+    dayInCurrentWeek.setDate(currentMonday.getDate() + i);
+    currentWeek.push(dayInCurrentWeek.getDate());
+
+    const dayInNextWeek = new Date(currentMonday);
+    dayInNextWeek.setDate(currentMonday.getDate() + i + 7);
+    nextWeek.push(dayInNextWeek.getDate());
+  }
+
+  return [currentWeek, nextWeek];
+  // Output: [[9, 10, 11, 12, 13, 14, 15], [16, 17, 18, 19, 20, 21, 22]]
+}
+
+export const getISOWeekNumber = (date: Date, startFromMonday: boolean = true) => {
+  const tempDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  
+  // Set to nearest Thursday: current date + 4 - current day number
+  const day = tempDate.getUTCDay(); // 0 (Sun) to 6 (Sat)
+  const diff = (day === 0 ? -6 : 1) - day; // shift Sunday to last
+  tempDate.setUTCDate(tempDate.getUTCDate() + diff + 3); // move to Thursday
+
+  const firstThursday = new Date(Date.UTC(tempDate.getUTCFullYear(), 0, 4));
+  const weekNumber = Math.floor((tempDate.getTime() - firstThursday.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
+
+  return weekNumber;
+}
+
+export const getDateByOffset = (date: Date, offset: number = 0) => {
+  const targetDate = new Date(date);
+  targetDate.setDate(date.getDate() + offset);
+  return targetDate;
 }

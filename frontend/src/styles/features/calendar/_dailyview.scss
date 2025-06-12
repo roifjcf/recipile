@@ -1,0 +1,44 @@
+@use '../../themes/theme' as *;
+@use '../../abstracts/variables' as *;
+
+.dailyview-container {
+  width:100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: $space-2;
+}
+
+.dailyview-main {
+  width: 90%;
+  height: 100%;
+}
+
+.dailyview-header, .dailyview-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $space-2;
+}
+
+.dailyview-header {
+  height: $size-4xl;
+
+}
+
+.dailyview-arrow {
+  padding: 0 $space-2;
+  margin-top: $size-4xl;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: $radius-md;
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--surface-container-lowest);
+  }
+}
