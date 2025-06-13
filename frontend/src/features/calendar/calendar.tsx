@@ -6,24 +6,22 @@ import BiWeeklyView from "./components/biWeeklyView";
 
 
 interface Props {
-  year: number,
-  month: number,
   selectedDate: Date,
   display: CalendarDisplay,
+  handleUpdateCalendar: (forward: boolean, mode: CalendarDisplay) => void
 }
 
 export default function Calendar({
-  year,
-  month,
   selectedDate,
   display,
+  handleUpdateCalendar,
 }: Props) {
 
   const headerMon = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   // const headerSun = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const view = {
-    "month": <MonthlyView year={year} month={month} />,
-    "day": <DailyView selectedDate={selectedDate}/>,
+    "month": <MonthlyView selectedDate={selectedDate}/>,
+    "day": <DailyView selectedDate={selectedDate} handleUpdateCalendar={handleUpdateCalendar}/>,
     "week": <WeeklyView selectedDate={selectedDate}/>,
     "bi-week": <BiWeeklyView selectedDate={selectedDate}/>,
   };

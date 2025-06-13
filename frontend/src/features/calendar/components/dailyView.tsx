@@ -1,15 +1,18 @@
 import { getDateByOffset } from "@/utils/helper";
 import Day from "./day";
 import Icon from "@/components/icon";
+import { CalendarDisplay } from "@/common/type";
 
 interface Props {
   selectedDate: Date,
+  handleUpdateCalendar: (forward: boolean, mode: CalendarDisplay) => void
 };
 
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default function DailyView({
   selectedDate,
+  handleUpdateCalendar,
 }: Props) {
 
   const yesterday = getDateByOffset(selectedDate,-1);
@@ -22,6 +25,7 @@ export default function DailyView({
       <Icon
         src={"arrow-back"}
         hoverable={true}
+        onClick={()=>handleUpdateCalendar(false, "day")}
       />
     </div>
 
@@ -32,9 +36,9 @@ export default function DailyView({
         <div>{days[tomorrow.getDay()]}</div>
       </div>
       <div className="dailyview-cards">
-        <Day day={yesterday.getDate()} />
-        <Day day={today.getDate()} />
-        <Day day={tomorrow.getDate()} />
+        <Day date={yesterday} />
+        <Day date={today} />
+        <Day date={tomorrow} />
       </div>
     </div>
 
@@ -42,6 +46,7 @@ export default function DailyView({
       <Icon
         src={"arrow-forward"}
         hoverable={true}
+        onClick={()=>handleUpdateCalendar(true, "day")}
       />
     </div>
   </div>

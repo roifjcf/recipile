@@ -1,13 +1,14 @@
 import PlannerSidePanelContext from "@/contexts/plannerSidePanelContext";
+import { isToday } from "@/utils/helper";
 import { useContext } from "react";
 
 interface Props {
   key?: number,
-  day: number, // 1-31
+  date: Date
 }
 
 export default function Day({
-  day,
+  date,
 }: Props) {
 
   const context = useContext(PlannerSidePanelContext);
@@ -17,12 +18,14 @@ export default function Day({
     context?.setShowSidePanel(true);
   }
 
+  const numberStyle = `day-number ${isToday(date) ? " day-highlight" : ""}`
+
   return (
   <div
     className="day-container"
     onClick={handleClick}
   >
-    <div className="day-number">{day}</div>
+    <div className={numberStyle}>{date.getDate()}</div>
     
 
     

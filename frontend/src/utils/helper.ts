@@ -231,67 +231,61 @@ export const numberToMonth = (month: number) => {
   return monthNames[month] ?? "Invalid month";
 }
 
-export const generateCalendarMonthly = (year: number, month: number, startFromMonday: boolean = true) => {
+export const generateCalendarMonthly = (date: Date, startFromMonday: boolean = true) => {
   /** 0-indexed */
-  const calendar = [];
+  const calendar: Date[] = [];
+
+  const year = date.getFullYear();
+  const month = date.getMonth(); // 0-indexed
+
   const firstDate = new Date(year, month, 1);
   const dayIndex = firstDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-  const totalDaysOfCurrentMonth = new Date(year, month+1, 0).getDate();
+
+  const totalDaysOfCurrentMonth = new Date(year, month + 1, 0).getDate();
   const totalDaysOfPreviousMonth = new Date(year, month, 0).getDate();
-  
-  let paddings; // the number of padding zeros in the first row
+
+  let paddings: number;
   if (startFromMonday) {
     paddings = (dayIndex + 6) % 7;
-  } else { // starts from sunday
+  } else {
     paddings = dayIndex;
   }
 
-  // fill the calendar
-  for (let i = paddings-1; i >= 0; i--) {
-    calendar.push(totalDaysOfPreviousMonth-i);
+  // Previous month's dates
+  for (let i = paddings - 1; i >= 0; i--) {
+    calendar.push(new Date(year, month - 1, totalDaysOfPreviousMonth - i));
   }
+
+  // Current month's dates
   for (let i = 1; i <= totalDaysOfCurrentMonth; i++) {
-    calendar.push(i);
+    calendar.push(new Date(year, month, i));
   }
-  let i = 1;
+
+  // Next month's dates to fill up to 42 cells (6 weeks)
+  let day = 1;
   while (calendar.length < 42) {
-    calendar.push(i);
-    i++;
+    calendar.push(new Date(year, month + 1, day));
+    day++;
   }
 
   return calendar;
-
-  // const calendar2D = [];
-  // for (let i = 0; i < 6; i++) {
-  //   calendar2D.push(calendar.slice(i * 7, i * 7 + 7));
-  // }
-  // return calendar2D;
 }
 
 export const generateCalendarWeekly = (date: Date) => {
-  if (!(date instanceof Date)) {
-    throw new Error("Input must be a Date object");
-  }
-
   const day = date.getDay(); // 0 (Sun) - 6 (Sat)
-
-  // Calculate how many days to subtract to get Monday
   const diffToMonday = (day + 6) % 7;
 
-  // Get Monday of the current week
   const monday = new Date(date);
   monday.setDate(date.getDate() - diffToMonday);
 
-  // Generate array of day numbers for the week (Mon–Sun)
-  const week = [];
+  const week: Date[] = [];
   for (let i = 0; i < 7; i++) {
     const d = new Date(monday);
     d.setDate(monday.getDate() + i);
-    week.push(d.getDate());
+    week.push(d);
   }
 
   return week;
-  // Output: [9, 10, 11, 12, 13, 14, 15]
 }
 
 export const generateCalendarBiWeekly = (date: Date) => {
@@ -302,21 +296,20 @@ export const generateCalendarBiWeekly = (date: Date) => {
   const currentMonday = new Date(date);
   currentMonday.setDate(date.getDate() - diffToMonday);
 
-  const currentWeek = [];
-  const nextWeek = [];
+  const currentWeek: Date[] = [];
+  const nextWeek: Date[] = [];
 
   for (let i = 0; i < 7; i++) {
     const dayInCurrentWeek = new Date(currentMonday);
     dayInCurrentWeek.setDate(currentMonday.getDate() + i);
-    currentWeek.push(dayInCurrentWeek.getDate());
+    currentWeek.push(dayInCurrentWeek);
 
     const dayInNextWeek = new Date(currentMonday);
     dayInNextWeek.setDate(currentMonday.getDate() + i + 7);
-    nextWeek.push(dayInNextWeek.getDate());
+    nextWeek.push(dayInNextWeek);
   }
 
   return [currentWeek, nextWeek];
-  // Output: [[9, 10, 11, 12, 13, 14, 15], [16, 17, 18, 19, 20, 21, 22]]
 }
 
 export const getISOWeekNumber = (date: Date, startFromMonday: boolean = true) => {
@@ -337,4 +330,13 @@ export const getDateByOffset = (date: Date, offset: number = 0) => {
   const targetDate = new Date(date);
   targetDate.setDate(date.getDate() + offset);
   return targetDate;
+}
+
+export const isToday = (date: Date) => {
+  const today = new Date();
+  return (
+    date.getFullYear() === today.getFullYear() &&
+    date.getMonth() === today.getMonth() &&
+    date.getDate() === today.getDate()
+  );
 }

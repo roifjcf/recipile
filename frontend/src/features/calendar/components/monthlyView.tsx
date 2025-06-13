@@ -2,22 +2,20 @@ import { generateCalendarMonthly } from "@/utils/helper";
 import Day from "./day";
 
 interface Props {
-  year: number,
-  month: number,
+  selectedDate: Date,
 };
 
 export default function MonthlyView({
-  year,
-  month
+  selectedDate,
 }: Props) {
 
   
   return (
   <div className="monthlyview-container">
-    {generateCalendarMonthly(year, month).map((date, index) =>
+    {generateCalendarMonthly(selectedDate).map((date, index) =>
       <Day
         key={index}
-        day={date}
+        date={date}
       />)}
   </div>
 

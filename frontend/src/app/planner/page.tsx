@@ -4,8 +4,9 @@ import Icon from "@/components/icon";
 import Navbar from "@/components/navbar";
 import PlannerSidePanelContext from "@/contexts/plannerSidePanelContext";
 import Calendar from "@/features/calendar/calendar";
+import MiniCalendar from "@/features/calendar/components/miniCalendar";
 import SidePanel from "@/features/sidePanel/sidePanel";
-import { loadTheme, numberToMonth } from "@/utils/helper";
+import { getDateByOffset, loadTheme, numberToMonth } from "@/utils/helper";
 import { useEffect, useState } from "react";
 
 export default function Page() {
@@ -15,24 +16,13 @@ export default function Page() {
     loadTheme();
   }, []);
 
-
-  const [currentYear, setCurrentYear] = useState<number>(new Date().getFullYear()); // for monthly display
-  const [currentMonth, setCurrentMonth] = useState<number>(new Date().getMonth()); // for monthly display, 0-indexed
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [showSidePanel, setShowSidePanel] = useState<boolean>(false);
+  const [showMiniCalendar, setShowMiniCalendar] = useState<boolean>(false);
   const [displayMode, setDisplayMode] = useState<CalendarDisplay>("month");
 
-
-  const handleLoadPreviousMonth = () => {
-    if (currentMonth === 0) {setCurrentYear(currentYear-1);}
-    setCurrentMonth((currentMonth-1+12)%12);
-  }
-
-  const handleLoadNextMonth = () => {
-    if (currentMonth === 11) {setCurrentYear(currentYear+1);}
-    setCurrentMonth((currentMonth+1)%12);
-  };
-
+  const currentYear = selectedDate.getFullYear();
+  const currentMonth = numberToMonth(selectedDate.getMonth());
 
   const plannerSidePanelContext = {
     showSidePanel: showSidePanel,
@@ -40,12 +30,32 @@ export default function Page() {
   }
 
   const handleResetDate = () => {
-    setCurrentYear(new Date().getFullYear());
-    setCurrentMonth(new Date().getMonth());
     setSelectedDate(new Date());
   }
 
-
+  const handleUpdateCalendar = (forward: boolean, mode: CalendarDisplay) => {
+    if (mode === "day") {
+      if (forward) { setSelectedDate(getDateByOffset(selectedDate, 1)); }
+      else { setSelectedDate(getDateByOffset(selectedDate, -1)); }
+    } else if (mode === "week") {
+      if (forward) { setSelectedDate(getDateByOffset(selectedDate, 7)); }
+      else { setSelectedDate(getDateByOffset(selectedDate, -7)); }
+    } else if (mode === "bi-week") {
+      if (forward) { setSelectedDate(getDateByOffset(selectedDate, 14)); }
+      else { setSelectedDate(getDateByOffset(selectedDate, -14)); }
+    } else if (mode === "month") {
+      let year = currentYear;
+      let month = selectedDate.getMonth();
+      if (forward) {
+        year = (month === 11) ? year + 1 : year;
+        month = (month === 11) ? 0 : month + 1;
+      } else {
+        year = (month === 0) ? year - 1: year;
+        month = (month === 0) ? 11 : month - 1;
+      }
+      setSelectedDate(new Date(year, month, 1));
+    }
+  }
 
   return (
   <PlannerSidePanelContext.Provider value={plannerSidePanelContext}>
@@ -55,22 +65,27 @@ export default function Page() {
       <Navbar />
       <div className="planner-header">
         <div className="left">
-          <Icon
-            src="calendar-outline"
-            hoverable={true}
-          />
-          <h2>{currentYear} {numberToMonth(currentMonth)}</h2>
+          <div className="planner-mini-calendar">
+            <Icon
+              src="calendar-outline"
+              hoverable={true}
+              onClick={() => setShowMiniCalendar(!showMiniCalendar)}
+            />
+            {showMiniCalendar &&
+            <MiniCalendar setSelectedDate={setSelectedDate} />}
+          </div>
+          <h2>{currentYear} {currentMonth}</h2>
           {displayMode !== "day" &&
           <>
             <Icon
               src="arrow-back"
-              onClick={handleLoadPreviousMonth}
               hoverable={true}
+              onClick={()=>handleUpdateCalendar(false, displayMode)}
             />
             <Icon
               src="arrow-forward"
-              onClick={handleLoadNextMonth}
               hoverable={true}
+              onClick={()=>handleUpdateCalendar(true, displayMode)}
             />
           </>}
           <button onClick={handleResetDate}>Today</button>
@@ -85,10 +100,9 @@ export default function Page() {
       </div>
 
       <Calendar
-        year={currentYear}
-        month={currentMonth}
         selectedDate={selectedDate}
         display={displayMode}
+        handleUpdateCalendar={handleUpdateCalendar}
       />
 
       {showSidePanel && <SidePanel />}

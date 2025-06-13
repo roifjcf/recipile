@@ -18,6 +18,7 @@
   $size: $size-3xl;
   width: $size;
   height: $size;
+  padding: $space-1;
 
   position: absolute;
   top: $space-2;
@@ -48,4 +49,9 @@
 
 .day-background {
   filter: invert(0.5);
+}
+
+.day-highlight {
+  color: var(--on-primary);
+  background-color: var(--primary);
 }

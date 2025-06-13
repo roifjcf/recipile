@@ -11,8 +11,8 @@ export default function WeeklyView({
   
   return (
   <div className="weeklyview-container">
-    {generateCalendarWeekly(selectedDate).map((day, index) =>
-    <Day key={index} day={day} />
+    {generateCalendarWeekly(selectedDate).map((date, index) =>
+    <Day key={index} date={date} />
     )}
   </div>
 
