@@ -17,17 +17,29 @@ export default function Page() {
     loadTheme();
   }, []);
 
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [showSidePanel, setShowSidePanel] = useState<boolean>(false);
+  /**
+   * Calendar hooks
+   */
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date()); // for controlling calendar
   const [showMiniCalendar, setShowMiniCalendar] = useState<boolean>(false);
   const [displayMode, setDisplayMode] = useState<CalendarDisplay>("month");
 
+  /**
+   * Side panel hooks
+   */
+  const [showSidePanel, setShowSidePanel] = useState<boolean>(false);
+  const [sidePanelDate, setSidePanelDate] = useState<Date>(new Date());
+
+  /**
+   * Others
+   */
   const currentYear = selectedDate.getFullYear();
   const currentMonth = numberToMonth(selectedDate.getMonth());
 
   const plannerSidePanelContext = {
     showSidePanel: showSidePanel,
     setShowSidePanel: setShowSidePanel,
+    sidePanelDate: sidePanelDate,
   }
 
   const handleResetDate = () => {
@@ -111,7 +123,7 @@ export default function Page() {
 
       {showSidePanel &&
       <WrapperClickOutside handler={()=>setShowSidePanel(false)}>
-        <SidePanel />
+        <SidePanel/>
       </WrapperClickOutside>}
     </div>
 

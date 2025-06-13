@@ -1,5 +1,5 @@
 /*
-  Basic data
+  Data interfaces
 */
 export interface RecipeInterface {
   id: number,
@@ -35,7 +35,19 @@ export interface IngredientInterface {
   unit: string
 }
 
-
+export interface MealPlannerInterface {
+  id: string;
+  created: string;
+  sessions: {
+    sessionName: string;
+    recipes: {
+      recipeId: number;
+      quantity: number;
+    }[];
+    notes: string[];
+  }[];
+  note: string;
+}
 
 
 
@@ -111,7 +123,7 @@ export type RecipeSortOptions = "default" | "date" | "name" | "time" | "serving 
 
 
 /*
-  Other props
+  Component props
 */
 
 export interface IconProps {

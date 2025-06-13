@@ -3,11 +3,9 @@ import PlannerSidePanelContext from "@/contexts/plannerSidePanelContext";
 import { useContext, useEffect } from "react";
 
 interface Props {
-
 }
 
 export default function SidePanel({
-
 }: Props) {
 
   const context = useContext(PlannerSidePanelContext);
