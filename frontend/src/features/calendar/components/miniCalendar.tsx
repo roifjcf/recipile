@@ -31,7 +31,7 @@ export default function MiniCalendar({
   }
 
   return (
-  <div className="minicalendar-container">
+  <div className="minicalendar-container ">
 
     <div className="minicalendar-header">
       <div className="info">

@@ -2,6 +2,7 @@
 import { CalendarDisplay } from "@/common/type";
 import Icon from "@/components/icon";
 import Navbar from "@/components/navbar";
+import WrapperClickOutside from "@/components/wrapperClickOutsite";
 import PlannerSidePanelContext from "@/contexts/plannerSidePanelContext";
 import Calendar from "@/features/calendar/calendar";
 import MiniCalendar from "@/features/calendar/components/miniCalendar";
@@ -72,7 +73,10 @@ export default function Page() {
               onClick={() => setShowMiniCalendar(!showMiniCalendar)}
             />
             {showMiniCalendar &&
-            <MiniCalendar setSelectedDate={setSelectedDate} />}
+            <WrapperClickOutside handler={()=>setShowMiniCalendar(false)}>
+              <MiniCalendar setSelectedDate={setSelectedDate} />
+            </WrapperClickOutside>
+            }
           </div>
           <h2>{currentYear} {currentMonth}</h2>
           {displayMode !== "day" &&
@@ -105,7 +109,10 @@ export default function Page() {
         handleUpdateCalendar={handleUpdateCalendar}
       />
 
-      {showSidePanel && <SidePanel />}
+      {showSidePanel &&
+      <WrapperClickOutside handler={()=>setShowSidePanel(false)}>
+        <SidePanel />
+      </WrapperClickOutside>}
     </div>
 
   </PlannerSidePanelContext.Provider>
