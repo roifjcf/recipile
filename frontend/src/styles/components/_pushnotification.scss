@@ -1,0 +1,29 @@
+@use '../themes/theme' as *;
+@use '../abstracts/variables' as *;
+
+.pushnotification-container {
+  width: 200px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: $space-2;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: $z-index-modal;
+
+  
+}
+
+.pushnotification-item {
+  width: 100%;
+  padding: $space-4;
+  margin-top: $space-2;
+
+
+  background-color: var(--tertiary-container);
+  color: var(--on-tertiary-container);
+  border-radius: $radius-md
+}

@@ -1,0 +1,135 @@
+
+return (
+  <div className="recipedetail-container round-corner">
+
+    {mode === "view" &&
+    <>
+    
+    <div className="recipedetail-container-left">
+      <RecipeImage mode="view" />
+      <div className="recipedetail-text-info-container-left">
+        <h3>{recipeDetail["name"]}</h3>
+        <a href={recipeDetail["external_links"]} target="_blank">
+          <Icon src={"link-outline"} hoverable={true}/>
+        </a>
+        <Tags mode={mode} recipeTags={recipeDetail["tags"]} tags={tags} />
+        <MiniStats mode="view" recipeDetail={recipeDetail}/>
+      </div>
+    </div>
+
+
+
+    <div className="recipedetail-container-right">
+      
+      <div className="recipedetail-button-container">
+        <div className="recipedetail-button-container-left">
+          <Icon src={"edit-outline"} altsrc={"edit-fill"} hoverable={true} onClick={()=>setMode("update")}/>
+        </div>
+        <div className="recipedetail-button-container-right">
+          <Icon src={"cancel-outline"} altsrc={"cancel-fill"} hoverable={true} onClick={handleClose}/>
+        </div>
+      </div>
+
+
+      
+      <IngredientCard
+        mode={mode}
+        recipeDetail={recipeDetail}
+        ingredients={ingredients}
+        selectedIngredient={selectedIngredient}
+      />
+      <StepCard
+        mode={mode}
+        recipeDetail={recipeDetail}
+        newStep={newStep}
+      />
+      <NoteCard
+        mode={mode}
+        recipeDetail={recipeDetail}
+        onChange={undefined}
+      />
+
+
+
+
+    </div>
+    </>}
+
+
+
+    {(mode === "update" || mode === "new") &&
+    <>
+    
+    <div className="recipedetail-container-left">
+      {mode === "update" &&
+      <Icon className="recipedetail-deletebtn" src="bin-outline" altsrc="bin-fill"
+      hoverable={true} onClick={()=>{handleDeleteRecipe(recipeDetail.id); handleClose();}}/>}
+      
+      <RecipeImage mode="view" />
+      <div className="recipedetail-text-info-container-left">
+        <input
+          type="text"
+          value={recipeDetail["name"]}
+          onChange={(e)=>setRecipeDetail({...recipeDetail, name: e.target.value})}
+          placeholder="Recipe name"
+        />
+        <input
+          type="text"
+          value={recipeDetail["external_links"]}
+          onChange={(e)=>setRecipeDetail({...recipeDetail, external_links: e.target.value})}
+          placeholder="External link"
+        />
+
+        <Tags mode={mode} recipeTags={recipeDetail["tags"]} tags={tags} handleRemoveTag={handleRemoveTag} />
+        <select className="inline" value={selectedTag} onChange={e=>setSelectedTag(e.target.value)}>
+          {tags.map((tag: Tag, index: number) =>
+          <option key={index} value={tag["name"]}>{tag["name"]}</option>)}
+        </select>
+        <Icon src={"add-outline"} hoverable={true} onClick={handleAddExistingTag} />
+        <ManageAddItem table="tags" handleAdd={handleAddNewRecord} />
+        
+        <MiniStats mode={mode} recipeDetail={recipeDetail} onChange={[handleUpdatePreptime, handleUpdateServing]}/>
+      </div>
+    </div>
+    
+    <div className="recipedetail-container-right">
+      <div className="recipedetail-button-container">
+        <div className="recipedetail-button-container-left">
+          {mode === "update" && <Icon src={"undo-outline"} hoverable={true} onClick={resetEditState}/>}
+          {mode === "update" && <Icon src={"yes-outline"} hoverable={true} onClick={handleUpdate}/>}
+          {mode === "new" && <Icon src={"yes-outline"} hoverable={true} onClick={()=>handleAddNewRecord("recipes", {...recipeDetail})}/>}
+        </div>
+        <div className="recipedetail-button-container-right">
+          <Icon src={"cancel-outline"} altsrc={"cancel-fill"} hoverable={true} onClick={handleClose}/>
+        </div>
+      </div>
+      
+      <IngredientCard
+        mode={mode}
+        recipeDetail={recipeDetail}
+        ingredients={ingredients}
+        selectedIngredient={selectedIngredient}
+        setSelectedIngredient={setSelectedIngredient}
+        handleRemoveIngredient={handleRemoveIngredient}
+        handleUpdateIngredientAmount={handleUpdateIngredientAmount}
+        handleAddExistingIngredient={handleAddExistingIngredient}
+        handleAddNewRecord={handleAddNewRecord}
+      />
+      <StepCard
+        mode={mode}
+        recipeDetail={recipeDetail}
+        newStep={newStep}
+        handleRemoveStep={handleRemoveStep}
+        handleUpdateStep={handleUpdateStep}
+        handleReorder={handleReorder}
+        setNewStep={setNewStep}
+        handleAddStep={handleAddStep}
+      />
+      <NoteCard
+        mode={mode}
+        recipeDetail={recipeDetail}
+        onChange={(e)=>setRecipeDetail({...recipeDetail, notes:e.target.value})}
+      />
+    </div>
+
+    </>}

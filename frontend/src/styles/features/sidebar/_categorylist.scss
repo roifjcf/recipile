@@ -1,0 +1,44 @@
+@use '../../themes/theme' as *;
+@use '../../abstracts/variables' as *;
+
+$local-gap: $space-8;
+
+.categorylist-item {
+  height: $size-5xl;
+  padding: 0 $local-gap;
+
+  position: relative;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+$circle-size: $size-2xl;
+
+.categorylist-decorative-circle {
+  content: '';
+  width: $circle-size;
+  height: $circle-size;
+  position: absolute;
+
+  border-radius: $radius-full;
+  background-color: var(--surface);
+}
+
+.categorylist-item-selected {
+  background-color: var(--surface-container-lowest);
+
+  &::before {
+    @extend .categorylist-decorative-circle;
+    top: -#{$circle-size};
+    right: 0;
+    box-shadow: calc($circle-size / 2) calc($circle-size / 2) 0 var(--surface-container-lowest);
+  }
+
+  &::after {
+    @extend .categorylist-decorative-circle;
+    bottom: -#{$circle-size};
+    right: 0;
+    box-shadow: calc($circle-size / 2) calc($circle-size / -2) 0 var(--surface-container-lowest);
+  }
+}

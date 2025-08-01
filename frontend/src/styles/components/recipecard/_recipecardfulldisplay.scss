@@ -1,0 +1,35 @@
+@use '../../themes/theme' as *;
+@use '../../abstracts/variables' as *;
+
+.recipecardfulldisplay-container {
+  margin-bottom: $space-6;
+  max-height: 500px;
+  width: 400px;
+
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+
+  background-color: var(--surface);
+  border-radius: $radius-md;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.recipecardfulldisplay-text-info-container {
+  padding: $space-8;
+}
+
+.recipecardfulldisplay-text-info-container-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .right {
+    display: flex;
+    flex-direction: row;
+  }
+}
