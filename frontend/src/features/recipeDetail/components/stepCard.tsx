@@ -39,7 +39,7 @@ export default function StepCard({
         <li key={index}>
           <Icon src="bin-outline" altsrc="bin-fill" hoverable={true} onClick={()=>{handleRemoveStep?.(index)}} />
           <input
-            className="input-long inline"
+            className="input-full inline"
             key={index}
             type="text"
             placeholder="Step"
@@ -54,7 +54,7 @@ export default function StepCard({
         {/* input field for new steps */}
         <li>
           <input
-            className="input-long inline"
+            className="input-full inline"
             type="text"
             placeholder="New step..."
             value={newStep}

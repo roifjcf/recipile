@@ -3,8 +3,9 @@
 
 .recipecardfulldisplay-container {
   margin-bottom: $space-6;
-  max-height: 500px;
-  width: 400px;
+  height: 350px;
+  width: 22%;
+  min-width: 320px;
 
   display: flex;
   flex-direction: column;
@@ -20,6 +21,7 @@
 }
 
 .recipecardfulldisplay-text-info-container {
+  height: 150px;
   padding: $space-8;
 }
 

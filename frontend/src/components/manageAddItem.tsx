@@ -75,7 +75,7 @@ export default function ManageAddItem({
         className="input-mid"
         type="text"
         value={valueName}
-        placeholder="name"
+        placeholder={`${table === "tags" ? "Add a new tag" : "Name"}`}
         onChange={(e)=>{setValueName(e.target.value)}}
       />
 
@@ -84,7 +84,7 @@ export default function ManageAddItem({
         className="input-small"
         type="text"
         value={valueUnit}
-        placeholder="unit"
+        placeholder="Unit"
         onChange={(e)=>{setValueUnit(e.target.value)}}
       />}
     </div>

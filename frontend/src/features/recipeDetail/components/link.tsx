@@ -19,12 +19,16 @@ export default function Link({
                           <Icon src={"link-outline"} hoverable={true}/>
                         </a>;
 
-  const renderEditMode = () => <input
-                            type="text"
-                            value={url}
-                            onChange={(e)=>setRecipeDetail({...recipeDetail, external_links: e.target.value})}
-                            placeholder="External link"
-                          />
+  const renderEditMode = () => (
+  <>
+    <h4>Reference link</h4>
+    <input
+      type="text"
+      value={url}
+      onChange={(e)=>setRecipeDetail({...recipeDetail, external_links: e.target.value})}
+      placeholder="External link"
+    />
+  </>);
 
   return mode === "view" ?  renderViewMode() : renderEditMode();
 }

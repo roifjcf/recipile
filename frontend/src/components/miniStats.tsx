@@ -22,6 +22,7 @@ export default function MiniStats({
   const renderPrepTime = () => {
     return (
       <div className="ministats-item">
+        {inEditMode && <h4>Prep time</h4> }
         <Icon src={"time-outline"} />
         {!inEditMode && <p>{recipeDetail["prep_time"] + (recipeDetail["prep_time"] > 1 ? " minutes" : "minute")}</p>}
         {inEditMode &&
@@ -41,6 +42,7 @@ export default function MiniStats({
   const renderServing = () => {
     return (
       <div className="ministats-item">
+        {inEditMode && <h4>Serving size</h4> }
         <Icon src={"serving-outline"} />
         {!inEditMode && <p>{recipeDetail["serving"]}</p>}
         {inEditMode &&

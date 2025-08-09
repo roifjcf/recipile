@@ -37,7 +37,7 @@ export default function Tags({
 
 
 
-  const [selectedTag, setSelectedTag] = useState<string>(""); // currenty selected tag name, for the `select` element
+  const [selectedTag, setSelectedTag] = useState<string>(tags.length > 0 ? tags[0]["name"] : ""); // currenty selected tag name, for the `select` element
 
 
 
@@ -58,9 +58,13 @@ export default function Tags({
 
 
 
-
   return (
     <ul className="tags-container">
+      {mode !== "view" && // edit mode
+      <>
+        <h4>Tags</h4>
+      </>}
+
 
       {recipeTags.map((tag, index) =>
         <Tag
@@ -71,13 +75,16 @@ export default function Tags({
         />
       )}
 
-      {mode !== "view" && 
+
+      {mode !== "view" && // edit mode
       <>
-        <select className="inline" value={selectedTag} onChange={e=>setSelectedTag(e.target.value)}>
-          {tags.map((tag: TagInterface, index: number) =>
-          <option key={index} value={tag["name"]}>{tag["name"]}</option>)}
-        </select>
-        <Icon src={"add-outline"} hoverable={true} onClick={handleAddExistingTag} />
+        <div className="tags-selector-container">
+          <select className="inline" value={selectedTag} onChange={e=>setSelectedTag(e.target.value)}>
+            {tags.map((tag: TagInterface, index: number) =>
+            <option key={index} value={tag["name"]}>{tag["name"]}</option>)}
+          </select>
+          <Icon src={"add-outline"} hoverable={true} onClick={handleAddExistingTag} />
+        </div>
         <ManageAddItem table="tags" handleAdd={handleAddNewRecord} />
       </>}
     </ul>

@@ -3,8 +3,8 @@
 
 .recipecardsimpledisplay-container {
   margin-bottom: $space-6;
-  max-height: 500px;
-  width: 400px;
+  max-height: 200px;
+  width: 300px;
   padding: $space-8;
 
   display: flex;
@@ -30,4 +30,8 @@
     display: flex;
     flex-direction: row;
   }
+}
+
+.recipecardsimpledisplay-title {
+  font-size: $font-size-lg;
 }

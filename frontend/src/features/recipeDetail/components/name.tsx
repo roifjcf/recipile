@@ -21,12 +21,16 @@ export default function Name({
 
   const renderViewMode = () => <h3>{name}</h3>;
 
-  const renderEditMode = () => <input
-                            type="text"
-                            value={name}
-                            onChange={handleNameChange}
-                            placeholder="Recipe name"
-                          />;
+  const renderEditMode = () => (
+  <>
+    <h4>Name*</h4>
+    <input
+      type="text"
+      value={name}
+      onChange={handleNameChange}
+      placeholder="Recipe name"
+    />
+  </>);
   
   // https://stackoverflow.com/questions/42573017/in-react-es6-why-does-the-input-field-lose-focus-after-typing-a-character
   return mode === "view" ?  renderViewMode() : renderEditMode();

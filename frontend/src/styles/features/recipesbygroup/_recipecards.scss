@@ -5,10 +5,16 @@
 .recipecards-container {
   width: 100%;
   height: 100%;
-  padding: 0 $space-4;
+  padding: 0 $space-8;
+
+  // display: flex;
+  // flex-direction: row;
+  // flex-wrap: wrap;
+  // gap: $space-2;
 
   overflow-y: scroll;
   justify-items: center;
+  justify-content: space-between;
   align-items: start;
 
   &::-webkit-scrollbar {
@@ -22,8 +28,10 @@
 
 .recipecards-container-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
+
+
 
 .recipecards-container-list {
   display: flex;

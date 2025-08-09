@@ -6,7 +6,9 @@ $recipecard-container-left: 40%;
 $recipecard-container-right: 100% - $recipecard-container-left;
 
 .recipedetail-container {
-  width: 800px; // sum (width, margin-left, margin-right) = 70%
+  width: 70%;
+  max-width: 1200px;
+  min-width: 800px; // sum (width, margin-left, margin-right) = 70%
   height: 70%; // sum (height, margin-top, margin-bottom) = 100%
 
   display: flex;
@@ -28,14 +30,14 @@ $recipecard-container-right: 100% - $recipecard-container-left;
 }
 
 
-
-.recipedetail-name-container {
+.recipedetail-name-container, .recipedetail-link-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
   gap: $space-2;
 }
+
 
 
 .recipedetail-deletebtn {
@@ -54,10 +56,13 @@ $recipecard-container-right: 100% - $recipecard-container-left;
   position: relative;
   display: flex;
   flex-direction: column;
+  border-right: 1px solid var(--surface-container);
 }
 
 .recipedetail-text-info-container-left {
   padding: $space-8;
+  display: flex;
+  flex-direction: column;
 }
 
 .recipedetail-container-right {

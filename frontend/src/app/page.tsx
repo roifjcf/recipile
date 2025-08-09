@@ -198,21 +198,24 @@ export default function Home() {
 
 
         { showRecipeDetail && currentRecipe && ingredients && tags && currentCategory && recipes &&
-        <RecipeDetail
-          tags={tags}
-          setTags={setTags}
-          ingredients={ingredients}
-          setIngredients={setIngredients}
-          recipe={currentRecipe}
-          setCurrentRecipe={setCurrentRecipe}
-          mode={mode}
-          setMode={setMode}
-          currentCategory={currentCategory}
-          recipes={recipes}
-          setRecipes={setRecipes}
-          setShowRecipeDetail={setShowRecipeDetail}
-          handleDeleteRecipe={handleDeleteRecipe}
-        />}
+        <>
+          <RecipeDetail
+            tags={tags}
+            setTags={setTags}
+            ingredients={ingredients}
+            setIngredients={setIngredients}
+            recipe={currentRecipe}
+            setCurrentRecipe={setCurrentRecipe}
+            mode={mode}
+            setMode={setMode}
+            currentCategory={currentCategory}
+            recipes={recipes}
+            setRecipes={setRecipes}
+            setShowRecipeDetail={setShowRecipeDetail}
+            handleDeleteRecipe={handleDeleteRecipe}
+          />
+          <div className="bluroverlay"></div>
+        </>}
 
         <PushNotification
           messageQueue={messageQueue}

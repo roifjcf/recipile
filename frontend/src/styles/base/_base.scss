@@ -113,7 +113,7 @@ input, select {
 
 textarea {
   width: 100%;
-  padding: $space-1;
+  padding: $space-2;
 
   height: 150px;
   resize: none;
@@ -160,6 +160,10 @@ button {
   width: 300px;
 }
 
+.input-full {
+  width: 100%;
+}
+
 .label {
   padding: $space-1 $space-2;
 
@@ -177,4 +181,13 @@ button {
 
 .active-button {
   background-color: var(--primary);
+}
+
+.bluroverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(4px);
 }

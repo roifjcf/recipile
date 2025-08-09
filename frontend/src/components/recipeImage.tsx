@@ -26,6 +26,7 @@ export default function RecipeImage({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file && file.type.startsWith("image/")) {
+      const fileName = file.name;
       const reader = new FileReader();
 
       reader.onloadend = () => {
@@ -33,6 +34,7 @@ export default function RecipeImage({
         setRecipeDetail && setRecipeDetail({
           ...recipe,
           img_main: base64String,
+          img_filename: fileName,
         });
       };
 
@@ -41,6 +43,7 @@ export default function RecipeImage({
       // setImageURL(null);
     }
   };
+
 
   const renderEdit = () => {
     return (
@@ -64,6 +67,14 @@ export default function RecipeImage({
     );
   }
 
+
+
+
+
+
+
+
+
   return (
   <div className="recipeimage-container">
     
@@ -75,11 +86,7 @@ export default function RecipeImage({
         alt="Preview"
         className="recipeimage-img"
       />
-    }
-
-
-
-    
+    }    
   </div>);
 
 

@@ -12,10 +12,10 @@ export interface RecipeInterface {
   serving: number,
   prep_time: number,
   notes: string,
-  categories: string[], // id
-  tags: string[], // id
-  img_filename: string,
-  img_main: string | null,
+  categories: string[], // category ids
+  tags: string[], // tag ids
+  img_filename: string, // the file name of the recipe image
+  img_main: string | null, // the base-64 data
 }
 
 export interface CategoryInterface {

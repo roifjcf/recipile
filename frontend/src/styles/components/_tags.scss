@@ -9,3 +9,8 @@
   flex-wrap: wrap;
   gap: $space-2;
 }
+
+.tags-selector-container {
+  display: flex;
+  flex-direction: row;
+}

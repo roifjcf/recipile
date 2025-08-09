@@ -18,6 +18,8 @@ def convertToBinaryData(filename):
 
 
 def base64_to_binary(s):
+  if s == None:
+    return
   if s.startswith("data:"):
     s = s.split(",")[1]
   return base64.b64decode(s)

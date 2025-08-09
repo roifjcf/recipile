@@ -16,11 +16,11 @@ const links = [
     iconSrc: "data-outline",
     text: "Manage",
   },
-  {
-    url: "/planner",
-    iconSrc: "calendar-outline",
-    text: "Planner",
-  },
+  // {
+  //   url: "/planner",
+  //   iconSrc: "calendar-outline",
+  //   text: "Planner",
+  // },
 ];
 
 interface Props {
@@ -72,8 +72,8 @@ export default function Navbar({
 
     <div className='navbar-button-container-right'>
       <ThemeButton />
-      <Icon src='language-outline' hoverable={true}/>
-      <Icon src='setting-outline' hoverable={true}/>
+      {/* <Icon src='language-outline' hoverable={true}/> */}
+      {/* <Icon src='setting-outline' hoverable={true}/> */}
     </div>
 
   </div>

@@ -126,6 +126,8 @@ export default function RecipeDetail({
      * Adds a new recipe / ingredient / tag to the database
      */
     const [isValid, msg] = await validateData(table, content);
+    console.log(content);
+    
     if (!isValid) {
       return [false, msg];
     }
@@ -169,11 +171,14 @@ export default function RecipeDetail({
   /**
    * Hook updates
    */
-  const [selectedIngredient, setSelectedIngredient] = useState<string>(""); // ingredient name
+  const [selectedIngredient, setSelectedIngredient] = useState<string>(ingredients.length > 0 ? ingredients[0]["name"] : ""); // ingredient name
   const [newStep, setNewStep] = useState<string>("");
   
-  const handleRemoveTag = (tagid: string) => {
+  const handleRemoveTag = (tagName: string) => {
     /** Removes a tag from the recipe */
+    const tagid = findRecordidByName(tagName, tags).toString();
+    console.log(tagid);
+    console.log(recipeDetail.tags);
     setRecipeDetail({...recipeDetail, tags:recipeDetail.tags.filter(t => t !== tagid)});
   };
   const handleRemoveIngredient = (id: string) => {
@@ -256,8 +261,11 @@ export default function RecipeDetail({
         <div className="recipedetail-text-info-container-left">
           <div className="recipedetail-name-container">
             <Name name={recipeDetail["name"]} mode={mode} recipeDetail={recipeDetail} setRecipeDetail={setRecipeDetail} />
+          </div>
+          <div className="recipedetail-link-container">
             <Link mode={mode} url={recipeDetail["external_links"]} recipeDetail={recipeDetail} setRecipeDetail={setRecipeDetail} />
           </div>
+          <hr />
           <Tags
             mode={mode}
             recipeTags={recipeDetail["tags"]}
@@ -267,6 +275,8 @@ export default function RecipeDetail({
             setRecipeDetail={setRecipeDetail}
             handleAddNewRecord={handleAddNewRecord}
           />
+          <hr />
+
           <MiniStats mode={mode} recipeDetail={recipeDetail} onChange={[handleUpdatePreptime, handleUpdateServing]} />
         </div>
 

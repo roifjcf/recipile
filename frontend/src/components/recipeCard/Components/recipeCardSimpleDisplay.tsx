@@ -35,7 +35,7 @@ export default function RecipeCardSimpleDisplay({
       <div className="recipecardsimpledisplay-text-info-container-top">
 
         <div className="left">
-          <h3>{recipe.name}</h3>
+          <h3 className="recipecardsimpledisplay-title">{recipe.name}</h3>
         </div>
         
         <div className="right">
