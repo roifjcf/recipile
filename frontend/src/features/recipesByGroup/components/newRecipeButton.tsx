@@ -20,6 +20,8 @@ const newRecipeTemplate: RecipeInterface = {
   notes: "",
   categories: [],
   tags: [],
+  img_filename: "",
+  img_main: null,
 };
 
 export default function NewRecipeButton(props: Props) {

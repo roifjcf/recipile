@@ -26,6 +26,7 @@ export default function ManageItem (props:Props) {
   const [modifiedItem, setModifiedItem] = useState<CategoryInterface | TagInterface | IngredientInterface>(props.item);
   const [isInEditMode, setIsInEditMode] = useState<boolean>(false);
   const [showIconSelector, setShowIconSelector] = useState<boolean>(false);
+  
   const context = useContext(PushNotificationContext);
 
   const handleCancel = () => {
@@ -52,7 +53,11 @@ export default function ManageItem (props:Props) {
     setIsInEditMode(false);
     setShowIconSelector(false);
     if (typeof message === "string") {
-      context?.addNotificationMessage?.(message);
+      if (isSuccessfulUpdate) {
+        context?.addNotificationMessage?.(message, "Success");
+      } else {
+        context?.addNotificationMessage?.(message, "Error");
+      }
     }
   }
 

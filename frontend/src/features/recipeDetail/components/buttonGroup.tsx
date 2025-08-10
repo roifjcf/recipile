@@ -9,6 +9,7 @@ interface Props {
   resetEditState: () => void,
   handleUpdate: () => void,
   handleAddNewRecord: (table: Tables, content: any) => Promise<(string | boolean)[]>,
+  handleDeleteRecipe: (id:number) => void,
 };
 
 export default function ButtonGroup({
@@ -19,25 +20,35 @@ export default function ButtonGroup({
   resetEditState,
   handleUpdate,
   handleAddNewRecord,
+  handleDeleteRecipe,
 }:Props) {
 
   const ViewMode = () => <>
     <div>
-      <Icon src={"edit-outline"} altsrc={"edit-fill"} hoverable={true} onClick={()=>setMode("update")}/>
+      <Icon src={"cancel-outline"} altsrc={"cancel-fill"} hoverable={true} onClick={handleClose}/>
     </div>
     <div>
-      <Icon src={"cancel-outline"} altsrc={"cancel-fill"} hoverable={true} onClick={handleClose}/>
+      <Icon src={"edit-outline"} altsrc={"edit-fill"} hoverable={true} onClick={()=>setMode("update")}/>
     </div>
   </>;
 
   const EditMode = () => <>
-    <div className="buttongroup-sub-container-left">
-      {mode === "update" && <Icon src={"undo-outline"} hoverable={true} onClick={resetEditState}/>}
-      {mode === "update" && <Icon src={"yes-outline"} hoverable={true} onClick={handleUpdate}/>}
-      {mode === "new" && <Icon src={"yes-outline"} hoverable={true} onClick={()=>handleAddNewRecord("recipes", {...recipeDetail})}/>}
-    </div>
     <div>
       <Icon src={"cancel-outline"} altsrc={"cancel-fill"} hoverable={true} onClick={handleClose}/>
+    </div>
+    <div className="buttongroup-sub-container-bottom">
+      {/* delete button under edit(update) mode */}
+      {mode === "update" && <>
+        <Icon src="bin-outline" altsrc="bin-fill"
+            hoverable={true} onClick={()=>{handleDeleteRecipe(recipeDetail.id); handleClose();}}
+            showPopUp={true} popUpMessage="Delete the recipe?"
+          />
+        <span className="icon-divisor-horizontal"></span>
+      </>}
+      
+      {mode === "update" && <Icon src={"undo-outline"} hoverable={true} onClick={resetEditState} showPopUp={true} popUpMessage="Discard all changes?" />}
+      {mode === "update" && <Icon src={"yes-outline"} hoverable={true} onClick={handleUpdate}/>}
+      {mode === "new" && <Icon src={"yes-outline"} hoverable={true} onClick={()=>handleAddNewRecord("recipes", {...recipeDetail})}/>}
     </div>
   </>;
 

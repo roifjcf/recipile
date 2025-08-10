@@ -13,7 +13,7 @@ export default function NoteCard({
   setRecipeDetail,
 }: Props) {
 
-  const renderViewMode = () => <p>{recipeDetail["notes"]}</p>;
+  const renderViewMode = () => <p className="notecard-content">{recipeDetail["notes"]}</p>;
   const renderEditMode = () => <textarea
                             placeholder="Notes"
                             onChange={(e)=>setRecipeDetail({...recipeDetail, notes:e.target.value})}

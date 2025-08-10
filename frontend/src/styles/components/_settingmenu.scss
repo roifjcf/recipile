@@ -1,0 +1,11 @@
+@use '../themes/theme' as *;
+@use '../abstracts/variables' as *;
+
+.settingmenu-container {
+  width: 500px;
+  height: 700px;
+
+  background-color: var(--surface);
+  color: var(--on-surface);
+  border-radius: $size-md;
+}

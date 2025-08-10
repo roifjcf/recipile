@@ -4,6 +4,12 @@ import Icon from "@/components/icon";
 import { useEffect, useState } from 'react';
 import SearchBar from '@/components/searchBar';
 import ThemeButton from './themeButton';
+import SettingMenu from './settingMenu';
+
+
+
+
+
 
 const links = [
   {
@@ -30,6 +36,10 @@ interface Props {
 }
 
 
+
+
+
+
 export default function Navbar({
   handleDebounceChange,
   handleResetSearchInput,
@@ -38,14 +48,21 @@ export default function Navbar({
   
   
   const [currPath, setCurrPath] = useState<string>("");
+  const [showSettingMenu, setShowSettingMenu] = useState<boolean>(false);
   const showSearchBar = handleDebounceChange && handleResetSearchInput && searchInputRef;
 
   useEffect(() => {
     setCurrPath(window.location.pathname);
   }, []);
 
+  const closeSettingMenu = () => {
+    setShowSettingMenu(false);
+  }
+
   return (
   <div className="navbar-container">
+
+    {showSettingMenu && <SettingMenu closePopUp={closeSettingMenu} />}
 
     <div className="navbar-brand-info">
       <Icon src={"stack"} />
@@ -73,7 +90,7 @@ export default function Navbar({
     <div className='navbar-button-container-right'>
       <ThemeButton />
       {/* <Icon src='language-outline' hoverable={true}/> */}
-      {/* <Icon src='setting-outline' hoverable={true}/> */}
+      <Icon src='setting-outline' hoverable={true} onClick={()=>setShowSettingMenu(true)}/>
     </div>
 
   </div>

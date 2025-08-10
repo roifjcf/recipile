@@ -22,8 +22,22 @@
   padding: $space-4;
   margin-top: $space-2;
 
-
-  background-color: var(--tertiary-container);
-  color: var(--on-tertiary-container);
   border-radius: $radius-md
+}
+
+
+
+.pushnotification-neutral {
+  background-color: var(--surface-container);
+  color: var(--on-surface);
+}
+
+.pushnotification-error {
+  background-color: var(--error-container);
+  color: var(--on-error-container);
+}
+
+.pushnotification-success {
+  background-color: var(--secondary-container);
+  color: var(--on-secondary-container);
 }

@@ -31,11 +31,27 @@ export const removeEmptyItem = (list:string[]) => { return list.filter((item) =>
 
 
 
+export const fetchData = async () => {
+  /** fetches the following data from the database:
+   * categories
+   * tags
+   * ingredients
+   * recipes
+  */
 
+  const [categoryData, recipeData, tagData, ingredientData] = await Promise.all([
+    categoryAPI.get(),
+    recipeAPI.get(),
+    tagAPI.get(),
+    ingredientAPI.get(),
+  ]);
+  return [categoryData, recipeData, tagData, ingredientData];
+}
 
-
-
-
+export const fetchCategoryData = () => categoryAPI.get();
+export const fetchRecipeData = () => recipeAPI.get();
+export const fetchTagData = () => tagAPI.get();
+export const fetchIngredientData = () => ingredientAPI.get();
 
 
 

@@ -1,47 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
-// --rose-pompadour: #e27396ff;
-// --amaranth-pink: #ea9ab2ff;
-// --mimi-pink: #efcfe3ff;
-// --mustard: #f7cf4cff;
-// --light-blue: #b3dee2ff;
-
 :root {
-  /* === Minecraft Concrete Colors === */
-  --mc-concrete-white: #f9fffe;
-  --mc-concrete-light-gray: #9d9d97;
-  --mc-concrete-gray: #474f52;
-  --mc-concrete-black: #1d1d21;
-  --mc-concrete-brown: #825432;
-  --mc-concrete-red: #b02e26;
-  --mc-concrete-orange: #f9801d;
-  --mc-concrete-yellow: #ffd83d;
-  --mc-concrete-lime: #80c71f;
-  --mc-concrete-green: #5d7c15;
-  --mc-concrete-cyan: #169c9d;
-  --mc-concrete-light-blue: #3ab3da;
-  --mc-concrete-blue: #3c44a9;
-  --mc-concrete-purple: #8932b7;
-  --mc-concrete-magenta: #c64fbd;
-  --mc-concrete-pink: #f38caa;
-
-  /* === Minecraft Terracotta Colors === */
-  --mc-terracotta-white: #d2b1a1;
-  --mc-terracotta-light-gray: #876b62;
-  --mc-terracotta-gray: #3a2b24;
-  --mc-terracotta-black: #251710;
-  --mc-terracotta-brown: #4f3524;
-  --mc-terracotta-red: #8d3a2d;
-  --mc-terracotta-orange: #9d5123;
-  --mc-terracotta-yellow: #b88221;
-  --mc-terracotta-lime: #677535;
-  --mc-terracotta-green: #4e552c;
-  --mc-terracotta-cyan: #565c5c;
-  --mc-terracotta-light-blue: #766f8c;
-  --mc-terracotta-blue: #4a3b5b;
-  --mc-terracotta-purple: #7b4a59;
-  --mc-terracotta-magenta: #94566c;
-  --mc-terracotta-pink: #a65151;
 
   --primary:#f7cf4c;
   --on-primary: #FFFFFF;
@@ -93,10 +52,10 @@
   --primary-container:#FDCC44;
   --on-primary-container: #936B20;
 
-  --secondary: #8DA998;
+  --secondary: #8da8a9;
   --on-secondary: #FFFFFF;
-  --secondary-container: #D6E2DA;
-  --on-secondary-container: #485E5A;
+  --secondary-container: #d6e2df;
+  --on-secondary-container: #48595e;
 
   --tertiary: #A69487;
   --on-tertiary: #FFFFFF;
@@ -114,7 +73,7 @@
   --on-neutral-container: #888888;
 
   --surface: hsl(0, 0%, 10%);
-  --on-surface: #FFFCF6;
+  --on-surface: #d6d3cd;
   --on-surface-variant: hsl(38, 0%, 40%);
 
   --surface-container-lowest: hsl(0, 0%, 12%);
@@ -127,7 +86,7 @@
   --on-selection: #302B2B;
 
   --outline: #e0a537;
-  --outline-variant: #ddd0b6;
+  --outline-variant: #635743;
 
   --shadow: #16161610;
 }

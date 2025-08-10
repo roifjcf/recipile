@@ -1,14 +1,15 @@
 import { PUSH_NOTIFICATION_TIMEOUT } from "@/common/constant";
+import { PushNotificationMessageQueueInterface } from "@/common/type";
 import { useEffect } from "react";
 
 interface Props {
-  messageQueue: string[],
-  setMessageQueue: (hookval: string[]) => void,
+  messageQueue: PushNotificationMessageQueueInterface[],
+  setMessageQueue: (hookval: PushNotificationMessageQueueInterface[]) => void,
 }
 
 export default function PushNotification ({
   messageQueue,
-  setMessageQueue
+  setMessageQueue,
 }: Props){
 
   useEffect(() => {
@@ -24,10 +25,17 @@ export default function PushNotification ({
   }, [messageQueue]);
   
   return (
-    <div className="pushnotification-container">
+    <div className={`pushnotification-container`}>
       {messageQueue.map((message, index) =>
-      <div className="pushnotification-item animation-raise-up" key={index}>
-        {message}
+      <div
+        className={`pushnotification-item animation-raise-up
+            ${message["status"]==="Neutral"&&"pushnotification-neutral"}
+            ${message["status"]==="Success"&&"pushnotification-success"}
+            ${message["status"]==="Error"&&"pushnotification-error"}
+          `}
+        key={index}
+      >
+        {message["content"]}
       </div>)}
     </div>
   );

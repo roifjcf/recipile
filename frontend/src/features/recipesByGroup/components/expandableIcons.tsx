@@ -52,7 +52,7 @@ export default function ExpandableIcons({
           description={icon["description"]}
         />)}
 
-      {toggle && <span className="expandableicons-divisor"></span>}
+      {toggle && <span className="icon-divisor-vertical"></span>}
 
       <Icon
         src={src}

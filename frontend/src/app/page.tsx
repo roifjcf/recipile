@@ -6,9 +6,9 @@ import Navbar from "@/components/navbar";
 import PushNotification from "../components/pushNotification";
 import RecipeDetail from "@/features/recipeDetail/recipeDetail";
 
-import { RecipeInterface, CategoryInterface, TagInterface, IngredientInterface, Modes, RecipeCardDisplay, TagSetOperation, SideBarDisplay, RecipeSortOptions } from "@/common/type";
-import {recipeAPI, categoryAPI, tagAPI, ingredientAPI} from "@/utils/api"
-import { convertImgUrl, getRandomKaomoji, loadTheme } from "@/utils/helper";
+import { RecipeInterface, CategoryInterface, TagInterface, IngredientInterface, Modes, RecipeCardDisplay, TagSetOperation, SideBarDisplay, RecipeSortOptions, PushNotificationMessageQueueInterface } from "@/common/type";
+import { recipeAPI } from "@/utils/api"
+import { convertImgUrl, fetchData, getRandomKaomoji, loadTheme } from "@/utils/helper";
 import RecipesByCategory from "@/features/recipesByGroup/recipesByGroup";
 import SideBar from "@/features/sideBar/sideBar";
 import SearchResult from "@/features/recipeSearch/searchResult";
@@ -18,7 +18,7 @@ import SortMethodContext from "@/contexts/sortMethodContext";
 export default function Home() {
 
   /** Feature hooks */
-  const [messageQueue, setMessageQueue] = useState<string[]>([]); // for push notification
+  const [messageQueue, setMessageQueue] = useState<PushNotificationMessageQueueInterface[]>([]); // for push notification
 
   const [kaomoji, setKaomoji] = useState<string>("");// kaomoji
   const [mode, setMode] = useState<Modes>("view"); // toggles recipe detail edit
@@ -53,14 +53,10 @@ export default function Home() {
   useEffect(() => {
     // fetch categories
     // TODO if no categories create a default one and add it to the database
-    const fetchData = async () => {
+    const init = async () => {
       try {
-        const [categoryData, recipeData, tagData, ingredientData] = await Promise.all([
-          categoryAPI.get(),
-          recipeAPI.get(),
-          tagAPI.get(),
-          ingredientAPI.get(),
-        ]);
+        const [categoryData, recipeData, tagData, ingredientData] = await fetchData();
+        // process data
         recipeData.forEach((recipe: RecipeInterface) => {
           return recipe["img_main"] = convertImgUrl(recipe["img_main"]);
         });
@@ -72,10 +68,11 @@ export default function Home() {
       } catch (error) {
         console.error(error);
       }
-      
     };
+
+
     setKaomoji(getRandomKaomoji());
-    fetchData();
+    init();
   }, []);
 
 
@@ -121,7 +118,7 @@ export default function Home() {
 
   const addNotificationMessage = (msg: string) => {
     const queueToUpdate = [...messageQueue];
-    queueToUpdate.push(msg);
+    queueToUpdate.push({content: msg, status: "Neutral"});
     setMessageQueue(queueToUpdate);
   }
 

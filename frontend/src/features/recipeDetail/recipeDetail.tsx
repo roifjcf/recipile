@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { RecipeInterface, TagInterface, IngredientInterface, CategoryInterface, Tables, Modes } from "@/common/type";
 
@@ -23,6 +23,7 @@ import Name from "./components/name";
 import Link from "./components/link";
 import ButtonGroup from "./components/buttonGroup";
 import PushNotificationContext from "@/contexts/pushNotificationContext";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 
 
@@ -76,6 +77,8 @@ export default function RecipeDetail({
    */
   const [recipeDetail, setRecipeDetail] = useState<RecipeInterface>({...recipe});
   const context = useContext(PushNotificationContext);
+  const ref = useRef<HTMLDivElement>(null);
+
 
   const resetEditState = () => {
     setMode("view");
@@ -88,6 +91,8 @@ export default function RecipeDetail({
   };
 
   const handleKeyPress = (e: KeyboardEvent) => {if (e.key === "Escape") {handleClose()}};
+  useClickOutside(ref, handleClose);
+  
   
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
@@ -106,12 +111,14 @@ export default function RecipeDetail({
      * Updates the hooks and the (recipe) record in the database
      */
     const [isValid, message] = await validateData("recipes", recipeDetail);
-    if (!isValid) {
-      if (typeof message === "string") {
-        context?.addNotificationMessage?.(message);
+    if (typeof message === "string") {
+      if (isValid) {
+        context?.addNotificationMessage?.(message, "Success");
+      } else {
+        context?.addNotificationMessage?.(message, "Error");
       }
-      return;
     }
+    if (!isValid) { return; }
 
     await recipeAPI.update(recipeDetail);
     setCurrentRecipe({...recipeDetail});
@@ -244,7 +251,10 @@ export default function RecipeDetail({
 
       
   return (
-    <div className="recipedetail-container round-corner">
+    <div
+      className="recipedetail-container round-corner soft-shadow display-center"
+      ref={ref}
+    >
 
       {/* left column */}
       <div className="recipedetail-container-left">
@@ -265,7 +275,6 @@ export default function RecipeDetail({
           <div className="recipedetail-link-container">
             <Link mode={mode} url={recipeDetail["external_links"]} recipeDetail={recipeDetail} setRecipeDetail={setRecipeDetail} />
           </div>
-          <hr />
           <Tags
             mode={mode}
             recipeTags={recipeDetail["tags"]}
@@ -275,18 +284,16 @@ export default function RecipeDetail({
             setRecipeDetail={setRecipeDetail}
             handleAddNewRecord={handleAddNewRecord}
           />
-          <hr />
 
           <MiniStats mode={mode} recipeDetail={recipeDetail} onChange={[handleUpdatePreptime, handleUpdateServing]} />
         </div>
 
-        {/* delete button under edit(update) mode */}
-        {mode === "update" &&
-          <div className="recipedetail-deletebtn">
-            <Icon src="bin-outline" altsrc="bin-fill"
-            hoverable={true} onClick={()=>{handleDeleteRecipe(recipeDetail.id); handleClose();}}/>
-          </div>
-        }
+        <NoteCard
+          mode={mode}
+          recipeDetail={recipeDetail}
+          setRecipeDetail={setRecipeDetail}
+        />
+        
       </div>
       
 
@@ -296,15 +303,7 @@ export default function RecipeDetail({
 
       {/* right column */}
       <div className="recipedetail-container-right">
-        <ButtonGroup
-          mode={mode}
-          setMode={setMode}
-          handleClose={handleClose}
-          recipeDetail={recipeDetail}
-          resetEditState={resetEditState}
-          handleUpdate={handleUpdate}
-          handleAddNewRecord={handleAddNewRecord}
-        />
+        
 
         <IngredientCard
           mode={mode}
@@ -329,12 +328,22 @@ export default function RecipeDetail({
           handleAddStep={handleAddStep}
         />
 
-        <NoteCard
-          mode={mode}
-          recipeDetail={recipeDetail}
-          setRecipeDetail={setRecipeDetail}
-        />
         
+        
+      </div>
+
+      {/* sidebar */}
+      <div className="recipedetail-container-sidebar">
+        <ButtonGroup
+          mode={mode}
+          setMode={setMode}
+          handleClose={handleClose}
+          recipeDetail={recipeDetail}
+          resetEditState={resetEditState}
+          handleUpdate={handleUpdate}
+          handleAddNewRecord={handleAddNewRecord}
+          handleDeleteRecipe={handleDeleteRecipe}
+        />
       </div>
 
     </div>

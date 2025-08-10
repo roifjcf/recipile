@@ -17,7 +17,7 @@
 
 /* width */
 ::-webkit-scrollbar {
-  width: $size-xl;
+  width: 0;
 }
 /* Track */
 ::-webkit-scrollbar-track {
@@ -190,4 +190,35 @@ button {
   width: 100vw;
   height: 100vh;
   backdrop-filter: blur(4px);
+}
+
+.hidden {
+  display: none;
+}
+
+.icon-divisor-vertical {
+  width: $size-xs;
+  height: 50%;
+  background-color: var(--outline-variant);
+}
+
+.icon-divisor-horizontal {
+  width: 80%;
+  height: $size-xs;
+  background-color: var(--outline-variant);
+}
+
+.no-break {
+  white-space: nowrap; /* keeps the whole text on one line */
+}
+
+.soft-shadow {
+  box-shadow: 0 0 $size-xl var(--shadow);
+}
+
+.display-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

@@ -29,3 +29,10 @@
   z-index: $z-index-tooltip;
   white-space: nowrap;
 }
+
+.icon-popup {
+  position: absolute;
+  top: -50%;
+  right: 120%;
+  z-index: $z-index-tooltip;
+}

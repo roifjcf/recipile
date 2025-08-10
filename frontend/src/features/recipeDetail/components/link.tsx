@@ -16,7 +16,7 @@ export default function Link({
 }: Props) {
 
   const renderViewMode = () => <a href={url} target="_blank">
-                          <Icon src={"link-outline"} hoverable={true}/>
+                          <Icon className={url==="" ? "hidden" : ""} src={"link-outline"} hoverable={true}/>
                         </a>;
 
   const renderEditMode = () => (

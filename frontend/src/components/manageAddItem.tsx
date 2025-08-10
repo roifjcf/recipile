@@ -48,7 +48,11 @@ export default function ManageAddItem({
       
       const [isSuccessfulUpdate, message] = await handleAdd(table, params);
       if (typeof message === "string") {
-        context?.addNotificationMessage?.(message);
+        if (isSuccessfulUpdate) {
+          context?.addNotificationMessage?.(message, "Success");
+        } else {
+          context?.addNotificationMessage?.(message, "Error");
+        }
       }
     }
 
@@ -84,7 +88,7 @@ export default function ManageAddItem({
         className="input-small"
         type="text"
         value={valueUnit}
-        placeholder="Unit"
+        placeholder="Unit (optional)"
         onChange={(e)=>{setValueUnit(e.target.value)}}
       />}
     </div>

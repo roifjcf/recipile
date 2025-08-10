@@ -5,7 +5,7 @@ Management page for categories, tags, and ingredients
 
 import { useEffect, useState } from "react";
 
-import { CategoryInterface, TagInterface, IngredientInterface, Tables } from "@/common/type";
+import { CategoryInterface, TagInterface, IngredientInterface, Tables, PushNotificationMessageQueueInterface, PushNotificationStatus } from "@/common/type";
 import Navbar from "@/components/navbar";
 import { categoryAPI, tagAPI, ingredientAPI } from "@/utils/api";
 import DatabaseEditCard from "@/features/databaseEditCard/databaseEditCard";
@@ -25,7 +25,7 @@ export default function Page() {
   const [categories, setCategories] = useState<CategoryInterface[] | null>(null);
   const [tags, setTags] = useState<TagInterface[] | null>(null);
   const [ingredients, setIngredients] = useState<IngredientInterface[] | null>(null);
-  const [messageQueue, setMessageQueue] = useState<string[]>([]); // for push notification
+  const [messageQueue, setMessageQueue] = useState<PushNotificationMessageQueueInterface[]>([]); // for push notification
 
   /** Init */
   useEffect(() => {
@@ -146,9 +146,9 @@ export default function Page() {
 
   /** Misc */
 
-  const addNotificationMessage = (msg: string) => {
+  const addNotificationMessage = (msg: string, status: PushNotificationStatus) => {
     const queueToUpdate = [...messageQueue];
-    queueToUpdate.push(msg);
+    queueToUpdate.push({content: msg, status: status});
     setMessageQueue(queueToUpdate);
   }
 

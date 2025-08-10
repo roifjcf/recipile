@@ -1,7 +1,8 @@
+import { PushNotificationStatus } from "@/common/type";
 import { createContext } from "react";
 
 interface contextInterface {
-  addNotificationMessage?: (hookval: string) => void,
+  addNotificationMessage?: (msg: string, status: PushNotificationStatus) => void,
 };
 
 const PushNotificationContext = createContext<contextInterface | undefined>(undefined);

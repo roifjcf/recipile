@@ -13,15 +13,11 @@ $recipecard-container-right: 100% - $recipecard-container-left;
 
   display: flex;
   flex-direction: row;
-  position: absolute;
-  top: 50%;
-  right: 50%;
-  transform: translate(50%, -50%);
+  
   z-index: $z-index-modal;
   overflow: hidden;
 
   background-color: var(--surface);
-  box-shadow: 0 0 $size-xl var(--shadow);
   border-radius: $radius-sm;
 
   h4 {
@@ -39,19 +35,10 @@ $recipecard-container-right: 100% - $recipecard-container-left;
 }
 
 
-
-.recipedetail-deletebtn {
-  position: absolute;
-  bottom: $space-8;
-  left: $space-8;
-}
-
-
-
-
 .recipedetail-container-left {
   width: $recipecard-container-left;
   height: 100%;
+  overflow-y: auto;
 
   position: relative;
   display: flex;
@@ -72,4 +59,10 @@ $recipecard-container-right: 100% - $recipecard-container-left;
 
   display: flex;
   flex-direction: column;
+}
+
+.recipedetail-container-sidebar {
+  width: 48px;
+  height: 100%;
+  border-left: 1px solid var(--surface-container);
 }

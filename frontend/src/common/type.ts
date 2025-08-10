@@ -52,6 +52,8 @@ export interface MealPlannerInterface {
 
 
 
+
+
 /*
   Extra interfaces for API
 */
@@ -120,10 +122,14 @@ export type CalendarDisplay = "day" | "week" | "bi-week" | "month";
 export type TagSetOperation = "intersection" | "union";
 export type Interfaces = RecipeInterface | CategoryInterface | IngredientInterface | TagInterface;
 export type RecipeSortOptions = "default" | "date" | "name" | "time" | "serving size";
+export type PushNotificationStatus = "Error" | "Success" | "Neutral"; // style control for push notification component
+
+
+
 
 
 /*
-  Component props
+  Components
 */
 
 export interface IconProps {
@@ -134,4 +140,11 @@ export interface IconProps {
   className?: string;
   key?: number;
   description?: string;
+  showPopUp?: boolean;
+  popUpMessage?: string;
 }
+
+export interface PushNotificationMessageQueueInterface {
+  content: string,
+  status: PushNotificationStatus
+};
