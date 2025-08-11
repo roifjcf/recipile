@@ -61,14 +61,15 @@ export interface CategoryAPIAddParam {
   name: string,
   icon_file_name: string,
 };
-export interface CategoryAPIUpdateParam extends CategoryAPIAddParam { id: string | number };
-
-
+export interface CategoryAPIUpdateParam {
+  id: string | number,
+  name: string,
+  icon_file_name: string,
+};
 export interface TagAPIAddParam { name: string };
-export interface TagAPIUpdateParam extends TagAPIAddParam { };
-
+export interface TagAPIUpdateParam { name: string };
 export interface IngredientAPIAddParam { name: string, unit: string };
-export interface IngredientAPIUpdateParam extends IngredientAPIAddParam { id: string | number };
+export interface IngredientAPIUpdateParam { name: string, unit: string, id: string | number };
 
 export interface RecipeAPIAddParam {
   name: string,
@@ -124,6 +125,8 @@ export type Interfaces = RecipeInterface | CategoryInterface | IngredientInterfa
 export type RecipeSortOptions = "default" | "date" | "name" | "time" | "serving size";
 export type PushNotificationStatus = "Error" | "Success" | "Neutral"; // style control for push notification component
 
+export type ExportFileFormatOptions = "json" | "csv";
+export type ExportFileOptions = "recipes" | "categories" | "ingredients" | "tags";
 
 
 

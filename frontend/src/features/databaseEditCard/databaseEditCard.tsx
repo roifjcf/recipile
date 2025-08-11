@@ -27,6 +27,7 @@ export default function DatabaseEditCard({
       <ManageAddItem table={table} handleAdd={handleAdd} />
 
       {data && data.map((item: CategoryInterface | TagInterface | IngredientInterface)=>
+      item["name"] === "Uncategorized" && table === "categories" ? <div key={item.id} className="hidden"></div> :
       <ManageItem
         key={item.id}
         handleUpdate={handleUpdate}

@@ -111,3 +111,19 @@ def handle_existing_category(id):
       return jsonify({"message": "Updated one category."}), 200
     except Exception as e:
       return helper.handle_response_500("An error occurred while updating the category.")
+
+
+@categoryapi.route('/categories/name/<string:name>', methods=['GET'])
+def handle_existing_category_by_name(name):
+  if (request.method == 'GET'):
+    """
+    Gets an category
+    """
+    try:
+      res = dbinterface.general.get_one_by_name(DB_ADDRESS, 'categories', name)
+      if res is None:
+        return helper.handle_response_404("category not found.")
+      else:
+        return jsonify({"id": res[0], "name": res[1], "unit": res[2]}), 200
+    except Exception as e:
+      return helper.handle_response_500("An error occurred while fetching the category.")

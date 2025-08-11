@@ -160,6 +160,14 @@ def get_one_by_id(DB_ADDRESS: str, table: str, id):
   query = "SELECT * FROM {} WHERE id = {}".format(table, id)
   return execute_query_fetch_one(DB_ADDRESS, query, action)
 
+def get_one_by_name(DB_ADDRESS: str, table: str, name):
+  """
+  Gets a record from a table by name
+  """
+  action = f"get a record from table {table}"
+  query = f"SELECT * FROM {table} WHERE name = '{name}'"
+  return execute_query_fetch_one(DB_ADDRESS, query, action)
+
 def get_all(DB_ADDRESS: str, table: str) -> list:
   """
   Gets everything from a table

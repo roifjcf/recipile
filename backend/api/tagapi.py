@@ -92,3 +92,17 @@ def handle_existing_tag(id):
       return jsonify({"message": "Updated one tag."}), 200
     except Exception as e:
       return helper.handle_response_500("An error occurred while updating the tag.")
+    
+
+
+@tagapi.route('/tags/name/<string:name>', methods=['GET'])
+def handle_tag_by_name(name):
+  if request.method == 'GET':
+    try:
+      res = dbinterface.general.get_one_by_name(DB_ADDRESS, 'tags', name)
+      if res is None:
+        return helper.handle_response_404("Tag not found.")
+      else:
+        return jsonify({"id": res[0], "name": res[1]}), 200
+    except Exception as e:
+      return helper.handle_response_500("An error occurred while fetching the tag.")

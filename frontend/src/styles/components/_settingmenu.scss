@@ -2,10 +2,46 @@
 @use '../abstracts/variables' as *;
 
 .settingmenu-container {
-  width: 500px;
+  width: 700px;
   height: 700px;
+  padding: $space-8;
+
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
 
   background-color: var(--surface);
   color: var(--on-surface);
   border-radius: $size-md;
+  z-index: $z-index-modal;
+}
+
+.settingmenu-closebutton {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.settingmenu-section {
+  width: 100%;
+}
+
+.settingmenu-section-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.settingmenu-section-content {
+  display: flex;
+  flex-direction: row;
+  gap: $space-4;
+  align-items: center;
+  justify-content: space-between;
+
+  .left, .right {
+    display: flex;
+    gap: $space-4;
+    align-items: center;
+  }
 }

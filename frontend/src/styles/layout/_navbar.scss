@@ -63,3 +63,7 @@
 .navbar-link-on-focus {
   border-bottom: 2px solid var(--primary);
 }
+
+.navbar-bluroverlay {
+  z-index: $z-index-overlay;
+}

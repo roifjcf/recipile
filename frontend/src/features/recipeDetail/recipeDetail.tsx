@@ -133,7 +133,7 @@ export default function RecipeDetail({
      * Adds a new recipe / ingredient / tag to the database
      */
     const [isValid, msg] = await validateData(table, content);
-    console.log(content);
+    // console.log(content);
     
     if (!isValid) {
       return [false, msg];

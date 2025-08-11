@@ -63,6 +63,8 @@ export default function Navbar({
   <div className="navbar-container">
 
     {showSettingMenu && <SettingMenu closePopUp={closeSettingMenu} />}
+    {showSettingMenu && <div className="navbar-bluroverlay bluroverlay"></div>}
+      
 
     <div className="navbar-brand-info">
       <Icon src={"stack"} />

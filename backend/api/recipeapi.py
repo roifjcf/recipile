@@ -144,4 +144,3 @@ def handle_existing_recipe(id):
       return jsonify({"message": "Updated one recipe."}), 200
     except Exception as e:
       return helper.handle_response_500("An error occurred while updating the column of the recipe.")
-

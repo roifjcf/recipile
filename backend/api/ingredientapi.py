@@ -123,3 +123,22 @@ def handle_existing_ingredient(id):
       return jsonify({"message": "Updated one ingredient."}), 200
     except Exception as e:
       return helper.handle_response_500("An error occurred while updating the ingredient.")
+
+
+
+
+
+@ingredientapi.route('/ingredients/name/<string:name>', methods=['GET'])
+def handle_existing_ingredient_by_name(name):
+  if (request.method == 'GET'):
+    """
+    Gets an ingredient
+    """
+    try:
+      res = dbinterface.general.get_one_by_name(DB_ADDRESS, 'ingredients', name)
+      if res is None:
+        return helper.handle_response_404("Ingredient not found.")
+      else:
+        return jsonify({"id": res[0], "name": res[1], "unit": res[2]}), 200
+    except Exception as e:
+      return helper.handle_response_500("An error occurred while fetching the ingredient.")

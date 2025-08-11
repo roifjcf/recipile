@@ -43,9 +43,7 @@ export default function ManageAddItem({
       if (table === "ingredients") { params = {"name": valueName, "unit": valueUnit};}
       else if (table === "categories") { params = {"name": valueName, "icon_file_name": ""};}
       else { params = {"name": valueName};}
-  
-      console.log(params);
-      
+        
       const [isSuccessfulUpdate, message] = await handleAdd(table, params);
       if (typeof message === "string") {
         if (isSuccessfulUpdate) {
