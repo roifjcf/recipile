@@ -121,6 +121,9 @@ export default function ManageItem (props:Props) {
     </>)
   
 
+  const popUpMessageFill = props.table === "recipes" ? "recipe" :
+                            props.table === "categories" ? "category" :
+                            props.table === "ingredients" ? "ingredient" : "tag";
 
   return(
     <div className="manageitem-container">
@@ -136,7 +139,14 @@ export default function ManageItem (props:Props) {
         
         {!isInEditMode && <>
           <Icon src="edit-outline" altsrc="edit-fill" hoverable={true} onClick={()=>setIsInEditMode(true)} />
-          <Icon src="bin-outline" altsrc="bin-fill" hoverable={true} onClick={()=>props.handleDelete(props.table, item["id"])} />
+          <Icon
+            src="bin-outline"
+            altsrc="bin-fill"
+            hoverable={true}
+            onClick={()=>props.handleDelete(props.table, item["id"])}
+            showPopUp={true}
+            popUpMessage={`Delete this ${popUpMessageFill}?`}
+          />
         </>}
         
       </div>

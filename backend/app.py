@@ -35,8 +35,6 @@ def convertToBinaryData(filename):
 
 
 
-
-
 conn = sqlite3.connect(DB_ADDRESS)
 cur = conn.cursor()
 

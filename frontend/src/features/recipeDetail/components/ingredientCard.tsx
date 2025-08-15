@@ -35,12 +35,18 @@ export default function IngredientCard({
 
   const renderViewMode = () => {
     return (
-      <ul>
+      <ul className="ingredientcard-ingredients-container">
         {recipeDetail["ingredients"].map((ingr, index) =>
-        <li key={index}>
-          {findRecordNameByid(parseInt(ingr[0]), ingredients)} &nbsp;
-          {ingr[1]} &nbsp;
-          {findIngredientUnitByid(parseInt(ingr[0]), ingredients)}
+        <li className="ingredientcard-ingredient-container" key={index}>
+          <span className="ingredientcard-ingredient-name">
+            {findRecordNameByid(parseInt(ingr[0]), ingredients)}
+          </span>
+          <span className="ingredientcard-ingredient-quantity">
+            {ingr[1]}
+          </span>
+          <span className="ingredientcard-ingredient-unit">
+            {findIngredientUnitByid(parseInt(ingr[0]), ingredients)}
+          </span>
         </li>)}
       </ul>
     );
@@ -49,19 +55,23 @@ export default function IngredientCard({
   const renderEditMode = () => {
     return (
       <>
-        <ul>
+        <ul className="ingredientcard-ingredients-container">
           {recipeDetail["ingredients"].map((ingr, index) =>
-          <li key={index}>
+          <li className="ingredientcard-ingredient-container" key={index}>
             <Icon src="bin-outline" altsrc="bin-fill" hoverable={true} onClick={()=>{handleRemoveIngredient?.(ingr[0])}} />
-            {findRecordNameByid(parseInt(ingr[0]), ingredients)} &nbsp;
+            <span className="ingredientcard-ingredient-name">
+              {findRecordNameByid(parseInt(ingr[0]), ingredients)}
+            </span>
             <input 
-              className="input-small inline"
+              className="inline ingredientcard-ingredient-quantity"
               type="text"
               placeholder="Amount of the ingredient"
               onChange={(e)=>{handleUpdateIngredientAmount?.(e, index)}}
               value={ingr[1]}
-            />&nbsp;
-          {findIngredientUnitByid(parseInt(ingr[0]), ingredients)}
+            />
+            <span className="ingredientcard-ingredient-unit">
+              {findIngredientUnitByid(parseInt(ingr[0]), ingredients)}
+            </span>
           </li>)}
         </ul>
         <div className="ingredientcard-dropdown-container">
@@ -71,7 +81,7 @@ export default function IngredientCard({
           </select>
           <Icon src="add-outline" hoverable={true} onClick={handleAddExistingIngredient}/>
         </div>
-        <ManageAddItem table="ingredients" handleAdd={handleAddNewRecord} />
+        <ManageAddItem table="ingredients" handleAddRecord={handleAddNewRecord} />
       </>
     );
   }

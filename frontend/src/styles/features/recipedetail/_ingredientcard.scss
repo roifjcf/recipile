@@ -6,3 +6,28 @@
   flex-direction: row;
   align-items: center;
 }
+
+.ingredientcard-ingredients-container {
+  gap: $space-2
+}
+
+.ingredientcard-ingredient-container {
+  display: flex;
+  flex-direction: row;
+  gap: $space-2;
+}
+
+.ingredientcard-ingredient-name {
+  width: 150px;
+  overflow-x: auto;
+}
+
+.ingredientcard-ingredient-quantity {
+  width: 100px;
+  overflow-x: auto;
+}
+
+.ingredientcard-ingredient-unit {
+  width: 100px;
+  overflow-x: auto;
+}

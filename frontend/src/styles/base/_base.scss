@@ -111,6 +111,10 @@ input, select {
   display: block;
 }
 
+select {
+  width: 250px;
+}
+
 textarea {
   width: 100%;
   padding: $space-2;
@@ -131,6 +135,7 @@ button {
 
   &:hover {
     cursor: pointer;
+    color: var(--on-primary);
     background-color: var(--primary);
   }
 }
@@ -182,8 +187,8 @@ hr {
   padding: $space-1 $space-2;
 
   border-radius: $radius-sm;
-  background-color: var(--secondary-container);
-  color: var(--on-secondary-container);
+  background-color: var(--primary-container);
+  color: var(--on-primary-container);
 }
 
 .borderless {
@@ -194,6 +199,7 @@ hr {
 }
 
 .active-button {
+    color: var(--on-primary);
   background-color: var(--primary);
 }
 

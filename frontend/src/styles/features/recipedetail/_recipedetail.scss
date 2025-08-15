@@ -13,7 +13,7 @@ $recipecard-container-right: 100% - $recipecard-container-left;
 
   display: flex;
   flex-direction: row;
-  
+
   z-index: $z-index-modal;
   overflow: hidden;
 
@@ -38,11 +38,12 @@ $recipecard-container-right: 100% - $recipecard-container-left;
 .recipedetail-container-left {
   width: $recipecard-container-left;
   height: 100%;
-  overflow-y: auto;
+  overflow-y: scroll;
 
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .recipedetail-text-info-container-left {
@@ -58,6 +59,7 @@ $recipecard-container-right: 100% - $recipecard-container-left;
 
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .recipedetail-container-sidebar {

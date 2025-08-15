@@ -12,13 +12,13 @@ import PushNotificationContext from "@/contexts/pushNotificationContext";
 
 interface Props {
   table: Tables,
-  handleAdd?: (table: Tables, content: any) => Promise<(string | boolean)[]>, // [successful, msg]
+  handleAddRecord?: (table: Tables, content: any) => Promise<(string | boolean)[]>, // [successful, msg]
   className?: string,
 };
 
 export default function ManageAddItem({
   table,
-  handleAdd,
+  handleAddRecord,
   className,
 }: Props) {
 
@@ -36,15 +36,16 @@ export default function ManageAddItem({
     setValueUnit("");
   }
   
-  const handleSubmit = async () => {
+  const handleClick = async () => {
 
-    if (handleAdd) {
+
+    if (handleAddRecord) {
       let params = {};
       if (table === "ingredients") { params = {"name": valueName, "unit": valueUnit};}
       else if (table === "categories") { params = {"name": valueName, "icon_file_name": ""};}
       else { params = {"name": valueName};}
         
-      const [isSuccessfulUpdate, message] = await handleAdd(table, params);
+      const [isSuccessfulUpdate, message] = await handleAddRecord(table, params);
       if (typeof message === "string") {
         if (isSuccessfulUpdate) {
           context?.addNotificationMessage?.(message, "Success");
@@ -56,15 +57,6 @@ export default function ManageAddItem({
 
     reset();
   }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -92,7 +84,7 @@ export default function ManageAddItem({
     </div>
 
     <div className="right">
-      <Icon src="add-outline" hoverable={true} onClick={handleSubmit} />
+      <Icon src="add-outline" hoverable={true} onClick={handleClick} />
       <Icon src="reset-outline" hoverable={true} onClick={reset} />
     </div>
 

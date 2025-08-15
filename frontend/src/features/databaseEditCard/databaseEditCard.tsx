@@ -24,7 +24,7 @@ export default function DatabaseEditCard({
   return (
     <div className="databaseeditcard-container">
       <h2 className="databaseeditcard-title">{title}</h2>
-      <ManageAddItem table={table} handleAdd={handleAdd} />
+      <ManageAddItem table={table} handleAddRecord={handleAdd} />
 
       {data && data.map((item: CategoryInterface | TagInterface | IngredientInterface)=>
       item["name"] === "Uncategorized" && table === "categories" ? <div key={item.id} className="hidden"></div> :

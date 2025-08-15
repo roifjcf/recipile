@@ -132,7 +132,6 @@ export default function RecipeDetail({
      * Adds a new recipe / ingredient / tag to the database
      */
     const [isValid, msg] = await validateData(table, content);
-    // console.log(content);
     
     if (!isValid) {
       return [false, msg];
@@ -154,14 +153,29 @@ export default function RecipeDetail({
       setMode("view");
 
     } else if (table === "tags") {
+      // update the database
       await tagAPI.add(content);
       const [tagData] = await Promise.all([tagAPI.get()]);
       setTags(tagData);
+      // update hooks
+      const newTagName = content["name"];
+      const newTag =  await tagAPI.getOneByName(newTagName);
+      let updatedTags = [...recipeDetail.tags];
+      updatedTags.push(newTag["id"].toString());
+      setRecipeDetail({...recipeDetail, tags:updatedTags});
 
     } else if (table === "ingredients") {
+      // update the database
       await ingredientAPI.add(content);
       const [ingredientData] = await Promise.all([ingredientAPI.get()]);
       setIngredients(ingredientData);
+      // update hooks
+      const newIngredientName = content["name"];
+      const newIngredient = await ingredientAPI.getOneByName(newIngredientName);
+      let updatedIngredients = [...recipeDetail.ingredients];
+      updatedIngredients.push([newIngredient["id"], ""]);
+      console.log(updatedIngredients);
+      setRecipeDetail({...recipeDetail, ingredients:updatedIngredients});
 
     }
     
@@ -248,6 +262,13 @@ export default function RecipeDetail({
 
 
 
+
+
+
+
+
+
+
       
   return (
     <div
@@ -258,40 +279,44 @@ export default function RecipeDetail({
       {/* left column */}
       <div className="recipedetail-container-left border-right">
         
-
-        {/* image content */}
-        <RecipeImage
-          mode={mode}
-          recipe={recipeDetail}
-          setRecipeDetail={setRecipeDetail}
-        />
-
-        {/* text content */}
-        <div className="recipedetail-text-info-container-left">
-          <div className="recipedetail-name-container">
-            <Name name={recipeDetail["name"]} mode={mode} recipeDetail={recipeDetail} setRecipeDetail={setRecipeDetail} />
-          </div>
-          <div className="recipedetail-link-container">
-            <Link mode={mode} url={recipeDetail["external_links"]} recipeDetail={recipeDetail} setRecipeDetail={setRecipeDetail} />
-          </div>
-          <Tags
+        <div className="first-section">
+          {/* image content */}
+          <RecipeImage
             mode={mode}
-            recipeTags={recipeDetail["tags"]}
-            tags={tags}
-            handleRemoveTag={handleRemoveTag}
-            recipeDetail={recipeDetail}
+            recipe={recipeDetail}
             setRecipeDetail={setRecipeDetail}
-            handleAddNewRecord={handleAddNewRecord}
           />
 
-          <MiniStats mode={mode} recipeDetail={recipeDetail} onChange={[handleUpdatePreptime, handleUpdateServing]} />
+          {/* text content */}
+          <div className="recipedetail-text-info-container-left">
+            <div className="recipedetail-name-container">
+              <Name name={recipeDetail["name"]} mode={mode} recipeDetail={recipeDetail} setRecipeDetail={setRecipeDetail} />
+            </div>
+            <div className="recipedetail-link-container">
+              <Link mode={mode} url={recipeDetail["external_links"]} recipeDetail={recipeDetail} setRecipeDetail={setRecipeDetail} />
+            </div>
+            <Tags
+              mode={mode}
+              recipeTags={recipeDetail["tags"]}
+              tags={tags}
+              handleRemoveTag={handleRemoveTag}
+              recipeDetail={recipeDetail}
+              setRecipeDetail={setRecipeDetail}
+              handleAddNewRecord={handleAddNewRecord}
+            />
+
+            <MiniStats mode={mode} recipeDetail={recipeDetail} onChange={[handleUpdatePreptime, handleUpdateServing]} />
+          </div>
         </div>
 
-        <NoteCard
-          mode={mode}
-          recipeDetail={recipeDetail}
-          setRecipeDetail={setRecipeDetail}
-        />
+        <div className="second-section">
+          <NoteCard
+            mode={mode}
+            recipeDetail={recipeDetail}
+            setRecipeDetail={setRecipeDetail}
+          />
+        </div>
+
         
       </div>
       

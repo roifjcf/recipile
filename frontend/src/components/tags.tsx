@@ -43,6 +43,7 @@ export default function Tags({
 
 
   const handleAddExistingTag = () => {
+    /** Adds an existing tag (to the hook) */
     if (!recipeDetail) {return;}
     if (!setRecipeDetail) {return;}
 
@@ -50,7 +51,7 @@ export default function Tags({
     const updatedTags = [...recipeDetail.tags];
 
     const id = findRecordidByName(selectedTag, tags).toString();
-    if (!updatedTags.includes(id)) { updatedTags.push(id); }
+    if (!updatedTags.includes(id)) { updatedTags.push(id); } // ignore duplicates
 
     setRecipeDetail({...recipeDetail, tags:updatedTags});
   };
@@ -58,15 +59,16 @@ export default function Tags({
 
 
 
+
   return (
     <ul className="tags-container">
-      {mode !== "view" && // edit mode
+      {mode !== "view" &&
       <>
         <h4>Tags</h4>
       </>}
 
 
-      {recipeTags.map((tag, index) =>
+      {recipeTags.map((tag, index) => // view mode
         <Tag
           mode={mode}
           tag={findRecordNameByid(parseInt(tag), tags)}
@@ -85,7 +87,7 @@ export default function Tags({
           </select>
           <Icon src={"add-outline"} hoverable={true} onClick={handleAddExistingTag} />
         </div>
-        <ManageAddItem table="tags" handleAdd={handleAddNewRecord} />
+        <ManageAddItem table="tags" handleAddRecord={handleAddNewRecord}/>
       </>}
     </ul>
   );
