@@ -4,7 +4,6 @@ import { useContext, useEffect, useRef, useState } from "react";
 
 import { RecipeInterface, TagInterface, IngredientInterface, CategoryInterface, Tables, Modes } from "@/common/type";
 
-import Icon from "@/components/icon/icon";
 import MiniStats from "@/components/miniStats";
 import RecipeImage from "@/components/recipeImage";
 import Tags from "@/components/tags";
@@ -196,7 +195,7 @@ export default function RecipeDetail({
   }
 
   const handleAddStep = () => {
-    let updatedSteps = [...recipeDetail["steps"]];
+    const updatedSteps = [...recipeDetail["steps"]];
     updatedSteps.push(newStep);
     setRecipeDetail({...recipeDetail, steps: updatedSteps});
     setNewStep("");
@@ -205,14 +204,14 @@ export default function RecipeDetail({
 
   const handleAddExistingIngredient = () => {
     if (selectedIngredient === "") return;
-    let id = findRecordidByName(selectedIngredient, ingredients).toString();
+    const id = findRecordidByName(selectedIngredient, ingredients).toString();
     if (recipeDetail.ingredients.filter((ingr)=>ingr[0]===id).length > 0) return; // ignore existing ingredients
-    let updatedIngredients = recipeDetail.ingredients.filter((ingr)=>ingr[0]!==id);
+    const updatedIngredients = recipeDetail.ingredients.filter((ingr)=>ingr[0]!==id);
     updatedIngredients.push([`${id}`, '0']);
     setRecipeDetail({...recipeDetail, ingredients: updatedIngredients});
   };
   const handleReorder = (option: "up" | "down", index: number) => {
-    let updatedSteps = [...recipeDetail.steps];
+    const updatedSteps = [...recipeDetail.steps];
     let temp;
     if (option === "up") {
       if (index < 1) {return;}
@@ -236,13 +235,13 @@ export default function RecipeDetail({
     setRecipeDetail({...recipeDetail, serving:parseInt(e.target.value)})
   };
   const handleUpdateIngredientAmount = (e: any, index: number) => {
-    let updatedIngredients = [...recipeDetail.ingredients];
-    let updatedIngredient = updatedIngredients[index];
+    const updatedIngredients = [...recipeDetail.ingredients];
+    const updatedIngredient = updatedIngredients[index];
     updatedIngredient[1] = e.target.value;
     setRecipeDetail({...recipeDetail, ingredients:updatedIngredients});
   };
   const handleUpdateStep = (e: any, index: number) => {
-    let updatedSteps = [...recipeDetail.steps];
+    const updatedSteps = [...recipeDetail.steps];
     updatedSteps[index] = e.target.value;
     setRecipeDetail({...recipeDetail, steps:updatedSteps})
   };

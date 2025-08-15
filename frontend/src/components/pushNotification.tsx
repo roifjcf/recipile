@@ -22,7 +22,7 @@ export default function PushNotification ({
     }, PUSH_NOTIFICATION_TIMEOUT);
 
     return () => {clearInterval(messageInterval);}
-  }, [messageQueue]);
+  }, [messageQueue, setMessageQueue]);
   
   return (
     <div className={`pushnotification-container`}>

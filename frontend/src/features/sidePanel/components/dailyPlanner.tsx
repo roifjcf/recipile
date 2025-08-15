@@ -1,10 +1,5 @@
-interface Props {
 
-}
-
-export default function DailyPlanner({
-
-}: Props) {
+export default function DailyPlanner() {
 
   return (
     <div className="dailyplanner-container">

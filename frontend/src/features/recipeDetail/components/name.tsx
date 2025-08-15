@@ -1,5 +1,4 @@
 import { Modes, RecipeInterface } from "@/common/type";
-import { useState } from "react";
 
 interface Props {
   name: string,

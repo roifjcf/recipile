@@ -44,6 +44,7 @@ const renderSearchResult = (searchTerm: string, recipes: RecipeInterface[]) => {
                                               setCurrentRecipe={setCurrentRecipe}
                                               setShowRecipeDetail={setShowRecipeDetail}
                                               setRecipes={setRecipes}
+                                              recipesToEdit={new Set()}
                                             />);
   }
 

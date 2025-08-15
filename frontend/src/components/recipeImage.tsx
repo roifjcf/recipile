@@ -1,5 +1,5 @@
 import { Modes, RecipeInterface } from "@/common/type"
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Icon from "@/components/icon/icon";
 
 
@@ -31,11 +31,13 @@ export default function RecipeImage({
 
       reader.onloadend = () => {
         const base64String = reader.result as string;
-        setRecipeDetail && setRecipeDetail({
-          ...recipe,
-          img_main: base64String,
-          img_filename: fileName,
-        });
+        if (setRecipeDetail) {
+          setRecipeDetail({
+            ...recipe,
+            img_main: base64String,
+            img_filename: fileName,
+          });
+        }
       };
 
       reader.readAsDataURL(file);

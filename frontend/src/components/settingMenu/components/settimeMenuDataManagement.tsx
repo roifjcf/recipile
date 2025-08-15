@@ -1,12 +1,7 @@
 import { deleteAllData, exportJSONData, fileImporter } from "@/utils/helper";
 import SettingMenuItem from "./settingMenuItem";
 
-interface Props{
-
-};
-export default function SettimeMenuDataManagement ({
-
-}: Props) {
+export default function SettimeMenuDataManagement () {
 
 
 

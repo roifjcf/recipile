@@ -89,12 +89,8 @@ export default function RecipeCard({
     full: RecipeCardFullDisplay,
   };
 
-  const DisplayComponent = display[recipeCardDisplay];
 
 
-
-
-
-  
+  const DisplayComponent = display[recipeCardDisplay]; 
   return <DisplayComponent {...props} />;
 }

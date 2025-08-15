@@ -100,25 +100,25 @@ export const deleteAllData = async () => {
 
 
 export const exportJSONData = async () => {
-  let [categoryData, recipeData, tagData, ingredientData] = await fetchData();
+  const [categoryData, recipeData, tagData, ingredientData] = await fetchData();
   
   // process the recipe data (replace ids with names for categories / tags / ingredients)
-  for (let record of recipeData) {
+  for (const record of recipeData) {
     // tags
-    let tagNames = [];
-    for (let id of record["tags"]) {
+    const tagNames = [];
+    for (const id of record["tags"]) {
       const tagData = await tagAPI.getOne(id);
       tagNames.push(tagData["name"]);
     }
     record["tags"] = tagNames;
     // ingredients
-    for (let ingre of record["ingredients"]) {
+    for (const ingre of record["ingredients"]) {
       const ingreData = await ingredientAPI.getOne(ingre[0]);
       ingre[0] = ingreData["name"];
     }
     // categories
-    let catNames = [];
-    for (let id of record["categories"]) {
+    const catNames = [];
+    for (const id of record["categories"]) {
       const catData = await categoryAPI.getOne(id);
       catNames.push(catData["name"]);
     }
@@ -221,7 +221,7 @@ export const importCategories = async (data: any) => {
   /** Imports categories from the local file*/
   for (const record of data) {
     if (!record["name"]) { continue; } // must have a name
-    let param = {"name": record["name"], "icon_file_name": record["icon_file_name"] ?? ""};
+    const param = {"name": record["name"], "icon_file_name": record["icon_file_name"] ?? ""};
     await categoryAPI.add(param);
   }
 };
@@ -230,7 +230,7 @@ export const importIngredients = async (data: any) => {
   /** Imports ingredients from the local file*/
   for (const record of data) {
     if (!record["name"]) { continue; } // must have a name
-    let param = {"name": record["name"], "unit": record["unit"] ?? ""};
+    const param = {"name": record["name"], "unit": record["unit"] ?? ""};
     await ingredientAPI.add(param);
   }
 };
@@ -240,7 +240,7 @@ export const importRecipes = async (data: any) => {
   for (const record of data) {
     if (!record["name"]) { continue; } // must have a name
     // import any new tags then convert tag names to ids
-    let tagids = [];
+    const tagids = [];
     for (const tagName of record["tags"]) {
       await tagAPI.add({"name": tagName});
       const tagData = await tagAPI.getOneByName(tagName);
@@ -248,9 +248,9 @@ export const importRecipes = async (data: any) => {
     }
     record["tags"] = tagids;
     // import any new categories then convert category names to ids
-    let catids = [];
+    const catids = [];
     for (const catName of record["categories"]) {
-      let param = {"name": catName, "icon_file_name": ""};
+      const param = {"name": catName, "icon_file_name": ""};
       await categoryAPI.add(param);
       const catData = await categoryAPI.getOneByName(catName);
       catids.push(catData["id"].toString());
@@ -259,13 +259,13 @@ export const importRecipes = async (data: any) => {
     else { record["categories"] = catids; }
     // import any new ingredients then convert ingredient names to ids
     for (const ingre of record["ingredients"]) {
-      let param = {"name": ingre[0], "unit": ""};
+      const param = {"name": ingre[0], "unit": ""};
       await ingredientAPI.add(param);
       const ingreData = await ingredientAPI.getOneByName(ingre[0]);
       ingre[0] = ingreData["id"].toString();
     }
     // import the recipe itself
-    let params: RecipeAPIAddParam = {
+    const params: RecipeAPIAddParam = {
       name: record["name"],
       ingredients: record["ingredients"] ?? [],
       steps: record["steps"] ?? [],
@@ -590,7 +590,7 @@ export const generateCalendarBiWeekly = (date: Date) => {
   return [currentWeek, nextWeek];
 }
 
-export const getISOWeekNumber = (date: Date, startFromMonday: boolean = true) => {
+export const getISOWeekNumber = (date: Date) => {
   const tempDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
   
   // Set to nearest Thursday: current date + 4 - current day number

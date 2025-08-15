@@ -23,7 +23,7 @@ export default function SearchBar({
 
   const debouncedResults = useMemo(()=> {
     return debouce(handleDebounceChange, DEBOUNCE_TIMEOUT);
-  }, []);
+  }, [handleDebounceChange]);
 
   useEffect(() => {
     return () => { debouncedResults.cancel(); };

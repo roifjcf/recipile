@@ -47,9 +47,9 @@ export default function Tags({
     if (!setRecipeDetail) {return;}
 
     if (selectedTag === "") return;
-    let updatedTags = [...recipeDetail.tags];
+    const updatedTags = [...recipeDetail.tags];
 
-    let id = findRecordidByName(selectedTag, tags).toString();
+    const id = findRecordidByName(selectedTag, tags).toString();
     if (!updatedTags.includes(id)) { updatedTags.push(id); }
 
     setRecipeDetail({...recipeDetail, tags:updatedTags});

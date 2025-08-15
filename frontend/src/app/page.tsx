@@ -6,7 +6,7 @@ import Navbar from "@/components/navbar";
 import PushNotification from "../components/pushNotification";
 import RecipeDetail from "@/features/recipeDetail/recipeDetail";
 
-import { RecipeInterface, CategoryInterface, TagInterface, IngredientInterface, Modes, RecipeCardDisplay, TagSetOperation, SideBarDisplay, RecipeSortOptions, PushNotificationMessageQueueInterface } from "@/common/type";
+import { RecipeInterface, CategoryInterface, TagInterface, IngredientInterface, Modes, RecipeCardDisplay, TagSetOperation, SideBarDisplay, PushNotificationMessageQueueInterface } from "@/common/type";
 import { recipeAPI } from "@/utils/api"
 import { convertImgUrl, fetchData, getRandomKaomoji, loadTheme } from "@/utils/helper";
 import RecipesByCategory from "@/features/recipesByGroup/recipesByGroup";

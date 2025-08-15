@@ -19,7 +19,7 @@ export default function IconSelector({
       <Icon
         src={"ban"}
         hoverable={true}
-        onClick={(e) => setModifiedItem({...modifiedItem, icon_file_name: ""})}
+        onClick={() => setModifiedItem({...modifiedItem, icon_file_name: ""})}
         className="iconselector-icon"
       />
       {foodIcons.map((icon, i)=>
@@ -27,7 +27,7 @@ export default function IconSelector({
         src={"food/" + icon}
         hoverable={true}
         key={i}
-        onClick={(e) => setModifiedItem({...modifiedItem, icon_file_name: icon})}
+        onClick={() => setModifiedItem({...modifiedItem, icon_file_name: icon})}
         className="iconselector-icon"
         />)}
     </div>

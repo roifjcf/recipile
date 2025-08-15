@@ -2,11 +2,7 @@ import Icon from "@/components/icon/icon";
 import PlannerSidePanelContext from "@/contexts/plannerSidePanelContext";
 import { useContext, useEffect } from "react";
 
-interface Props {
-}
-
-export default function SidePanel({
-}: Props) {
+export default function SidePanel() {
 
   const context = useContext(PlannerSidePanelContext);
 
