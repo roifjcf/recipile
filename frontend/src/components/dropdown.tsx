@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Icon from "./icon";
+import Icon from "./icon/icon";
 import WrapperClickOutside from "./wrapperClickOutsite";
 
 interface Props {

@@ -1,5 +1,5 @@
 import { RecipeInterface } from "@/common/type";
-import Icon from "@/components/icon";
+import Icon from "@/components/icon/icon";
 
 interface Props {
   canDelete: boolean,

@@ -1,6 +1,6 @@
 import { CategoryInterface, IconProps, Modes, RecipeInterface, RecipeCardDisplay, SideBarDisplay } from "@/common/type";
 
-import Icon from "@/components/icon";
+import Icon from "@/components/icon/icon";
 import NewRecipeButton from "./newRecipeButton";
 import ExpandableIcons from "./expandableIcons";
 import Category from "@/components/category";

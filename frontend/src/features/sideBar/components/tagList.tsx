@@ -1,5 +1,5 @@
 import { TagInterface, TagSetOperation } from "@/common/type";
-import Icon from "@/components/icon";
+import Icon from "@/components/icon/icon";
 import Tag from "@/components/tag";
 
 interface Props {

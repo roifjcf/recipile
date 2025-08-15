@@ -13,9 +13,7 @@
 
 
 @use 'components/category';
-@use 'components/confirmationpopup';
 @use 'components/dropdown';
-@use 'components/icon';
 @use 'components/manageadditem';
 @use 'components/ministats';
 @use 'components/pushnotification';
@@ -25,9 +23,12 @@
 @use 'components/tag';
 @use 'components/tags';
 
+@use 'components/icon/confirmationpopup';
+@use 'components/icon/icon';
 @use 'components/recipecard/recipecardfulldisplay';
 @use 'components/recipecard/recipecardlistdisplay';
 @use 'components/recipecard/recipecardsimpledisplay';
+
 
 @use 'features/calendar/biweeklyview';
 @use 'features/calendar/calendar';

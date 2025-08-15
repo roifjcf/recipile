@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import Icon from "@/components/icon";
+import Icon from "@/components/icon/icon";
 import { useEffect, useState } from 'react';
 import SearchBar from '@/components/searchBar';
 import ThemeButton from './themeButton';

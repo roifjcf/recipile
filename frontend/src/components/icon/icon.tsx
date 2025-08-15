@@ -2,7 +2,7 @@
 
 import { IconProps } from "@/common/type";
 import { useState } from "react";
-import ConfirmationPopUp from "./confirmationPopUp";
+import ConfirmationPopUp from "./components/confirmationPopUp";
 
 export default function Icon({
   src,

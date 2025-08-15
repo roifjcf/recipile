@@ -1,5 +1,5 @@
 import { IconProps } from "@/common/type";
-import Icon from "@/components/icon";
+import Icon from "@/components/icon/icon";
 import { useState } from "react";
 
 interface Props extends IconProps {

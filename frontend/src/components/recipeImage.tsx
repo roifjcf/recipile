@@ -1,6 +1,6 @@
 import { Modes, RecipeInterface } from "@/common/type"
 import { useRef, useState } from "react";
-import Icon from "@/components/icon";
+import Icon from "@/components/icon/icon";
 
 
 interface Props {

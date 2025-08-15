@@ -4,7 +4,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 
 import { RecipeInterface, TagInterface, IngredientInterface, CategoryInterface, Tables, Modes } from "@/common/type";
 
-import Icon from "@/components/icon";
+import Icon from "@/components/icon/icon";
 import MiniStats from "@/components/miniStats";
 import RecipeImage from "@/components/recipeImage";
 import Tags from "@/components/tags";

@@ -1,6 +1,6 @@
 'use client';
 import { CalendarDisplay } from "@/common/type";
-import Icon from "@/components/icon";
+import Icon from "@/components/icon/icon";
 import Navbar from "@/components/navbar";
 import WrapperClickOutside from "@/components/wrapperClickOutsite";
 import PlannerSidePanelContext from "@/contexts/plannerSidePanelContext";

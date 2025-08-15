@@ -1,6 +1,6 @@
 import { getDateByOffset } from "@/utils/helper";
 import Day from "./day";
-import Icon from "@/components/icon";
+import Icon from "@/components/icon/icon";
 import { CalendarDisplay } from "@/common/type";
 
 interface Props {

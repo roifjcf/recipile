@@ -1,6 +1,6 @@
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useRef, useState } from "react";
-import Icon from "./icon";
+import Icon from "./icon/icon";
 import { exportJSONData, fileImporter } from "@/utils/helper";
 import { ExportFileFormatOptions } from "@/common/type";
 
@@ -69,6 +69,18 @@ export default function SettingMenu({
           <button onClick={()=>fileImporter("categories")}>Categories</button>
           <button onClick={()=>fileImporter("ingredients")}>Ingredients</button>
           <button onClick={()=>fileImporter("recipes")}>Recipes</button>
+        </div>
+      </div>
+
+
+
+      <div className="settingmenu-section">
+        <div className="settingmenu-section-title">
+          <Icon src="warning-outline" />
+          <h4>Danger Zone</h4>
+        </div>
+        <div className="settingmenu-section-content">
+          <button onClick={()=>fileImporter("tags")}>Delete All Data</button>
         </div>
       </div>
     </div>

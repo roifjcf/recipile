@@ -148,8 +148,10 @@ def get_multiple_by_keyword(DB_ADDRESS: str, table: str, column: str, content: s
   """
   Gets all records by keyword (partial match)
   """
-  action = "find all matched records from {}".format(table)
-  query = "SELECT * FROM {} WHERE {} LIKE '%''{}''%';".format(table, column, content)
+  action = f"find all matched records from {table}"
+  query = f"SELECT * FROM {table} WHERE {column} LIKE '%{content}%';"
+  print(action)
+  print(query)
   return execute_query_fetch_all(DB_ADDRESS, query, action)
 
 def get_one_by_id(DB_ADDRESS: str, table: str, id):

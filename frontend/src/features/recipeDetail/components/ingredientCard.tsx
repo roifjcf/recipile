@@ -4,7 +4,7 @@
 
 import { IngredientInterface, Modes, RecipeInterface, Tables } from "@/common/type"
 
-import Icon from "@/components/icon";
+import Icon from "@/components/icon/icon";
 import ManageAddItem from "@/components/manageAddItem";
 
 import { findRecordNameByid, findIngredientUnitByid } from "@/utils/helper";

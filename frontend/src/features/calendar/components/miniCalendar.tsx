@@ -1,4 +1,4 @@
-import Icon from "@/components/icon";
+import Icon from "@/components/icon/icon";
 import { generateCalendarMonthly, numberToMonth } from "@/utils/helper";
 import { useState } from "react";
 

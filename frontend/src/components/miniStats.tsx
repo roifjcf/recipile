@@ -2,7 +2,7 @@
  * For displaying the status of prep_time and serving
  */
 import { Modes, RecipeInterface } from "@/common/type";
-import Icon from "@/components/icon";
+import Icon from "@/components/icon/icon";
 
 interface Props {
   mode: Modes,

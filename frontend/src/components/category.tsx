@@ -1,5 +1,5 @@
 import { CategoryInterface } from "@/common/type";
-import Icon from "./icon";
+import Icon from "./icon/icon";
 
 interface Props {
   category: CategoryInterface,

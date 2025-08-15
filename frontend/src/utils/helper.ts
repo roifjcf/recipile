@@ -65,7 +65,28 @@ export const fetchRecipeData = () => recipeAPI.get();
 export const fetchTagData = () => tagAPI.get();
 export const fetchIngredientData = () => ingredientAPI.get();
 
-
+export const deleteAllData = async () => {
+  // ingredients
+  let recordsToDelete = await ingredientAPI.get();
+  for (const record of recordsToDelete) {
+    ingredientAPI.delete(record["id"]);
+  }
+  // tags
+  recordsToDelete = await tagAPI.get();
+  for (const record of recordsToDelete) {
+    tagAPI.delete(record["id"]);
+  }
+  // categories
+  recordsToDelete = await categoryAPI.get();
+  for (const record of recordsToDelete) {
+    categoryAPI.delete(record["id"]);
+  }
+  // recipes
+  recordsToDelete = await recipeAPI.get();
+  for (const record of recordsToDelete) {
+    recipeAPI.delete(record["id"]);
+  }
+}
 
 
 
@@ -173,11 +194,12 @@ export const fileImporter = async (table: Tables) => {
       try {
         // process data
         const data = JSON.parse(text);
+        console.log(data);
         if (table === "tags") {await importTags(data);}
         if (table === "categories") {await importCategories(data);}
         if (table === "ingredients") {await importIngredients(data);}
         if (table === "recipes") {await importRecipes(data);}
-        location.reload();
+        // location.reload();
       } catch (err) {
         console.error("Invalid JSON file", err);
       }

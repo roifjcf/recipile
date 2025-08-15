@@ -7,7 +7,7 @@ import helper
 
 categoryapi = Blueprint('categoryapi', __name__)
 
-@categoryapi.route('/categories', methods=['GET', 'POST', 'PUT'])
+@categoryapi.route('/categories', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def category_info():
 
   if request.method == 'GET':
@@ -55,7 +55,18 @@ def category_info():
       return jsonify({"message": "Updated one category."}), 200
     except Exception as e:
       return helper.handle_response_500("An error occurred while updating the category.")
-  
+
+
+
+
+
+
+
+
+
+
+
+
 
 @categoryapi.route('/categories/<int:id>', methods=['GET', 'DELETE', 'PUT'])
 def handle_existing_category(id):
@@ -83,6 +94,7 @@ def handle_existing_category(id):
       dbinterface.categories.delete_category(DB_ADDRESS, id)
       # update recipes
       records_to_topdate = dbinterface.general.get_multiple_by_keyword(DB_ADDRESS, 'recipes', 'categories', id)
+      print(records_to_topdate)
       if not records_to_topdate:
         return jsonify({"message": "Deleted one category."}), 200
       for each in records_to_topdate:
@@ -90,6 +102,9 @@ def handle_existing_category(id):
         old_content = dbinterface.general.get_one_column_by_id(DB_ADDRESS, 'recipes', 'categories', recipe_id)[0]
         old_content = helper.str_to_list(old_content)
         old_content = [row for row in old_content if str(id) not in row]
+        if (len(old_content) == 0):
+          old_content = ["1"] # "uncategorized"
+          
         new_content = helper.list_to_str(old_content)
         dbinterface.recipes.update_recipe(DB_ADDRESS, recipe_id, 'categories', new_content)
       return jsonify({"message": "Deleted one category."}), 200

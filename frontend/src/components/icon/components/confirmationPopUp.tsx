@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import Icon from "./icon";
+import Icon from "../icon";
 import { useClickOutside } from "@/hooks/useClickOutside";
 
 interface Props {

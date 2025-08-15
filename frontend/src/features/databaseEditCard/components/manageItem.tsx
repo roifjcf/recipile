@@ -8,7 +8,7 @@
 import { useContext, useState } from "react";
 
 import { Tables, isIngredient, CategoryInterface, TagInterface, IngredientInterface, isCategory } from "@/common/type";
-import Icon from "@/components/icon";
+import Icon from "@/components/icon/icon";
 import IconSelector from "./iconSelector";
 import PushNotificationContext from "@/contexts/pushNotificationContext";
 

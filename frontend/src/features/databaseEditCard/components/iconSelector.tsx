@@ -1,5 +1,5 @@
 import { foodIcons } from "@/common/constant";
-import Icon from "../../../components/icon";
+import Icon from "../../../components/icon/icon";
 import { CategoryInterface } from "@/common/type";
 
 interface Props {

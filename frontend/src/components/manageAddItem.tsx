@@ -7,7 +7,7 @@
 import { useContext, useState } from "react";
 
 import { Tables } from "@/common/type";
-import Icon from "@/components/icon";
+import Icon from "@/components/icon/icon";
 import PushNotificationContext from "@/contexts/pushNotificationContext";
 
 interface Props {

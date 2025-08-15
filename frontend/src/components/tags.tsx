@@ -4,7 +4,7 @@
 
 "use client";
 import { Modes, RecipeInterface, Tables, TagInterface } from "@/common/type"
-import Icon from "@/components/icon";
+import Icon from "@/components/icon/icon";
 import { findRecordidByName, findRecordNameByid,  } from "@/utils/helper";
 import { useState } from "react";
 import ManageAddItem from "./manageAddItem";

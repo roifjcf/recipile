@@ -1,4 +1,4 @@
-import Icon from "@/components/icon";
+import Icon from "@/components/icon/icon";
 import { useEffect, useMemo } from "react";
 import debouce from "lodash.debounce";
 import { DEBOUNCE_TIMEOUT } from "@/common/constant";
