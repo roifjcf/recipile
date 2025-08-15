@@ -120,7 +120,7 @@ textarea {
 }
 
 button {
-  padding: $space-2 $space-3;
+  padding: $space-1 $space-3;
 
   text-align: center;
   border-radius: $radius-md;
@@ -140,6 +140,13 @@ label {
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: var(--surface-container);
+  margin: $space-2 0;
 }
 
 /////////////////////////////////////////////
@@ -228,4 +235,12 @@ label {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.border-left {
+  border-left: 1px solid var(--surface-container);
+}
+
+.border-right {
+  border-right: 1px solid var(--surface-container);
 }

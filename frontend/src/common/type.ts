@@ -151,3 +151,8 @@ export interface PushNotificationMessageQueueInterface {
   content: string,
   status: PushNotificationStatus
 };
+
+export interface SettingMenuItemActionInterface {
+  actionName: string,
+  onClick: (()=>void)
+}

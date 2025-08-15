@@ -19,15 +19,23 @@
 @use 'components/pushnotification';
 @use 'components/recipeimage';
 @use 'components/searchbar';
-@use 'components/settingmenu';
 @use 'components/tag';
 @use 'components/tags';
 
+
+
 @use 'components/icon/confirmationpopup';
 @use 'components/icon/icon';
+
 @use 'components/recipecard/recipecardfulldisplay';
 @use 'components/recipecard/recipecardlistdisplay';
 @use 'components/recipecard/recipecardsimpledisplay';
+
+@use 'components/settingmenu/settingmenu';
+@use 'components/settingmenu/settingmenuitem';
+@use 'components/settingmenu/settingmenusidebar';
+
+
 
 
 @use 'features/calendar/biweeklyview';

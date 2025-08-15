@@ -1,0 +1,39 @@
+@use '../../themes/theme' as *;
+@use '../../abstracts/variables' as *;
+
+
+
+.settingmenuitem-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 $space-4;
+  margin: $space-2 0;
+}
+
+.settingmenuitem-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: $space-2;
+  margin-bottom: $space-2;
+}
+
+
+.settingmenuitem-content {
+  display: flex;
+  flex-direction: row;
+  gap: $space-4;
+  align-items: center;
+  justify-content: space-between;
+
+  .description, .actions {
+    display: flex;
+    gap: $space-4;
+    align-items: center;
+  }
+
+  .description {
+    color: var(--on-surface-variant);
+  }
+
+}

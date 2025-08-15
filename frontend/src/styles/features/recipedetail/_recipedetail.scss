@@ -43,7 +43,6 @@ $recipecard-container-right: 100% - $recipecard-container-left;
   position: relative;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid var(--surface-container);
 }
 
 .recipedetail-text-info-container-left {
@@ -64,5 +63,4 @@ $recipecard-container-right: 100% - $recipecard-container-left;
 .recipedetail-container-sidebar {
   width: 48px;
   height: 100%;
-  border-left: 1px solid var(--surface-container);
 }

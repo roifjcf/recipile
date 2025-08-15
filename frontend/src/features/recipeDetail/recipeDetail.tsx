@@ -257,7 +257,7 @@ export default function RecipeDetail({
     >
 
       {/* left column */}
-      <div className="recipedetail-container-left">
+      <div className="recipedetail-container-left border-right">
         
 
         {/* image content */}
@@ -333,7 +333,7 @@ export default function RecipeDetail({
       </div>
 
       {/* sidebar */}
-      <div className="recipedetail-container-sidebar">
+      <div className="recipedetail-container-sidebar border-left">
         <ButtonGroup
           mode={mode}
           setMode={setMode}
