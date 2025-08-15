@@ -1,6 +1,7 @@
 export const ROOT_URL = "http://localhost:5000/";
 export const DEBOUNCE_TIMEOUT = 1000;
 export const PUSH_NOTIFICATION_TIMEOUT = 3000;
+export const CURRENT_VERSION = "Alpha";
 
 export const kaomoji = [
   "(*¯︶¯*)",

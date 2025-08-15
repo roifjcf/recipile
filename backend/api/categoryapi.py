@@ -90,21 +90,23 @@ def handle_existing_category(id):
     also removes the category if it exists in any recipe
     """
     try:
+      if (id == 1): # keep the "uncategorized" category
+        return jsonify({"message": ""}), 200
       # delete the category
       dbinterface.categories.delete_category(DB_ADDRESS, id)
       # update recipes
       records_to_topdate = dbinterface.general.get_multiple_by_keyword(DB_ADDRESS, 'recipes', 'categories', id)
-      print(records_to_topdate)
       if not records_to_topdate:
         return jsonify({"message": "Deleted one category."}), 200
       for each in records_to_topdate:
         recipe_id = each[0]
         old_content = dbinterface.general.get_one_column_by_id(DB_ADDRESS, 'recipes', 'categories', recipe_id)[0]
+        if old_content is None:
+          continue
         old_content = helper.str_to_list(old_content)
         old_content = [row for row in old_content if str(id) not in row]
         if (len(old_content) == 0):
           old_content = ["1"] # "uncategorized"
-          
         new_content = helper.list_to_str(old_content)
         dbinterface.recipes.update_recipe(DB_ADDRESS, recipe_id, 'categories', new_content)
       return jsonify({"message": "Deleted one category."}), 200

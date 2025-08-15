@@ -10,7 +10,9 @@ interface Props {
 
 const options = [
   "General",
-  "Data management"
+  "Data management",
+  "Appearance",
+  "About"
 ];
 
 

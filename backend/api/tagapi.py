@@ -65,11 +65,14 @@ def handle_existing_tag(id):
       dbinterface.tags.delete_tag(DB_ADDRESS, id)
       # update recipes
       records_to_topdate = dbinterface.general.get_multiple_by_keyword(DB_ADDRESS, 'recipes', 'tags', id)
+      
       if not records_to_topdate:
         return jsonify({"message": "Deleted one ingredient."}), 200
       for each in records_to_topdate:
         recipe_id = each[0]
         old_content = dbinterface.general.get_one_column_by_id(DB_ADDRESS, 'recipes', 'tags', recipe_id)[0]
+        if old_content is None:
+          continue
         old_content = helper.str_to_list(old_content)
         old_content.remove(str(id))
         new_content = helper.list_to_str(old_content)

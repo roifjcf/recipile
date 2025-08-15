@@ -100,6 +100,8 @@ def handle_existing_ingredient(id):
       for each in records_to_topdate:
         recipe_id = each[0]
         old_content = dbinterface.general.get_one_column_by_id(DB_ADDRESS, 'recipes', 'ingredients', recipe_id)[0]
+        if old_content is None:
+          continue
         old_content = helper.str_to_list(old_content)
         old_content = [row for row in old_content if str(id) not in row]
         new_content = helper.list_to_str(old_content)
