@@ -99,9 +99,10 @@ def handle_existing_ingredient(id):
         return jsonify({"message": "Deleted one ingredient."}), 200
       for each in records_to_topdate:
         recipe_id = each[0]
-        old_content = dbinterface.general.get_one_column_by_id(DB_ADDRESS, 'recipes', 'ingredients', recipe_id)[0]
+        old_content = dbinterface.general.get_one_column_by_id(DB_ADDRESS, 'recipes', 'ingredients', recipe_id)
         if old_content is None:
           continue
+        old_content = old_content[0]
         old_content = helper.str_to_list(old_content)
         old_content = [row for row in old_content if str(id) not in row]
         new_content = helper.list_to_str(old_content)
@@ -130,14 +131,16 @@ def handle_existing_ingredient(id):
 
 
 
-@ingredientapi.route('/ingredients/name/<string:name>', methods=['GET'])
+@ingredientapi.route('/ingredients/name/<path:name>', methods=['GET'])
 def handle_existing_ingredient_by_name(name):
   if (request.method == 'GET'):
     """
     Gets an ingredient
     """
     try:
+      print(name)
       res = dbinterface.general.get_one_by_name(DB_ADDRESS, 'ingredients', name)
+      print(res)
       if res is None:
         return helper.handle_response_404("Ingredient not found.")
       else:

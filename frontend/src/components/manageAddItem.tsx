@@ -69,13 +69,15 @@ export default function ManageAddItem({
         className="input-mid"
         type="text"
         value={valueName}
-        placeholder={`${table === "tags" ? "Add a new tag" : "Name"}`}
+        placeholder={`${table === "tags" ? "New tag" :
+                        table === "categories" ? "New category" :
+                        table === "ingredients" ? "New ingredient" : ""}`}
         onChange={(e)=>{setValueName(e.target.value)}}
       />
 
       { table === "ingredients" &&
       <input
-        className="input-small"
+        className="input-mid"
         type="text"
         value={valueUnit}
         placeholder="Unit (optional)"

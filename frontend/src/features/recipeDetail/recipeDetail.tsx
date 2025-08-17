@@ -224,6 +224,7 @@ export default function RecipeDetail({
     updatedIngredients.push([`${id}`, '0']);
     setRecipeDetail({...recipeDetail, ingredients: updatedIngredients});
   };
+
   const handleReorder = (option: "up" | "down", index: number) => {
     const updatedSteps = [...recipeDetail.steps];
     let temp;
@@ -240,6 +241,7 @@ export default function RecipeDetail({
     }
     setRecipeDetail({...recipeDetail, steps: updatedSteps});
   }
+  
   const handleUpdatePreptime = (e: any) => {
     if (isNaN(parseInt(e.target.value))) {return;}
     setRecipeDetail({...recipeDetail, prep_time:parseInt(e.target.value)})

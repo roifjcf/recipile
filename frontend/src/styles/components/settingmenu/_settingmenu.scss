@@ -46,6 +46,17 @@ $settingmenu-content-width: 70%;
   margin-left: 100% - $settingmenu-content-width;;
   display: flex;
   flex-direction: column;
+
+  h4 {
+    padding: 0 $space-4;
+    margin-bottom: $space-4;
+    color: var(--on-surface-variant);
+  }
+
+  > p {
+    padding: 0 $space-4;
+
+  }
 }
 
 

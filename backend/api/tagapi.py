@@ -98,7 +98,7 @@ def handle_existing_tag(id):
     
 
 
-@tagapi.route('/tags/name/<string:name>', methods=['GET'])
+@tagapi.route('/tags/name/<path:name>', methods=['GET'])
 def handle_tag_by_name(name):
   if request.method == 'GET':
     try:

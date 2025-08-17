@@ -103,6 +103,7 @@ export const exportJSONData = async () => {
   const [categoryData, recipeData, tagData, ingredientData] = await fetchData();
   
   // process the recipe data (replace ids with names for categories / tags / ingredients)
+  // and add ingredient units
   for (const record of recipeData) {
     // tags
     const tagNames = [];
@@ -115,6 +116,7 @@ export const exportJSONData = async () => {
     for (const ingre of record["ingredients"]) {
       const ingreData = await ingredientAPI.getOne(ingre[0]);
       ingre[0] = ingreData["name"];
+      ingre[2] = ingreData["unit"];
     }
     // categories
     const catNames = [];
@@ -239,6 +241,7 @@ export const importRecipes = async (data: any) => {
   /** Imports recipes from the local file*/
   for (const record of data) {
     if (!record["name"]) { continue; } // must have a name
+
     // import any new tags then convert tag names to ids
     const tagids = [];
     for (const tagName of record["tags"]) {
@@ -247,6 +250,7 @@ export const importRecipes = async (data: any) => {
       tagids.push(tagData["id"].toString());
     }
     record["tags"] = tagids;
+
     // import any new categories then convert category names to ids
     const catids = [];
     for (const catName of record["categories"]) {
@@ -257,13 +261,19 @@ export const importRecipes = async (data: any) => {
     }
     if (catids.length === 0) { record["categories"] = ["Uncategorized"]; }
     else { record["categories"] = catids; }
+
     // import any new ingredients then convert ingredient names to ids
+    console.log(record["ingredients"])
+    const newIngreList = [];
     for (const ingre of record["ingredients"]) {
-      const param = {"name": ingre[0], "unit": ""};
+      const param = {"name": ingre[0], "unit": ingre[2]};
       await ingredientAPI.add(param);
       const ingreData = await ingredientAPI.getOneByName(ingre[0]);
-      ingre[0] = ingreData["id"].toString();
+      // ingre[0] = ingreData["id"].toString();
+      newIngreList.push([ingreData["id"].toString(), ingre[1]]);
     }
+    console.log(newIngreList);
+    record["ingredients"] = newIngreList;
     // import the recipe itself
     const params: RecipeAPIAddParam = {
       name: record["name"],

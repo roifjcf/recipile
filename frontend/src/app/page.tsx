@@ -39,7 +39,6 @@ export default function Home() {
 
 
 
-
   /** Data hooks */
   const [categories, setCategories] = useState<CategoryInterface[]>([]);
   const [tags, setTags] = useState<TagInterface[]>([]);

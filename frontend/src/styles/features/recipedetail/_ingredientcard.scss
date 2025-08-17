@@ -5,11 +5,22 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  
 }
 
-.ingredientcard-ingredients-container {
-  gap: $space-2
+.ingredientcard-ingredients-container-view {
+  gap: $space-2;
+  // li {
+  //   display: list-item;
+  // }
 }
+
+.ingredientcard-ingredients-container-edit {
+
+}
+
+
 
 .ingredientcard-ingredient-container {
   display: flex;

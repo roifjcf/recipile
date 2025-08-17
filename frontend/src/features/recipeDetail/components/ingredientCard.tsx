@@ -8,6 +8,7 @@ import Icon from "@/components/icon/icon";
 import ManageAddItem from "@/components/manageAddItem";
 
 import { findRecordNameByid, findIngredientUnitByid } from "@/utils/helper";
+import { useEffect } from "react";
 
 interface Props {
   mode: Modes,
@@ -33,20 +34,24 @@ export default function IngredientCard({
   handleAddNewRecord,
 }: Props) {
 
+
+
   const renderViewMode = () => {
     return (
-      <ul className="ingredientcard-ingredients-container">
+      <ul className="ingredientcard-ingredients-container-view">
         {recipeDetail["ingredients"].map((ingr, index) =>
-        <li className="ingredientcard-ingredient-container" key={index}>
-          <span className="ingredientcard-ingredient-name">
-            {findRecordNameByid(parseInt(ingr[0]), ingredients)}
-          </span>
-          <span className="ingredientcard-ingredient-quantity">
-            {ingr[1]}
-          </span>
-          <span className="ingredientcard-ingredient-unit">
-            {findIngredientUnitByid(parseInt(ingr[0]), ingredients)}
-          </span>
+        <li key={index}>
+          <div className="ingredientcard-ingredient-container">
+            <span className="ingredientcard-ingredient-name">
+              {findRecordNameByid(parseInt(ingr[0]), ingredients)}
+            </span>
+            <span className="ingredientcard-ingredient-quantity">
+              {ingr[1]}
+            </span>
+            <span className="ingredientcard-ingredient-unit">
+              {findIngredientUnitByid(parseInt(ingr[0]), ingredients)}
+            </span>
+          </div>
         </li>)}
       </ul>
     );
@@ -55,7 +60,7 @@ export default function IngredientCard({
   const renderEditMode = () => {
     return (
       <>
-        <ul className="ingredientcard-ingredients-container">
+        <ul className="ingredientcard-ingredients-container-edit">
           {recipeDetail["ingredients"].map((ingr, index) =>
           <li className="ingredientcard-ingredient-container" key={index}>
             <Icon src="bin-outline" altsrc="bin-fill" hoverable={true} onClick={()=>{handleRemoveIngredient?.(ingr[0])}} />
@@ -65,7 +70,7 @@ export default function IngredientCard({
             <input 
               className="inline ingredientcard-ingredient-quantity"
               type="text"
-              placeholder="Amount of the ingredient"
+              placeholder="Amount"
               onChange={(e)=>{handleUpdateIngredientAmount?.(e, index)}}
               value={ingr[1]}
             />

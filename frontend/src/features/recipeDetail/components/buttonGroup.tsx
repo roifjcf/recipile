@@ -47,7 +47,7 @@ export default function ButtonGroup({
       </>}
       
       {mode === "update" && <Icon src={"undo-outline"} hoverable={true} onClick={resetEditState} showPopUp={true} popUpMessage="Discard all changes?" />}
-      {mode === "update" && <Icon src={"yes-outline"} hoverable={true} onClick={handleUpdate}/>}
+      {mode === "update" && <Icon src={"yes-outline"} hoverable={true} onClick={handleUpdate} showPopUp={true} popUpMessage="Save changes?" />}
       {mode === "new" && <Icon src={"yes-outline"} hoverable={true} onClick={()=>handleAddNewRecord("recipes", {...recipeDetail})}/>}
     </div>
   </>;

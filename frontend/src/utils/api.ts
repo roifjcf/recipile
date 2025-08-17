@@ -31,7 +31,8 @@ const handleRequest = async (fn:() => Promise<any>) => {
 export const categoryAPI = {
   get: () => handleRequest(() => api.get("categories")),
   getOne: (id: number | string) => handleRequest(() => api.get(`categories/${id}`)),
-  getOneByName: (name: string) => handleRequest(() => api.get(`categories/name/${name}`)),
+  getOneByName: (name: string) =>
+      handleRequest(() => api.get(`categories/name/${encodeURIComponent(name)}`)),
   add: (content: CategoryAPIAddParam) => handleRequest(() => api.post("categories", null, {params: content})),
   update: (content: CategoryAPIUpdateParam) => handleRequest(() => api.put("categories", null, {params: content})),
   delete: (id: number | string) => handleRequest(() => api.delete(`categories/${id}`)),
@@ -42,7 +43,8 @@ export const categoryAPI = {
 export const tagAPI = {
   get: () => handleRequest(() => api.get("tags")),
   getOne: (id: number | string) => handleRequest(() => api.get(`tags/${id}`)),
-  getOneByName: (name: string) => handleRequest(() => api.get(`tags/name/${name}`)),
+  getOneByName: (name: string) =>
+      handleRequest(() => api.get(`tags/name/${encodeURIComponent(name)}`)),
   add: (content: TagAPIAddParam) => handleRequest(() => api.post("tags", null, {params: content})),
   update: (id: number | string, content: TagAPIUpdateParam) => handleRequest(() => api.put(`tags/${id}`, null, {params: content})),
   delete: (id: number | string) => handleRequest(() => api.delete(`tags/${id}`)),
@@ -53,7 +55,8 @@ export const tagAPI = {
 export const ingredientAPI = {
   get: () => handleRequest(() => api.get("ingredients")),
   getOne: (id: number | string) => handleRequest(() => api.get(`ingredients/${id}`)),
-  getOneByName: (name: string) => handleRequest(() => api.get(`ingredients/name/${name}`)),
+  getOneByName: (name: string) =>
+      handleRequest(() => api.get(`ingredients/name/${encodeURIComponent(name)}`)),
   add: (content: IngredientAPIAddParam) => handleRequest(() => api.post("ingredients", null, {params: content})),
   update: (content: IngredientAPIUpdateParam) => handleRequest(() => api.put("ingredients", null, {params: content})), // updates all fields of an ingredient
   delete: (id: number | string) => handleRequest(() => api.delete(`ingredients/${id}`)),

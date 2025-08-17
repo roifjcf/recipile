@@ -2,7 +2,10 @@ import { useClickOutside } from "@/hooks/useClickOutside";
 import { useRef, useState } from "react";
 import Icon from "../icon/icon";
 import SettingMenuSideBar from "./components/settingMenuSideBar";
-import SettimeMenuDataManagement from "./components/settimeMenuDataManagement";
+import SettingMenuDataManagement from "./components/settingMenuDataManagement";
+import SettingMenuGeneral from "./components/settingMenuGeneral";
+import SettingMenuAppearance from "./components/settingMenuAppearance";
+import SettingMenuAbout from "./components/settingMenuAbout";
 
 interface Props {
   closePopUp: () => void;
@@ -42,7 +45,10 @@ export default function SettingMenu({
           <SettingMenuSideBar options={options} setSelectedOption={setSelectedOption} />
         </div>
         <div className="settingmenu-content">
-          {selectedOption === "Data management" && <SettimeMenuDataManagement />}
+          {selectedOption === "General" && <SettingMenuGeneral />}
+          {selectedOption === "Data management" && <SettingMenuDataManagement />}
+          {selectedOption === "Appearance" && <SettingMenuAppearance />}
+          {selectedOption === "About" && <SettingMenuAbout />}
         </div>
       </div>
     </div>

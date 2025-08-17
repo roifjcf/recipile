@@ -70,7 +70,6 @@ ul {
   display: flex;
   flex-direction: column;
 
-  list-style-type: none;
 }
 
 li {
@@ -79,6 +78,7 @@ li {
   display: flex;
   flex-direction: row;
   align-items: center;
+  list-style: circle;
 }
 
 a {
@@ -249,4 +249,8 @@ hr {
 
 .border-right {
   border-right: 1px solid var(--surface-container);
+}
+
+.list-line-deco > *:not(:last-child) {
+  border-bottom: 1px solid var(--on-surface-variant);
 }

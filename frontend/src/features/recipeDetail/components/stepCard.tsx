@@ -28,7 +28,10 @@ export default function StepCard({
 
   const { steps } = recipeDetail;
 
-  const renderViewMode = () => <ul className="stepcard-steps">{steps.map((s, index) => <li key={index}>{s}</li>)}</ul>;
+  const renderViewMode = () => 
+    <ul className="stepcard-steps ">{steps.map((s, index) =>
+      <li key={index}>{s}</li>)}
+    </ul>;
   
   const renderEditMode = () => {
     return (

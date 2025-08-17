@@ -6,7 +6,7 @@
 import { Modes, RecipeInterface, Tables, TagInterface } from "@/common/type"
 import Icon from "@/components/icon/icon";
 import { findRecordidByName, findRecordNameByid,  } from "@/utils/helper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ManageAddItem from "./manageAddItem";
 import Tag from "./tag";
 
@@ -55,8 +55,6 @@ export default function Tags({
 
     setRecipeDetail({...recipeDetail, tags:updatedTags});
   };
-
-
 
 
 

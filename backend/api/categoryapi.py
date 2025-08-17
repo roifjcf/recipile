@@ -130,7 +130,7 @@ def handle_existing_category(id):
       return helper.handle_response_500("An error occurred while updating the category.")
 
 
-@categoryapi.route('/categories/name/<string:name>', methods=['GET'])
+@categoryapi.route('/categories/name/<path:name>', methods=['GET'])
 def handle_existing_category_by_name(name):
   if (request.method == 'GET'):
     """

@@ -3,4 +3,7 @@
 
 .stepcard-steps {
   gap: $space-2;
+  li {
+    display: list-item;
+  }
 }
