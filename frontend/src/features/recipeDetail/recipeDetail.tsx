@@ -281,22 +281,27 @@ export default function RecipeDetail({
       {/* left column */}
       <div className="recipedetail-container-left border-right">
         
-        <div className="first-section">
-          {/* image content */}
-          <RecipeImage
-            mode={mode}
-            recipe={recipeDetail}
-            setRecipeDetail={setRecipeDetail}
-          />
+        {/* image content */}
+        <RecipeImage
+          mode={mode}
+          recipe={recipeDetail}
+          setRecipeDetail={setRecipeDetail}
+        />
 
-          {/* text content */}
-          <div className="recipedetail-text-info-container-left">
+        {/* text content */}
+        <div className="recipedetail-text-info-container-left">
+          <div className={mode==="view" ? "recipedetail-name-and-link" : ""}>
             <div className="recipedetail-name-container">
               <Name name={recipeDetail["name"]} mode={mode} recipeDetail={recipeDetail} setRecipeDetail={setRecipeDetail} />
             </div>
             <div className="recipedetail-link-container">
               <Link mode={mode} url={recipeDetail["external_links"]} recipeDetail={recipeDetail} setRecipeDetail={setRecipeDetail} />
             </div>
+          </div>
+
+          <div className="recipedetail-tag-and-stats">
+            <MiniStats mode={mode} recipeDetail={recipeDetail} onChange={[handleUpdatePreptime, handleUpdateServing]} />
+            {mode !== "view" && <hr />}
             <Tags
               mode={mode}
               recipeTags={recipeDetail["tags"]}
@@ -306,31 +311,15 @@ export default function RecipeDetail({
               setRecipeDetail={setRecipeDetail}
               handleAddNewRecord={handleAddNewRecord}
             />
-
-            <MiniStats mode={mode} recipeDetail={recipeDetail} onChange={[handleUpdatePreptime, handleUpdateServing]} />
           </div>
         </div>
 
-        <div className="second-section">
-          <NoteCard
-            mode={mode}
-            recipeDetail={recipeDetail}
-            setRecipeDetail={setRecipeDetail}
-          />
-        </div>
 
         
       </div>
       
 
-
-
-
-
-      {/* right column */}
-      <div className="recipedetail-container-right">
-        
-
+      <div className="recipedetail-container-mid border-right">
         <IngredientCard
           mode={mode}
           recipeDetail={recipeDetail}
@@ -341,8 +330,13 @@ export default function RecipeDetail({
           handleUpdateIngredientAmount={handleUpdateIngredientAmount}
           handleAddExistingIngredient={handleAddExistingIngredient}
           handleAddNewRecord={handleAddNewRecord}
-        />
+        />        
+      </div>
 
+
+
+      {/* right column */}
+      <div className="recipedetail-container-right">
         <StepCard
           mode={mode}
           recipeDetail={recipeDetail}
@@ -353,11 +347,14 @@ export default function RecipeDetail({
           setNewStep={setNewStep}
           handleAddStep={handleAddStep}
         />
-
+        <NoteCard
+          mode={mode}
+          recipeDetail={recipeDetail}
+          setRecipeDetail={setRecipeDetail}
+        />
         
         
       </div>
-
       {/* sidebar */}
       <div className="recipedetail-container-sidebar border-left">
         <ButtonGroup

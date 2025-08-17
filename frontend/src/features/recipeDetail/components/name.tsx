@@ -28,6 +28,7 @@ export default function Name({
       value={name}
       onChange={handleNameChange}
       placeholder="Recipe name"
+      className="input-full"
     />
   </>);
   

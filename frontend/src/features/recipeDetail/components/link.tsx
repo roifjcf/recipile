@@ -27,6 +27,7 @@ export default function Link({
       value={url}
       onChange={(e)=>setRecipeDetail({...recipeDetail, external_links: e.target.value})}
       placeholder="External link"
+      className="input-full"
     />
   </>);
 

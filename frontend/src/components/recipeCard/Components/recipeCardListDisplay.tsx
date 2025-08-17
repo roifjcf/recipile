@@ -13,6 +13,12 @@ interface Props {
   recipesToEdit: Set<number>,
 };
 
+
+
+
+
+
+
 export default function RecipeCardListDisplay({
   canDelete,
   recipe,
@@ -22,6 +28,7 @@ export default function RecipeCardListDisplay({
   handleUpdateEditList,
   recipesToEdit,
 }: Props) {
+
 
 
   return (
@@ -35,13 +42,15 @@ export default function RecipeCardListDisplay({
           handleUpdateEditList={handleUpdateEditList}
           recipesToEdit={recipesToEdit}
         />
-        <p>{recipe.name}</p>
-        <MiniStats
-          mode="view"
-          recipeDetail={recipe}
-          onChange={undefined}
-          />
-        <p className="recipecardlistdisplay-date">{recipe.created}</p>
+        <div className="grid-info">
+          <p>{recipe.name}</p>
+          <MiniStats
+            mode="view"
+            recipeDetail={recipe}
+            onChange={undefined}
+            />
+          <p className="recipecardlistdisplay-date">{recipe.created}</p>
+        </div>
       </div>
 
       <div className="right">

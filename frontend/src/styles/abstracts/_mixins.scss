@@ -4,7 +4,7 @@
 
 ////////////////////////////////////////////
 
-// png (icon) filters
+// png (icon) color filters
 
 @mixin filter-secondary {
   // filter: brightness(0) saturate(100%) invert(92%) sepia(16%) saturate(420%) hue-rotate(135deg) brightness(92%) contrast(92%);
@@ -18,4 +18,12 @@
   // [data-theme="dark"] & {
   //   filter: brightness(0) saturate(100%) invert(69%) sepia(21%) saturate(1032%) hue-rotate(136deg) brightness(84%) contrast(95%);
   // }
+}
+
+
+@mixin filter-on-surface-variant-light {
+  filter: brightness(0) saturate(100%) invert(38%) sepia(16%) saturate(10%) hue-rotate(4deg) brightness(99%) contrast(94%);
+}
+@mixin filter-on-surface-variant-dark {
+  filter: brightness(0) saturate(100%) invert(60%) sepia(4%) saturate(275%) hue-rotate(314deg) brightness(94%) contrast(91%);
 }

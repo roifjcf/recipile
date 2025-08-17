@@ -79,6 +79,7 @@ export default function IngredientCard({
             </span>
           </li>)}
         </ul>
+        <hr />
         <div className="ingredientcard-dropdown-container">
           <select value={selectedIngredient} onChange={e=>setSelectedIngredient?.(e.target.value)}>
             {ingredients.map((ingr, index) =>

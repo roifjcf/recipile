@@ -18,7 +18,14 @@
     cursor: pointer;
   }
 
-  .left, .right {
+  // .left, .right {
+  //   display: flex;
+  //   flex-direction: row;
+  //   flex-wrap: wrap;
+  //   align-items: center;
+  // }
+
+  .right, .left {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -27,6 +34,12 @@
 
   .left {
     gap: $space-4;
+  }
+
+  .grid-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: $space-2;
   }
 }
 

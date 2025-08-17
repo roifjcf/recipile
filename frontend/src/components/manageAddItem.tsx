@@ -66,7 +66,7 @@ export default function ManageAddItem({
     
     <div className="left">
       <input
-        className="input-mid"
+        className="input-full"
         type="text"
         value={valueName}
         placeholder={`${table === "tags" ? "New tag" :
@@ -77,7 +77,7 @@ export default function ManageAddItem({
 
       { table === "ingredients" &&
       <input
-        className="input-mid"
+        className="input-full"
         type="text"
         value={valueUnit}
         placeholder="Unit (optional)"
