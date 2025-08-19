@@ -1,0 +1,44 @@
+@use '../themes/theme' as *;
+@use '../abstracts/variables' as *;
+
+.modalpopup-container {
+  width: 400px;
+  height: 250px;
+  padding: $space-12 $space-8;
+
+  border-radius: $radius-md;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  z-index: $z-index-modal;
+  background-color: var(--surface-container-low);
+
+  p {
+    text-align: center;
+    font-size: $font-size-lg;
+  }
+}
+
+.modalpopup-bottom-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: $space-2
+}
+
+.modalpopup-checkbox-container,
+.modalpopup-action-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.modalpopup-checkbox-container {
+  align-items: flex-end;
+}
+.modalpopup-action-container {
+  gap: $space-4;
+}

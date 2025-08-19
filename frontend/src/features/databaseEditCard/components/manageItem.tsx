@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { Tables, isIngredient, CategoryInterface, TagInterface, IngredientInterface, isCategory } from "@/common/type";
 import Icon from "@/components/icon/icon";
@@ -26,7 +26,8 @@ export default function ManageItem (props:Props) {
   const [modifiedItem, setModifiedItem] = useState<CategoryInterface | TagInterface | IngredientInterface>(props.item);
   const [isInEditMode, setIsInEditMode] = useState<boolean>(false);
   const [showIconSelector, setShowIconSelector] = useState<boolean>(false);
-  
+  const [selectedIcon, setSelectedIcon] = useState<string>("");
+
   const context = useContext(PushNotificationContext);
 
   const handleCancel = () => {
@@ -74,7 +75,9 @@ export default function ManageItem (props:Props) {
     </>)
 
 
-
+useEffect(() => {
+  console.log("modifiedItem changed:", modifiedItem);
+}, [modifiedItem]);
   
   const renderEditMode = () =>  (
     <>
@@ -97,6 +100,7 @@ export default function ManageItem (props:Props) {
         <IconSelector
           modifiedItem={modifiedItem}
           setModifiedItem={setModifiedItem}
+          closePopUp={()=>setShowIconSelector(false)}
         />}
 
 
@@ -121,12 +125,20 @@ export default function ManageItem (props:Props) {
     </>)
   
 
+
+
+
+
   const popUpMessageFill = props.table === "recipes" ? "recipe" :
                             props.table === "categories" ? "category" :
                             props.table === "ingredients" ? "ingredient" : "tag";
 
+
+
+
+
   return(
-    <div className="manageitem-container">
+    <div className={props.table === "categories" ? "manageitem-container-reverse" : "manageitem-container"}>
       <div className="manageitem-container-left">
         {isInEditMode ? renderEditMode() : renderViewMode()}
       </div>
@@ -138,7 +150,11 @@ export default function ManageItem (props:Props) {
         </>}
         
         {!isInEditMode && <>
-          <Icon src="edit-outline" altsrc="edit-fill" hoverable={true} onClick={()=>setIsInEditMode(true)} />
+          <Icon
+            src="edit-outline"
+            altsrc="edit-fill"
+            hoverable={true}
+            onClick={()=>setIsInEditMode(true)} />
           <Icon
             src="bin-outline"
             altsrc="bin-fill"

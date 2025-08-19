@@ -9,23 +9,20 @@
   align-items: center;
   justify-content: space-between;
 
-  $width-left: 70%;
-  $width-right: 100% - $width-left;
-
   .left {
-    width: $width-left;
     gap: $space-2;
-
+    width: 100%;
     display: flex;
     flex-direction: row;
+    margin-right: $space-1;
   }
   
   .right {
-    width: $width-right;
     gap: $space-2;
 
     display: flex;
     flex-direction: row;
     justify-content: end;
+
   }
 }

@@ -1,12 +1,46 @@
 import { deleteAllData, exportJSONData, fileImporter } from "@/utils/helper";
 import SettingMenuItem from "./settingMenuItem";
+import { useState } from "react";
+import ModalPopup from "@/components/modalPopup";
 
 export default function SettingMenuDataManagement () {
 
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+  };
 
 
+  
   return (
     <>
+
+      
+      {/* modal popups */}
+
+      {showDeleteModal &&
+      <ModalPopup
+        message="Warning: Proceeding will delete all data permanently and cannot be undone."
+        actionRequired={true}
+        onConfirm={deleteAllData}
+        hasCheckbox={true}
+        checkboxMessage="Back up all data"
+        checkboxAction={exportJSONData}
+        closeModal={handleCloseDeleteModal}
+      />}
+
+
+
+
+
+
+
+
+
+
+
+
       <SettingMenuItem
         title="Export Data"
         iconSrc="upload"
@@ -45,7 +79,7 @@ export default function SettingMenuDataManagement () {
 
       <hr />
       
-      <h4>Danger zone</h4>
+      <h4>Danger Zone</h4>
 
       <SettingMenuItem
         title="Data Deletion"
@@ -54,7 +88,7 @@ export default function SettingMenuDataManagement () {
         actions={[
           {
             actionName: "Delete All Data",
-            onClick: ()=>deleteAllData()
+            onClick: ()=>setShowDeleteModal(true)
           }
         ]}
       />

@@ -55,7 +55,7 @@ export default function StepCard({
         )}
 
         {/* input field for new steps */}
-        <li>
+        <li className="stepcard-newstep">
           <input
             className="input-full inline"
             type="text"

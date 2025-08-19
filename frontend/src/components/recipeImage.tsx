@@ -62,7 +62,7 @@ export default function RecipeImage({
             src={"upload"}
             hoverable={true}
             onClick={handleButtonClick}
-            description="Upload image"
+            
           />
         </div>
       </>

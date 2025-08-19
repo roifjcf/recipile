@@ -117,7 +117,7 @@ select {
 
 textarea {
   width: 100%;
-  padding: $space-2;
+  padding: $space-1;
 
   height: 150px;
   resize: none;
@@ -253,4 +253,14 @@ hr {
 
 .list-line-deco > *:not(:last-child) {
   border-bottom: 1px solid var(--on-surface-variant);
+}
+
+.large-icon {
+  $size: 36px;
+  width: $size !important;
+  height: $size !important;
+}
+
+.circle-border {
+
 }

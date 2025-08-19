@@ -11,6 +11,11 @@
 }
 
 .tags-selector-container {
+  width: 100%;
   display: flex;
   flex-direction: row;
+
+  select {
+    margin-right: $space-1;
+  }
 }
