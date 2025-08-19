@@ -5,7 +5,6 @@ import SettingMenuSideBar from "./components/settingMenuSideBar";
 import SettingMenuDataManagement from "./components/settingMenuDataManagement";
 import SettingMenuGeneral from "./components/settingMenuGeneral";
 import SettingMenuAppearance from "./components/settingMenuAppearance";
-import SettingMenuAbout from "./components/settingMenuAbout";
 
 interface Props {
   closePopUp: () => void;
@@ -15,7 +14,6 @@ const options = [
   "General",
   "Data management",
   "Appearance",
-  "About"
 ];
 
 
@@ -52,7 +50,6 @@ export default function SettingMenu({
           {selectedOption === "General" && <SettingMenuGeneral />}
           {selectedOption === "Data management" && <SettingMenuDataManagement />}
           {selectedOption === "Appearance" && <SettingMenuAppearance />}
-          {selectedOption === "About" && <SettingMenuAbout />}
         </div>
       </div>
     </div>
