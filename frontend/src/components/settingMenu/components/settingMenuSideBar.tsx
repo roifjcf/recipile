@@ -1,17 +1,23 @@
 interface Props {
   options: string[],
   setSelectedOption: (hookval: string) => void,
-};
+  selectedOption: string,
+}
 
 export default function SettingMenuSideBar({
   options,
-  setSelectedOption
+  setSelectedOption,
+  selectedOption
 }: Props) {
   return (
     <div className="settingmenusidebar-container">
-      <p className="settingmenusidebar-comment">Options</p>
+      <p className="settingmenusidebar-title">Options</p>
       {options.map((option, index) =>
-      <div className="settingmenusidebar-option" key={index} onClick={()=>setSelectedOption(option)}>
+      <div
+        key={index}
+        className={`settingmenusidebar-option ${selectedOption === option ? "settingmenusidebar-option-selected" : ""}`}
+        onClick={() => setSelectedOption(option)}
+      >
         {option}
       </div>)}
     </div>

@@ -124,6 +124,7 @@ export type TagSetOperation = "intersection" | "union";
 export type Interfaces = RecipeInterface | CategoryInterface | IngredientInterface | TagInterface;
 export type RecipeSortOptions = "default" | "date" | "name" | "time" | "serving size";
 export type PushNotificationStatus = "Error" | "Success" | "Neutral"; // style control for push notification component
+export type ModalType = "default" | "success" | "fail" | "warning";
 
 export type ExportFileFormatOptions = "json" | "csv";
 export type ExportFileOptions = "recipes" | "categories" | "ingredients" | "tags";

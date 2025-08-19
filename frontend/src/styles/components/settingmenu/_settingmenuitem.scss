@@ -8,6 +8,10 @@
   flex-direction: column;
   padding: 0 $space-4;
   margin: $space-2 0;
+
+  a {
+    text-decoration: underline;
+  }
 }
 
 .settingmenuitem-title {

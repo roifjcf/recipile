@@ -3,7 +3,7 @@
 
 .modalpopup-container {
   width: 400px;
-  height: 250px;
+  height: 300px;
   padding: $space-12 $space-8;
 
   border-radius: $radius-md;
@@ -21,13 +21,20 @@
   }
 }
 
-.modalpopup-bottom-container {
+
+
+.modalpopup-bottom-container,
+.modalpopup-top-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: $space-2
+  gap: $space-2;
 }
+
+
+
+
 
 .modalpopup-checkbox-container,
 .modalpopup-action-container {
@@ -38,7 +45,10 @@
 
 .modalpopup-checkbox-container {
   align-items: flex-end;
+  color: var(--on-surface-variant);
 }
 .modalpopup-action-container {
   gap: $space-4;
 }
+
+

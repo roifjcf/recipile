@@ -7,14 +7,14 @@ import PlannerSidePanelContext from "@/contexts/plannerSidePanelContext";
 import Calendar from "@/features/calendar/calendar";
 import MiniCalendar from "@/features/calendar/components/miniCalendar";
 import SidePanel from "@/features/sidePanel/sidePanel";
-import { getDateByOffset, loadTheme, numberToMonth } from "@/utils/helper";
+import { getDateByOffset, styleInit, numberToMonth } from "@/utils/helper";
 import { useEffect, useState } from "react";
 
 export default function Page() {
   
   useEffect(() => {
     /** Theme init */
-    loadTheme();
+    styleInit();
   }, []);
 
   /**

@@ -1,5 +1,6 @@
 import { RecipeInterface, RecipeCardDisplay, TagInterface } from "@/common/type";
 import RecipeCard from "@/components/recipeCard/recipeCard";
+import Fuse from "fuse.js";
 
 
 
@@ -31,9 +32,15 @@ const renderSearchResult = (searchTerm: string, recipes: RecipeInterface[]) => {
     if (searchTerm === "") {
       listToRender = [];
     } else {
-      listToRender = recipes.filter((recipe) =>
-                                      recipe["name"].toLowerCase()
-                                      .includes(searchTerm.toLowerCase()));
+      // fuzzy search
+      const fuse = new Fuse(recipes, {
+        keys: ["name"],
+        threshold: 0.4, // lower = stricter match, higher = fuzzier
+      });
+      listToRender = fuse.search(searchTerm).map(res => res.item);
+      // listToRender = recipes.filter((recipe) =>
+      //                                 recipe["name"].toLowerCase()
+      //                                 .includes(searchTerm.toLowerCase()));
     }
     return listToRender.map((recipe, i) => <RecipeCard
                                               key={i}

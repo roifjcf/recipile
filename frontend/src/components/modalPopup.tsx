@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Icon from "./icon/icon";
-import { useRef } from "react";
-import { useClickOutside } from "@/hooks/useClickOutside";
+import { ModalType } from "@/common/type";
 
 interface Props {
   message: string,
@@ -11,6 +10,7 @@ interface Props {
   checkboxMessage?: string,
   checkboxAction?: (...args: any[]) => void;
   closeModal: () => void;
+  modalType?: ModalType
 }
 
 export default function ModalPopup({
@@ -20,17 +20,19 @@ export default function ModalPopup({
   hasCheckbox = false,
   checkboxMessage = "",
   checkboxAction,
-  closeModal
+  closeModal,
+  modalType = "default",
 }:Props) {
 
-  const popUpRef = useRef<HTMLDivElement>(null);
-  useClickOutside(popUpRef, closeModal);
   
   const [isCheckboxChecked, setIsCheckboxChecked] = useState<boolean>(false);
 
   const handleConfirm = async () => {
-    await checkboxAction?.();
+    if (isCheckboxChecked) {
+      await checkboxAction?.();
+    }
     onConfirm?.();
+    closeModal();
   }
 
   const toggleCheckbox = () => {
@@ -38,20 +40,29 @@ export default function ModalPopup({
   }
 
   return (
-    <div ref={popUpRef} className="modalpopup-container soft-shadow display-center">
-      <p>{message}</p>
-      
-      <div className="modalpopup-bottom-container">
+    <div className="modalpopup-container soft-shadow display-center">
+      <div className="modalpopup-top-container">
+
+        {modalType === "warning" && <Icon src="warning-outline" className="large-icon variant-icon" />}
+        {modalType === "success" && <Icon src="check-outline" className="large-icon variant-icon" />}
+        {modalType === "fail" && <Icon src="sentiment-very-dissatisfied" className="large-icon variant-icon" />}
+        
+        <p>{message}</p>
         {hasCheckbox &&
         <div className="modalpopup-checkbox-container clickable" onClick={toggleCheckbox}>
           {isCheckboxChecked ?
-          <Icon src="checkbox-checked"/>
+          <Icon src="checkbox-checked" className="variant-icon"/>
           :
-          <Icon src="checkbox-unchecked"/>
+          <Icon src="checkbox-unchecked" className="variant-icon"/>
           }
           <p>{checkboxMessage}</p>
         </div>
         }
+      </div>
+
+
+
+      <div className="modalpopup-bottom-container">
 
         <div className="modalpopup-action-container">
           {actionRequired ? <>

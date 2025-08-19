@@ -3,11 +3,14 @@
 
 .databaseeditcard-container {
   width: 25%;
+  height: auto;
   padding: $space-8;
   gap: $space-1;
+  margin-bottom: $size-8xl;
 
   display: flex;
   flex-direction: column;
+  align-self: flex-start;
 
   background-color: var(--surface-container-lowest);
   border-radius: $radius-md;

@@ -1,5 +1,7 @@
 @use '../themes/theme' as *;
 @use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
 
 * {
   margin: 0;
@@ -17,7 +19,9 @@
 
 /* width */
 ::-webkit-scrollbar {
-  width: 0;
+  // width: 0;
+  width: $size-lg;
+  height: $size-lg;
 }
 /* Track */
 ::-webkit-scrollbar-track {
@@ -25,7 +29,7 @@
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: var(--surface-container-highest);
+  background: var(--primary);
   border-radius: $radius-sm;
 }
 /* Handle on hover */
@@ -60,7 +64,6 @@ h3 {
 
 h4 {
   font-size: $font-size-lg;
-  margin: $space-2 0;
 }
 
 ul {
@@ -84,6 +87,7 @@ li {
 a {
   font-size: $font-size-sm;
   color: var(--on-surface-variant);
+  text-decoration: none;
 }
 
 input, select, option, textarea {
@@ -150,7 +154,7 @@ hr {
   border: none;
   height: 1px;
   background-color: var(--surface-container);
-  margin: $space-2 0;
+  margin: $space-4 0;
 }
 
 /////////////////////////////////////////////
@@ -250,6 +254,7 @@ hr {
   border-right: 1px solid var(--surface-container);
 }
 
+
 .list-line-deco > *:not(:last-child) {
   border-bottom: 1px solid var(--on-surface-variant);
 }
@@ -258,6 +263,14 @@ hr {
   $size: 36px;
   width: $size !important;
   height: $size !important;
+}
+
+.variant-icon {
+  @include filter-on-surface-variant-light;
+}
+
+html[data-theme="dark"] .variant-icon {
+  @include filter-on-surface-variant-dark;
 }
 
 .circle-border {

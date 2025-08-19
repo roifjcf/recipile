@@ -5,14 +5,14 @@
 'use client';
 
 import Link from "next/link";
-import { loadTheme } from "@/utils/helper";
+import { styleInit } from "@/utils/helper";
 import { useEffect } from "react";
 
 export default function Page() {
 
   useEffect(() => {
     /** Theme init */
-    loadTheme();
+    styleInit();
   }, []);
 
 

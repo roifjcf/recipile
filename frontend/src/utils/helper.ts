@@ -324,7 +324,7 @@ export const importRecipes = async (data: any) => {
 
 
 
-export const loadTheme = () => {
+export const styleInit = () => {
   const savedTheme = localStorage.getItem('theme'); // 'dark' or 'light'
   const html = document.documentElement;
   if (savedTheme) {
@@ -335,6 +335,7 @@ export const loadTheme = () => {
     html.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
   }
 }
+
 
 export const convertImgUrl = (s: string | null) => {
   /** Converts the image retrieved from the database */

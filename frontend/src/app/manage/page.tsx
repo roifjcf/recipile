@@ -9,7 +9,7 @@ import { CategoryInterface, TagInterface, IngredientInterface, Tables, PushNotif
 import Navbar from "@/components/navbar";
 import { categoryAPI, tagAPI, ingredientAPI } from "@/utils/api";
 import DatabaseEditCard from "@/features/databaseEditCard/databaseEditCard";
-import { loadTheme, validateData } from "@/utils/helper";
+import { styleInit, validateData } from "@/utils/helper";
 import PushNotification from "@/components/pushNotification";
 import PushNotificationContext from "../../contexts/pushNotificationContext";
 
@@ -50,7 +50,7 @@ export default function Page() {
 
   /** Theme init */
   useEffect(() => {
-    loadTheme();
+    styleInit();
   }, []);
 
 
@@ -169,6 +169,7 @@ export default function Page() {
         table="categories"
         title="Categories"
         data={categories}
+        dataSetter={setCategories}
         handleAdd={handleAdd}
         handleUpdate={handleUpdate}
         handleDelete={handleDelete}
@@ -177,6 +178,7 @@ export default function Page() {
         table="ingredients"
         title="Ingredients"
         data={ingredients}
+        dataSetter={setIngredients}
         handleAdd={handleAdd}
         handleUpdate={handleUpdate}
         handleDelete={handleDelete}
@@ -185,6 +187,7 @@ export default function Page() {
         table="tags"
         title="Tags"
         data={tags}
+        dataSetter={setTags}
         handleAdd={handleAdd}
         handleUpdate={handleUpdate}
         handleDelete={handleDelete}

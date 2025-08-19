@@ -17,7 +17,7 @@ $container-width-left: 100% - $container-width-right;
   height: 100%;
   padding: $size-8xl $space-0;
 
-  overflow-y: scroll;
+  overflow-y: auto;
   position: fixed;
   top: 0;
   left: 0;

@@ -44,7 +44,11 @@ export default function SettingMenu({
       />
       <div className="settingmenu-main">
         <div className="settingmenu-sidebar border-right">
-          <SettingMenuSideBar options={options} setSelectedOption={setSelectedOption} />
+          <SettingMenuSideBar
+            options={options}
+            setSelectedOption={setSelectedOption}
+            selectedOption={selectedOption}
+          />
         </div>
         <div className="settingmenu-content">
           {selectedOption === "General" && <SettingMenuGeneral />}

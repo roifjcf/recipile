@@ -4,7 +4,7 @@
 $width-left: 80%;
 $width-right: 100% - $width-left;
 
-.manageitem-container, .manageitem-container-reverse {
+.manageitem-container {
   width: 100%;
   height: $size-5xl;
   padding: 0 $space-2;
@@ -15,19 +15,14 @@ $width-right: 100% - $width-left;
   align-items: center;
 
   border-radius: $radius-sm;
+  border-bottom: 1px solid var(--surface-container);
 }
 
-.manageitem-container{
-  &:nth-child(even) {
-    background-color: var(--surface-container-low);
-  }
-}
-
-.manageitem-container-reverse{
-  &:nth-child(odd) {
-    background-color: var(--surface-container-low);
-  }
-}
+// .manageitem-container{
+//   &:nth-child(even) {
+//     background-color: var(--surface-container-low);
+//   }
+// }
 
 .manageitem-container-left {
   width: $width-left;

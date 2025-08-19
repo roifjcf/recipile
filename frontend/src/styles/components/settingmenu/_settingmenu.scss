@@ -5,7 +5,7 @@ $settingmenu-content-width: 70%;
 
 .settingmenu-container {
   width: 900px;
-  height: 700px;
+  height: 70%;
 
   
 
@@ -37,7 +37,7 @@ $settingmenu-content-width: 70%;
   position: fixed;
   top: 0;
   left: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .settingmenu-content {

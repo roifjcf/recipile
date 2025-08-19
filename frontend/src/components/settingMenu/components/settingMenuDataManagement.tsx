@@ -21,13 +21,14 @@ export default function SettingMenuDataManagement () {
 
       {showDeleteModal &&
       <ModalPopup
-        message="Warning: Proceeding will delete all data permanently and cannot be undone."
+        message="Warning: Proceeding will delete all data permanently and cannot be undone!"
         actionRequired={true}
         onConfirm={deleteAllData}
         hasCheckbox={true}
-        checkboxMessage="Back up all data"
+        checkboxMessage="Back up data"
         checkboxAction={exportJSONData}
         closeModal={handleCloseDeleteModal}
+        modalType="warning"
       />}
 
 
