@@ -36,4 +36,9 @@
     color: var(--on-surface-variant);
   }
 
+  .text {
+    display: flex;
+    flex-direction: column;
+  }
+
 }

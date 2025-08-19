@@ -2,17 +2,21 @@ import { SettingMenuItemActionInterface } from "@/common/type";
 import Icon from "@/components/icon/icon";
 
 interface Props {
-  iconSrc: string,
+  iconSrc?: string,
   title: string,
-  description: string,
-  actions: SettingMenuItemActionInterface[],
+  description?: string,
+  actions?: SettingMenuItemActionInterface[],
+  externalLinkUrl?: string
+  externalLinkDescription?: string
 };
 
 export default function SettingMenuItem({
-  iconSrc,
-  title,
-  description,
-  actions,
+  iconSrc = "",
+  title = "",
+  description = "",
+  actions = [],
+  externalLinkUrl = "",
+  externalLinkDescription = "",
 }: Props) {
 
 
@@ -23,12 +27,18 @@ export default function SettingMenuItem({
     <div className="settingmenuitem-container">
       
       <div className="settingmenuitem-title">
-        <Icon src={iconSrc} />
+        {iconSrc !== "" && <Icon src={iconSrc} />}
         <p>{title}</p>
       </div>
 
       <div className="settingmenuitem-content">
-        <p className="description">{description}</p>
+        <div className="text">
+          <p className="description">{description}</p>
+          {externalLinkUrl !== "" &&
+          <a href={externalLinkUrl} target="_blank">
+            {externalLinkDescription}
+          </a>}
+        </div>
         <div className="actions">
           {actions.map((action, index) =>
           <button key={index} className="action" onClick={action["onClick"]}>

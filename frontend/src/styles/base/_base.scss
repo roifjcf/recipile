@@ -82,9 +82,8 @@ li {
 }
 
 a {
-
-  text-decoration: none;
-  color: var(--on-surface);
+  font-size: $font-size-sm;
+  color: var(--on-surface-variant);
 }
 
 input, select, option, textarea {
