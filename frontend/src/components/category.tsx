@@ -34,7 +34,7 @@ export default function Category({
       <div className={className + " category_container"} onClick={onClick}>
         {category["icon_file_name"] !== "" && <Icon src={"food/" + category["icon_file_name"]} />}
         {iconUrl && iconUrl !== "" && <Icon src={iconUrl} />}
-        <h2>{category["name"]}</h2>
+        <h3>{category["name"]}</h3>
       </div>
     );
   }

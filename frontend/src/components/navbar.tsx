@@ -49,7 +49,9 @@ export default function Navbar({
   
   const [currPath, setCurrPath] = useState<string>("");
   const [showSettingMenu, setShowSettingMenu] = useState<boolean>(false);
+  const [showDropdownMenu, setShowDropdownMenu] = useState<boolean>(false);
   const showSearchBar = handleDebounceChange && handleResetSearchInput && searchInputRef;
+
 
   useEffect(() => {
     setCurrPath(window.location.pathname);
@@ -64,36 +66,73 @@ export default function Navbar({
 
     {showSettingMenu && <SettingMenu closePopUp={closeSettingMenu} />}
     {showSettingMenu && <div className="navbar-bluroverlay bluroverlay"></div>}
-      
+  
 
-    <div className="navbar-brand-info">
-      <Icon src={"stack"} />
-      <h3>Recipile</h3>
-      <span className="label">Alpha</span>
+  
+    <div className='navbar-container-full'>
+      <div className="navbar-brand-info">
+        <Icon src={"stack"} />
+        <h4>Recipile</h4>
+        <span className="label">Alpha</span>
+      </div>
+
+      <div className='navbar-button-container-mid'>
+        {links.map((link, index) =>
+        <Link key={index} className={'navbar-link' + (currPath === link["url"] ? " navbar-link-on-focus" : "")} href={link["url"]} >
+          <Icon src={link["iconSrc"]} hoverable={true} />
+          <p>{link["text"]}</p>
+        </Link>)}
+
+        {currPath === "/" && showSearchBar &&
+        <SearchBar
+          handleDebounceChange={handleDebounceChange}
+          handleResetSearchInput={handleResetSearchInput}
+          searchInputRef={searchInputRef}
+        />}
+        
+      </div>
+
+
+
+
+
+      <div className='navbar-button-container-right'>
+        <ThemeButton />
+        {/* <Icon src='language-outline' hoverable={true}/> */}
+        <div className='navbar-setting-button'>
+          <Icon
+            src="setting-outline"
+            hoverable={true}
+            onClick={()=>setShowSettingMenu(true)}
+          />
+        </div>
+        <Icon
+          className='navbar-dropdownmenu-button'
+          src="menu-outline"
+          hoverable={true}
+          onClick={()=>setShowDropdownMenu(!showDropdownMenu)}
+        />
+      </div>
     </div>
+    
+    {showDropdownMenu &&
+    <>
+      <div className='navbar-dropdownmenu-container'>
+        {links.map((link, index) =>
+          <Link key={index} className={'navbar-link' + (currPath === link["url"] ? " navbar-link-on-focus" : "")} href={link["url"]} >
+            <Icon src={link["iconSrc"]} hoverable={true} />
+            <p>{link["text"]}</p>
+          </Link>)}
+        <Icon
+          src="setting-outline"
+          hoverable={true}
+          onClick={()=>setShowSettingMenu(true)}
+        />
+      </div>
+      {/* <div className="navbar-bluroverlay bluroverlay"></div> */}
+    </>
+    }
 
-    <div className='navbar-button-container-mid'>
-      {links.map((link, index) =>
-      <Link key={index} className={'navbar-link' + (currPath === link["url"] ? " navbar-link-on-focus" : "")} href={link["url"]} >
-        <Icon src={link["iconSrc"]} hoverable={true} />
-        <p>{link["text"]}</p>
-      </Link>)}
-
-      {currPath === "/" && showSearchBar &&
-      <SearchBar
-        handleDebounceChange={handleDebounceChange}
-        handleResetSearchInput={handleResetSearchInput}
-        searchInputRef={searchInputRef}
-      />}
-      
-    </div>
-
-
-    <div className='navbar-button-container-right'>
-      <ThemeButton />
-      {/* <Icon src='language-outline' hoverable={true}/> */}
-      <Icon src='setting-outline' hoverable={true} onClick={()=>setShowSettingMenu(true)}/>
-    </div>
 
   </div>
   );

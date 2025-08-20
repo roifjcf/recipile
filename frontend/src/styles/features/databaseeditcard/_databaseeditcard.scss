@@ -3,6 +3,7 @@
 
 .databaseeditcard-container {
   width: 25%;
+  max-width: 500px;
   height: auto;
   padding: $space-8;
   gap: $space-1;
@@ -14,8 +15,19 @@
 
   background-color: var(--surface-container-lowest);
   border-radius: $radius-md;
+
+  @media (max-width: $breakpoint-xl) {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    width: 100%;
+    max-width: 320px;
+  }
 }
 
 .databaseeditcard-title {
   margin: $space-2 0;
+  color: var(--on-surface-variant);
 }

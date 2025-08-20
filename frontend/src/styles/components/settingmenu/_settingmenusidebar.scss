@@ -1,10 +1,14 @@
 @use '../../themes/theme' as *;
 @use '../../abstracts/variables' as *;
 
-.settingmenusidebar-container {
+.settingmenusidebar-container-full {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+
+  @media (max-width: $breakpoint-md) {
+    display: none;
+  }
 }
 
 .settingmenusidebar-title {
@@ -22,6 +26,29 @@
   }
 }
 
+
+
 .settingmenusidebar-option-selected {
   background-color: var(--surface-container-low);
+  position: relative;
+}
+
+
+
+.settingmenusidebar-container-collapsed {
+
+  .options {
+    height: 100%;
+    padding-top: $space-8;
+
+    position: fixed;
+    top: 0;
+    left: 10%;
+    background-color: var(--surface);
+
+  }
+
+  @media (min-width: ($breakpoint-md+1)) {
+    display: none;
+  }
 }

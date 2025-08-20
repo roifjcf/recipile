@@ -6,8 +6,44 @@
   margin-top: $size-8xl;
 
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: $space-6;
+
+}
+
+.manage-cards-full,
+.manage-card-single {
+  width: 100%;
+  display: flex;
   flex-direction: row;
   justify-content: center;
   gap: $space-6;
+
+}
+
+.manage-cards-full {
+  
+  @media (max-width: $breakpoint-xl) {
+    display: none;
+  }
+}
+
+.manage-card-single {
+  @media (min-width: $breakpoint-xl) {
+    display: none;
+  }
+}
+
+
+.manage-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: $space-2;
+
+  @media (min-width: $breakpoint-xl) {
+    display: none;
+  }
 }
 

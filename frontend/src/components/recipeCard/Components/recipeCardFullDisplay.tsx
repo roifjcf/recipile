@@ -41,7 +41,7 @@ export default function RecipeCardFullDisplay({
         <div className="recipecardfulldisplay-text-info-container-top">
 
           <div className="left">
-            <h3 className="recipecardfulldisplay-title">{recipe.name}</h3>
+            <h4 className="recipecardfulldisplay-title">{recipe.name}</h4>
           </div>
           
           <div className="right">

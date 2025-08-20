@@ -3,21 +3,36 @@
 
 .navbar-container {
   width: 100%;
-  height: $size-6xl;
+  height: $size-5xl;
   position: fixed;
   top: 0;
   left: 0;
   padding: 0 $space-8;
 
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  
   z-index: $z-index-fixed;
 
   color: var(--on-surface);
   background-color: var(--surface);
   border-bottom: 1px solid var(--outline-variant);
+
+  
+
+
+  span {
+    @media (max-width: $breakpoint-lg) {
+      display: none;
+    }
+  }
+}
+
+.navbar-container-full {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .navbar-brand-info {
@@ -28,6 +43,9 @@
   justify-content: flex-start;
   align-items: center;
 
+  @media (max-width: 640px) {
+    display: none;
+  }
 }
 
 
@@ -38,6 +56,19 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  @media (max-width: $breakpoint-lg) {
+    gap: $space-2;
+  }
+  @media (max-width: 640px) {
+    width: 100%;
+  }
+
+  a {
+    @media (max-width: ($breakpoint-md+1)) {
+      display: none;
+    }
+  }
 }
 
 .navbar-button-container-right {
@@ -51,6 +82,7 @@
 .navbar-link {
   width: auto;
   height: 100%;
+  max-height: $size-5xl;
 
   gap: $space-2;
   padding: $space-2;
@@ -58,6 +90,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 
 .navbar-link-on-focus {
@@ -66,4 +99,40 @@
 
 .navbar-bluroverlay {
   z-index: $z-index-overlay;
+}
+
+
+.navbar-setting-button {
+  @media (max-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+.navbar-dropdownmenu-button {
+  @media (min-width: ($breakpoint-md+1)) {
+    display: none;
+  }
+}
+
+.navbar-dropdownmenu-container {
+  width: 120px;
+  margin-top: $size-5xl;
+  margin-right: $space-8;
+  padding: $space-2;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  background-color: var(--surface);
+  border-radius: $radius-md;
+
+  @media (min-width: ($breakpoint-md+1)) {
+    display: none;
+  }
 }

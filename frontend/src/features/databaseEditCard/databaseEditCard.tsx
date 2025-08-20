@@ -25,7 +25,7 @@ export default function DatabaseEditCard({
 
   return (
     <div className="databaseeditcard-container">
-      <h2 className="databaseeditcard-title">{title}</h2>
+      <h4 className="databaseeditcard-title">{title}</h4>
       <ManageAddItem table={table} handleAddRecord={handleAdd} />
 
       <hr />

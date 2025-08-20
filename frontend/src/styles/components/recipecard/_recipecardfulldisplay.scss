@@ -5,7 +5,7 @@
   margin-bottom: $space-6;
   // height: 350px;
   width: 22%;
-  min-width: 320px;
+  min-width: 240px;
 
   display: flex;
   flex-direction: column;
@@ -14,15 +14,14 @@
 
   background-color: var(--surface);
   border-radius: $radius-md;
-
   &:hover {
     cursor: pointer;
   }
 }
 
 .recipecardfulldisplay-text-info-container {
-  height: 150px;
-  padding: $space-8;
+  max-height: 150px;
+  padding: $space-4;
 }
 
 .recipecardfulldisplay-text-info-container-top {

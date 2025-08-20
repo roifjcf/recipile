@@ -27,6 +27,8 @@ export default function Page() {
   const [ingredients, setIngredients] = useState<IngredientInterface[] | null>(null);
   const [messageQueue, setMessageQueue] = useState<PushNotificationMessageQueueInterface[]>([]); // for push notification
 
+  const [selecteDbEditCard, setSelecteDbEditCard] = useState<Tables>("categories");
+
   /** Init */
   useEffect(() => {
     const fetchData = async () => {
@@ -162,36 +164,81 @@ export default function Page() {
   
   return (
   <PushNotificationContext.Provider value={context}>
+
     <div className="manage-main-container">
       <Navbar />
+      
+      <div className="manage-buttons">
+        <button className={selecteDbEditCard === "categories" ? "active-button" : ""} onClick={()=>setSelecteDbEditCard("categories")}>Categories</button>
+        <button className={selecteDbEditCard === "ingredients" ? "active-button" : ""} onClick={()=>setSelecteDbEditCard("ingredients")}>Ingredients</button>
+        <button className={selecteDbEditCard === "tags" ? "active-button" : ""} onClick={()=>setSelecteDbEditCard("tags")}>Tags</button>
+      </div>
 
-      <DatabaseEditCard
-        table="categories"
-        title="Categories"
-        data={categories}
-        dataSetter={setCategories}
-        handleAdd={handleAdd}
-        handleUpdate={handleUpdate}
-        handleDelete={handleDelete}
-      />
-      <DatabaseEditCard
-        table="ingredients"
-        title="Ingredients"
-        data={ingredients}
-        dataSetter={setIngredients}
-        handleAdd={handleAdd}
-        handleUpdate={handleUpdate}
-        handleDelete={handleDelete}
-      />
-      <DatabaseEditCard
-        table="tags"
-        title="Tags"
-        data={tags}
-        dataSetter={setTags}
-        handleAdd={handleAdd}
-        handleUpdate={handleUpdate}
-        handleDelete={handleDelete}
-      />
+      <div className="manage-cards-full">
+        <DatabaseEditCard
+          table="categories"
+          title="Categories"
+          data={categories}
+          dataSetter={setCategories}
+          handleAdd={handleAdd}
+          handleUpdate={handleUpdate}
+          handleDelete={handleDelete}
+        />
+        <DatabaseEditCard
+          table="ingredients"
+          title="Ingredients"
+          data={ingredients}
+          dataSetter={setIngredients}
+          handleAdd={handleAdd}
+          handleUpdate={handleUpdate}
+          handleDelete={handleDelete}
+        />
+        <DatabaseEditCard
+          table="tags"
+          title="Tags"
+          data={tags}
+          dataSetter={setTags}
+          handleAdd={handleAdd}
+          handleUpdate={handleUpdate}
+          handleDelete={handleDelete}
+        />
+      </div>
+
+
+      <div className="manage-card-single">
+        {selecteDbEditCard === "categories" &&
+        <DatabaseEditCard
+          table="categories"
+          title="Categories"
+          data={categories}
+          dataSetter={setCategories}
+          handleAdd={handleAdd}
+          handleUpdate={handleUpdate}
+          handleDelete={handleDelete}
+        />}
+        {selecteDbEditCard === "ingredients" &&
+        <DatabaseEditCard
+          table="ingredients"
+          title="Ingredients"
+          data={ingredients}
+          dataSetter={setIngredients}
+          handleAdd={handleAdd}
+          handleUpdate={handleUpdate}
+          handleDelete={handleDelete}
+        />}
+        {selecteDbEditCard === "tags" &&
+        <DatabaseEditCard
+          table="tags"
+          title="Tags"
+          data={tags}
+          dataSetter={setTags}
+          handleAdd={handleAdd}
+          handleUpdate={handleUpdate}
+          handleDelete={handleDelete}
+        />}
+      </div>
+
+
 
       <PushNotification
         messageQueue={messageQueue}

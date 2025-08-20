@@ -7,11 +7,6 @@
   height: 100%;
   padding: 0 $space-8;
 
-  // display: flex;
-  // flex-direction: row;
-  // flex-wrap: wrap;
-  // gap: $space-2;
-
   overflow-y: scroll;
   justify-items: center;
   justify-content: space-between;
@@ -29,7 +24,12 @@
 
 .recipecards-container-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
+
+  @media (max-width: $breakpoint-2xl) {
+    grid-template-columns: repeat(3, 1fr);
+
+  }
 }
 
 
