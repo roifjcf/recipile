@@ -1,11 +1,52 @@
 @use '../../themes/theme' as *;
 @use '../../abstracts/variables' as *;
 
+
+.sidebar-container-full,
+.sidebar-container-collapsed {
+  height: 100%;
+  z-index: 100;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  background-color: var(--surface);
+}
+
+.sidebar-container-full {
+  width: 25%;
+  padding: $size-8xl $space-0;
+  overflow-y: auto;
+  
+  @media (max-width: $breakpoint-lg) {
+    padding-top: $size-7xl;
+  }
+  @media (max-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+.sidebar-container-collapsed {
+  width: 100%;
+  height: 100%;
+  z-index: $z-index-fixed;
+  padding-top: $size-8xl;
+
+  @media (min-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+
 .sidebar-button-container {
   margin-bottom: $space-8;
   padding: $space-0 $space-8;
-  gap: $space-1;
+  gap: $space-2;
 
   display: flex;
   flex-direction: row;
+  @media (max-width: $breakpoint-xl) {
+    flex-direction: column;
+  }
 }

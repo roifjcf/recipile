@@ -9,11 +9,14 @@ export default function Icon({
   altsrc,
   hoverable = false,
   onClick,
-  className,
+  className, 
   description,
   showPopUp = false,
   popUpMessage = "",
+  classNameContainer = "",
 }: IconProps) {
+
+
   const [isHovering, setIsHovering] = useState(false);
   const [displayPopUp, setDisplayPopUp] = useState(false);
 
@@ -21,9 +24,12 @@ export default function Icon({
   const srcActive = altsrc ? `icons/${altsrc}.png` : srcDefault;
   const currSrc = isHovering && altsrc ? srcActive : srcDefault;
 
+
+
+  
   return (
     <div
-      className="icon-container"
+      className={"icon-container" + " " + classNameContainer}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >

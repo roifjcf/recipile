@@ -2,44 +2,58 @@
 @use '../../abstracts/variables' as *;
 
 .recipecardlistdisplay-container {
-  width: 90%;
-  padding: 0 $space-8;
-  height: 52px;
+  width: 100%;
+  max-width: 900px;
+  padding: $space-4;
 
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  gap: $space-2;
+  position: relative;
 
   border-radius: $radius-md;
   background-color: var(--surface);
+
   &:hover {
     cursor: pointer;
   }
 
-  // .left, .right {
-  //   display: flex;
-  //   flex-direction: row;
-  //   flex-wrap: wrap;
-  //   align-items: center;
-  // }
-
   .right, .left {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+  }
+  .right {
     align-items: center;
+    flex-wrap: wrap;
   }
-
   .left {
-    gap: $space-4;
+    gap: $space-2;
+    align-items: flex-start;
   }
 
-  .grid-info {
+  .main-info {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-items: center;
+    grid-template-columns: repeat(3, 1fr);
     gap: $space-2;
+
+    @media (max-width: $breakpoint-sm) {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+    }
+  }
+
+  .ministats-container {
+    white-space: nowrap;
+    flex-wrap: nowrap;
+  }
+
+  .tags-container {
+    margin: 0;
   }
 }
 

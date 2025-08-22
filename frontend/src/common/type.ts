@@ -141,11 +141,12 @@ export interface IconProps {
   altsrc?: string | undefined;
   hoverable?: boolean;
   onClick?: ((...args: any[]) => void) | undefined;
-  className?: string;
+  className?: string; // for the <img /> tag
   key?: number;
   description?: string;
   showPopUp?: boolean;
   popUpMessage?: string;
+  classNameContainer?: string; // for the outermost div container
 }
 
 export interface PushNotificationMessageQueueInterface {

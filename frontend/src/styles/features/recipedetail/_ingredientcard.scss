@@ -11,9 +11,10 @@
 
 .ingredientcard-ingredients-container-view {
   gap: $space-2;
-  // li {
-  //   display: list-item;
-  // }
+  li {
+    padding-bottom: $space-1;
+    border-bottom: 1px solid var(--surface-container);
+  }
 }
 
 .ingredientcard-ingredients-container-edit {

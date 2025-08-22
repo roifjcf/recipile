@@ -41,6 +41,18 @@ export default function ExpandableIcons({
 
     <div className={toggle ? onToggleStyle : defaultStyle}>
 
+      <Icon
+        src={src}
+        altsrc={altsrc} 
+        hoverable={hoverable} 
+        onClick={handleClick} 
+        className={className}
+        description={description}
+      />
+
+      {toggle && <span className="expandableicons-icon-divisor"></span>}
+
+
       {toggle && iconsToDisplay.map((icon: IconProps, i) =>
         <Icon
           key={i}
@@ -51,18 +63,6 @@ export default function ExpandableIcons({
           className={icon["className"]}
           description={icon["description"]}
         />)}
-
-      {toggle && <span className="icon-divisor-vertical"></span>}
-
-      <Icon
-        src={src}
-        altsrc={altsrc} 
-        hoverable={hoverable} 
-        onClick={handleClick} 
-        className={className}
-        description={description}
-      />
-
     </div>
 
   );

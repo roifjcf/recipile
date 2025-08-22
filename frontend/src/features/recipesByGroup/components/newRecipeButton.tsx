@@ -37,6 +37,6 @@ export default function NewRecipeButton(props: Props) {
           id="new-recipe"
           onClick={handleClick}
           >
-            Add recipe
+            New recipe
           </button>
 }

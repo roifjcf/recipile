@@ -5,7 +5,6 @@ interface Props {
   recipes: RecipeInterface[],
   tags: TagInterface[],
   currentRecipes: RecipeInterface[],
-  kaomoji: string,
   recipeCardDisplay: RecipeCardDisplay,
   setRecipes: (hookval: RecipeInterface[]) => void,
   setCurrentRecipe: (hookval: RecipeInterface) => void,
@@ -22,8 +21,6 @@ export default function RecipeCards(props: Props) {
     : " recipecards-container-grid");
   
   return (
-  <div>
-    {props.currentRecipes.length > 0 ?
     <div className={style} >
       {props.currentRecipes.map((recipe, index) =>
       <RecipeCard
@@ -40,10 +37,5 @@ export default function RecipeCards(props: Props) {
         recipesToEdit={props.recipesToEdit}
       />) }
     </div>
-    :
-    <div className="recipecards-msg">
-      <p>{props.kaomoji}</p>
-      <p>No recipes!</p>
-    </div>}
-  </div>);
+  );
 }

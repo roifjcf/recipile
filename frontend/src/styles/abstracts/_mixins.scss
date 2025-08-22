@@ -21,9 +21,22 @@
 }
 
 
+
+@mixin filter-primary {
+  // #f7cf4c
+  filter: brightness(0) saturate(100%) invert(88%) sepia(57%) saturate(1785%) hue-rotate(319deg) brightness(103%) contrast(94%) !important;
+}
+
+@mixin filter-on-primary {
+  // #131111
+  filter: brightness(0) saturate(100%) invert(6%) sepia(13%) saturate(264%) hue-rotate(314deg) brightness(99%) contrast(98%) !important;
+}
+
 @mixin filter-on-surface-variant-light {
-  filter: brightness(0) saturate(100%) invert(38%) sepia(16%) saturate(10%) hue-rotate(4deg) brightness(99%) contrast(94%);
+  // #958F8F
+  filter: brightness(0) saturate(100%) invert(38%) sepia(16%) saturate(10%) hue-rotate(4deg) brightness(99%) contrast(94%) !important;
 }
 @mixin filter-on-surface-variant-dark {
-  filter: brightness(0) saturate(100%) invert(60%) sepia(4%) saturate(275%) hue-rotate(314deg) brightness(94%) contrast(91%);
+  // #666666
+  filter: brightness(0) saturate(100%) invert(60%) sepia(4%) saturate(275%) hue-rotate(314deg) brightness(94%) contrast(91%) !important;
 }

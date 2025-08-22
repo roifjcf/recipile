@@ -41,7 +41,7 @@ export default function SettingMenuItem({
         </div>
         <div className="actions">
           {actions.map((action, index) =>
-          <button key={index} className="action" onClick={action["onClick"]}>
+          <button key={index} className="action button-small" onClick={action["onClick"]}>
             {action["actionName"]}
           </button> )}
         </div>

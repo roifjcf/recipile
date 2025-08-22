@@ -42,7 +42,7 @@ export default function RecipeCardListDisplay({
           handleUpdateEditList={handleUpdateEditList}
           recipesToEdit={recipesToEdit}
         />
-        <div className="grid-info">
+        <div className="main-info">
           <p>{recipe.name}</p>
           <MiniStats
             mode="view"

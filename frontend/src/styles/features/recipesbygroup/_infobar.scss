@@ -3,28 +3,49 @@
 
 
 .infobar-container {
-  padding: 0 $space-8;
   margin-bottom: $size-4xl;
-  height: $space-8;
+  min-height: 48px;
+  position: relative;
 
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  @media (max-width: $breakpoint-lg) {
+    margin-bottom: $size-2xl;
+  }
+  @media (max-width: $breakpoint-md) {
+    align-items: center;
+  }
+
 
   .left { 
-    gap: $space-8;
+    gap: $space-4;
+    padding-left: $space-8;
 
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    @media (max-width: $breakpoint-sm) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 
   .right {
-    height: 100%;
+    height: auto;
+    padding-right: $space-8;
 
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: $space-1;
+
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }

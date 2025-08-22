@@ -106,7 +106,6 @@ input, select, option, textarea {
 }
 
 input, select {
-  width: auto;
   padding: $space-1;
   margin: $space-1 $space-0;
   margin-right: $space-1;
@@ -130,7 +129,7 @@ button {
   padding: $space-1 $space-3;
 
   text-align: center;
-  border-radius: $radius-md;
+  border-radius: $radius-sm;
   border: 1px solid var(--primary);
   color: var(--on-surface);
   // background-color: var(--surface);
@@ -157,8 +156,16 @@ hr {
   margin: $space-4 0;
 }
 
+
+
+
+
+
+
+
 /////////////////////////////////////////////
 // General classes
+
 
 .clickable {
   &:hover {
@@ -206,6 +213,10 @@ hr {
   background-color: var(--primary);
 }
 
+.button-small {
+  padding: $space-1;
+}
+
 .bluroverlay {
   position: fixed;
   top: 0;
@@ -213,6 +224,7 @@ hr {
   width: 100vw;
   height: 100vh;
   backdrop-filter: blur(4px);
+  z-index: $z-index-fixed;
 }
 
 .hidden {
@@ -265,14 +277,16 @@ hr {
   height: $size !important;
 }
 
+
+
+
+/////////////////////////////////////////////
+// Color filters
+
 .variant-icon {
   @include filter-on-surface-variant-light;
 }
 
 html[data-theme="dark"] .variant-icon {
   @include filter-on-surface-variant-dark;
-}
-
-.circle-border {
-
 }

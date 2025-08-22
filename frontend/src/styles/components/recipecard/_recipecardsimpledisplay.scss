@@ -2,10 +2,11 @@
 @use '../../abstracts/variables' as *;
 
 .recipecardsimpledisplay-container {
-  margin-bottom: $space-6;
-  max-height: 200px;
-  width: 300px;
-  padding: $space-8;
+  width: 100%;
+  max-width: 300px;
+  min-width: 240px;
+  height: 100%;
+  padding: $space-4;
 
   display: flex;
   flex-direction: column;
@@ -17,6 +18,10 @@
 
   &:hover {
     cursor: pointer;
+  }
+
+  @media (max-width: $breakpoint-2xl) {
+    min-width: 200px;
   }
 }
 

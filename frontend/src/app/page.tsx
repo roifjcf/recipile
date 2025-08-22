@@ -32,7 +32,11 @@ export default function Home() {
   const [selectedTags, setSelectedTags] = useState<Set<TagInterface>>(new Set());
   const [tagSetOperation, setTagSetOperation] = useState<TagSetOperation>("union");
   const [currentGroup, setCurrentGroup] = useState<SideBarDisplay>("category"); // way to group recipes (e.g. by tags or categories)
-  
+  const [showCollapsedSideBar, setShowCollapsedSideBar] = useState<boolean>(false); // responsive
+  const toggleCollapsedSideBar = () => {
+    setShowCollapsedSideBar(!showCollapsedSideBar)
+  };
+
   // debounced search (auto complete?)
   const [debouncedSearchInput, setDebouncedSearchInput] = useState<string>("");
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -148,6 +152,7 @@ export default function Home() {
           setTagSetOperation={setTagSetOperation}
           currentGroup={currentGroup}
           setCurrentGroup={setCurrentGroup}
+          showCollapsedSideBar={showCollapsedSideBar}
         />
 
         {/* displays search results if the search bar is not empty,
@@ -190,6 +195,7 @@ export default function Home() {
           handleDebounceChange={handleDebounceChange}
           handleResetSearchInput={handleResetSearchInput}
           searchInputRef={searchInputRef}
+          toggleCollapsedSideBar={toggleCollapsedSideBar}
         />
 
 

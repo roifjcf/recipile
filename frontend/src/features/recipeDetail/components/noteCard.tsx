@@ -26,7 +26,7 @@ export default function NoteCard({
     <div className="notecard-container">
       
       <div className="notecard-title">
-        <Icon src="message-outline-958F8F" />
+        <Icon className="notecard-icon" src="message-outline-958F8F" />
         <h4>Notes</h4>
       </div>
 

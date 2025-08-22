@@ -17,6 +17,7 @@ interface Props {
 
   currentGroup: SideBarDisplay,
   setCurrentGroup: (hookval: SideBarDisplay) => void,
+  showCollapsedSideBar: boolean,
 };
 
 
@@ -37,53 +38,106 @@ export default function SideBar({
   
   currentGroup,
   setCurrentGroup,
+  showCollapsedSideBar
 }: Props) {
 
 
 
 
+  const renderFull = () => {
+    return (
+      <div className="sidebar-container-full" id="categories">
+
+        <div className="sidebar-button-container">
+
+          <button
+            className={currentGroup === "category" ? "active-button" : ""}
+            onClick={()=>setCurrentGroup("category")}
+          >
+            Category
+          </button>
+
+          <button
+            className={currentGroup === "tag" ? "active-button" : ""}
+            onClick={()=>setCurrentGroup("tag")}
+          >
+            Tag
+          </button>
+
+        </div>
+
+
+        {currentGroup === "category" &&
+        <CategoryList
+          categories={categories ? categories : []}
+          currentCategory={currentCategory}
+          setCurrentCategory={setCurrentCategory}
+          handleResetSearchInput={handleResetSearchInput}
+        />}
+
+        {currentGroup === "tag" &&
+        <TagList
+          tags={tags ? tags : []}
+          selectedTags={selectedTags}
+          setSelectedTags={setSelectedTags}
+          handleResetSearchInput={handleResetSearchInput}
+          tagSetOperation={tagSetOperation}
+          setTagSetOperation={setTagSetOperation}
+        />}
+      </div>
+    );
+  };
+
+  const renderCollapsed = () => {
+    return (
+      <div className="sidebar-container-collapsed">
+        <div className="sidebar-button-container">
+
+          <button
+            className={currentGroup === "category" ? "active-button" : ""}
+            onClick={()=>setCurrentGroup("category")}
+          >
+            Category
+          </button>
+
+          <button
+            className={currentGroup === "tag" ? "active-button" : ""}
+            onClick={()=>setCurrentGroup("tag")}
+          >
+            Tag
+          </button>
+
+        </div>
+
+
+        {currentGroup === "category" &&
+        <CategoryList
+          categories={categories ? categories : []}
+          currentCategory={currentCategory}
+          setCurrentCategory={setCurrentCategory}
+          handleResetSearchInput={handleResetSearchInput}
+        />}
+
+        {currentGroup === "tag" &&
+        <TagList
+          tags={tags ? tags : []}
+          selectedTags={selectedTags}
+          setSelectedTags={setSelectedTags}
+          handleResetSearchInput={handleResetSearchInput}
+          tagSetOperation={tagSetOperation}
+          setTagSetOperation={setTagSetOperation}
+        />}
+      </div>
+    )
+  }
+
 
 
   return (
-    <div className="page-left-column" id="categories">
-
-      <div className="sidebar-button-container">
-
-        <button
-          className={currentGroup === "category" ? "active-button" : ""}
-          onClick={()=>setCurrentGroup("category")}
-        >
-          By category
-        </button>
-
-        <button
-          className={currentGroup === "tag" ? "active-button" : ""}
-          onClick={()=>setCurrentGroup("tag")}
-        >
-          By tag
-        </button>
-
-      </div>
-
-
-      {currentGroup === "category" &&
-      <CategoryList
-        categories={categories ? categories : []}
-        currentCategory={currentCategory}
-        setCurrentCategory={setCurrentCategory}
-        handleResetSearchInput={handleResetSearchInput}
-      />}
-
-      {currentGroup === "tag" &&
-      <TagList
-        tags={tags ? tags : []}
-        selectedTags={selectedTags}
-        setSelectedTags={setSelectedTags}
-        handleResetSearchInput={handleResetSearchInput}
-        tagSetOperation={tagSetOperation}
-        setTagSetOperation={setTagSetOperation}
-      />}
-    </div>
+    <>
+      {renderFull()}
+      {showCollapsedSideBar && renderCollapsed()}
+    </>
   );
 
 }

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import SearchBar from '@/components/searchBar';
 import ThemeButton from './themeButton';
 import SettingMenu from './settingMenu/settingMenu';
+import { usePathname } from "next/navigation";
 
 
 
@@ -29,10 +30,13 @@ const links = [
   // },
 ];
 
+
+
 interface Props {
   handleDebounceChange?: (e: any) => void,
   handleResetSearchInput?: () => void,
   searchInputRef?: React.RefObject<HTMLInputElement | null>,
+  toggleCollapsedSideBar?: () => void, // for page "/"
 }
 
 
@@ -44,6 +48,7 @@ export default function Navbar({
   handleDebounceChange,
   handleResetSearchInput,
   searchInputRef,
+  toggleCollapsedSideBar
 }: Props) {
   
   
@@ -51,7 +56,7 @@ export default function Navbar({
   const [showSettingMenu, setShowSettingMenu] = useState<boolean>(false);
   const [showDropdownMenu, setShowDropdownMenu] = useState<boolean>(false);
   const showSearchBar = handleDebounceChange && handleResetSearchInput && searchInputRef;
-
+  const pathname = usePathname();
 
   useEffect(() => {
     setCurrPath(window.location.pathname);
@@ -97,7 +102,13 @@ export default function Navbar({
 
 
       <div className='navbar-button-container-right'>
-        <ThemeButton />
+        {pathname==="/" &&
+        <Icon
+          classNameContainer='navbar-responsive-button'
+          src='dropdown'
+          hoverable={true}
+          onClick={toggleCollapsedSideBar}
+        />}
         {/* <Icon src='language-outline' hoverable={true}/> */}
         <div className='navbar-setting-button'>
           <Icon
@@ -107,7 +118,7 @@ export default function Navbar({
           />
         </div>
         <Icon
-          className='navbar-dropdownmenu-button'
+          classNameContainer='navbar-responsive-button'
           src="menu-outline"
           hoverable={true}
           onClick={()=>setShowDropdownMenu(!showDropdownMenu)}

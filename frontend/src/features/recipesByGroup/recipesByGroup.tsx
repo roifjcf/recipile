@@ -4,6 +4,7 @@ import InfoBar from "./components/infoBar";
 import RecipeCards from "./components/recipeCards";
 import { useState } from "react";
 import { recipeAPI } from "@/utils/api";
+import EmptyDisplay from "./components/emptyDisplay";
 
 interface Props {
   currentCategory: CategoryInterface | null,
@@ -123,6 +124,7 @@ export default function RecipesByGroup({
 
   }
 
+  const currentRecipes = getCurrentRecipe(currentGroup, tagSetOperation);
 
 
   return (
@@ -142,19 +144,22 @@ export default function RecipesByGroup({
         currentGroup={currentGroup}
       />
 
-      <RecipeCards
-        recipes={recipes}
-        tags={tags}
-        currentRecipes={getCurrentRecipe(currentGroup, tagSetOperation)}
-        kaomoji={kaomoji}
-        recipeCardDisplay={recipeCardDisplay}
-        setRecipes={setRecipes}
-        setCurrentRecipe={setCurrentRecipe}
-        setShowRecipeDetail={setShowRecipeDetail}
-        isBulkEditing={isBulkEditing}
-        handleUpdateEditList={handleUpdateEditList}
-        recipesToEdit={recipesToEdit}
-      />
+      {currentRecipes.length > 0 ?
+        <RecipeCards
+          recipes={recipes}
+          tags={tags}
+          currentRecipes={currentRecipes}
+          recipeCardDisplay={recipeCardDisplay}
+          setRecipes={setRecipes}
+          setCurrentRecipe={setCurrentRecipe}
+          setShowRecipeDetail={setShowRecipeDetail}
+          isBulkEditing={isBulkEditing}
+          handleUpdateEditList={handleUpdateEditList}
+          recipesToEdit={recipesToEdit}
+        />
+        :
+        <EmptyDisplay kaomoji={kaomoji} />
+      }
     </div>
   );
 }

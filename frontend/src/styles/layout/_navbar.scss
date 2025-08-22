@@ -17,6 +17,9 @@
   border-bottom: 1px solid var(--outline-variant);
 
   
+  @media (max-width: $breakpoint-sm) {
+    padding: 0 $space-4;
+  }
 
 
   span {
@@ -72,12 +75,24 @@
 }
 
 .navbar-button-container-right {
-  gap: $space-4;
   position: relative;
 
   display: flex;
   flex-direction: row;
+
+  > div:not(:last-child) {
+    margin-left: $space-4;
+  }
+  @media (max-width: ($breakpoint-md+1)) {
+    > div:not(:last-child) {
+      margin-left: 0;
+      margin-right: $space-4;
+    }
+  }
 }
+
+
+
 
 .navbar-link {
   width: auto;
@@ -102,15 +117,21 @@
 }
 
 
+
+
+
 .navbar-setting-button {
   @media (max-width: $breakpoint-md) {
     display: none;
   }
 }
 
-.navbar-dropdownmenu-button {
+.navbar-responsive-button {
   @media (min-width: ($breakpoint-md+1)) {
     display: none;
+    *{
+      display: none;
+    }
   }
 }
 
