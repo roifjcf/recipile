@@ -41,7 +41,7 @@ export default function RecipeCard({
   recipesToEdit,
 } : Props) {
 
-  const canDelete = isBulkEditing && handleUpdateEditList ? true : false;
+  const isEditing = isBulkEditing && handleUpdateEditList ? true : false;
 
   const handlePin = async (val: number, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -72,7 +72,8 @@ export default function RecipeCard({
 
 
   const props = {
-    canDelete,
+    isEditing: isEditing,
+    isSelected: recipesToEdit.has(recipe.id),
     recipe,
     tags,
     handlePin,

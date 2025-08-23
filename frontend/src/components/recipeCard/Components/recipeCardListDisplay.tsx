@@ -4,7 +4,8 @@ import MiniStats from "@/components/miniStats";
 import Tags from "@/components/tags";
 
 interface Props {
-  canDelete: boolean,
+  isEditing: boolean,
+  isSelected: boolean,
   recipe: RecipeInterface,
   tags: TagInterface[],
   handlePin: (val: number, e: React.MouseEvent) => void,
@@ -20,7 +21,8 @@ interface Props {
 
 
 export default function RecipeCardListDisplay({
-  canDelete,
+  isEditing: isEditing,
+  isSelected,
   recipe,
   tags,
   handlePin,
@@ -35,13 +37,13 @@ export default function RecipeCardListDisplay({
 
   return (
     <div
-      className="recipecardlistdisplay-container"
-      onClick={canDelete ? handleToggle : handleShowRecipeDetail}
+      className={`recipecardlistdisplay-container ${isSelected ? " border-selected" : ""}`}
+      onClick={isEditing ? handleToggle : handleShowRecipeDetail}
     >
 
       <div className="left">
         <Buttons
-          canDelete={canDelete}
+          canDelete={isEditing}
           recipe={recipe}
           handlePin={handlePin}
           handleUpdateEditList={handleUpdateEditList}
@@ -58,6 +60,7 @@ export default function RecipeCardListDisplay({
         </div>
       </div>
 
+      {recipe.tags.length > 0 &&
       <div className="right">
         <Tags
           mode="view"
@@ -65,6 +68,7 @@ export default function RecipeCardListDisplay({
           tags={tags}
         />
       </div>
+      }
 
     </div>
   );

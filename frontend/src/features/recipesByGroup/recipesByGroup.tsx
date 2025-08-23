@@ -2,15 +2,17 @@
 import { CategoryInterface, Modes, RecipeInterface, RecipeCardDisplay, TagInterface, SideBarDisplay, TagSetOperation } from "@/common/type";
 import InfoBar from "./components/infoBar";
 import RecipeCards from "./components/recipeCards";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { recipeAPI } from "@/utils/api";
 import EmptyDisplay from "./components/emptyDisplay";
 import Icon from "@/components/icon/icon";
 
 interface Props {
   currentCategory: CategoryInterface | null,
+  mode: Modes,
   setMode: (hookval: Modes) => void,
   setShowRecipeDetail: (hookval: boolean) => void,
+  currentRecipe: RecipeInterface | null,
   setCurrentRecipe: (hookval: RecipeInterface) => void,
   recipeCardDisplay: RecipeCardDisplay,
   toggleCardDisplay: (hookval: RecipeCardDisplay) => void,
@@ -26,8 +28,10 @@ interface Props {
 
 export default function RecipesByGroup({
   currentCategory,
+  mode,
   setMode,
   setShowRecipeDetail,
+  currentRecipe,
   setCurrentRecipe,
   recipeCardDisplay,
   toggleCardDisplay,
@@ -149,6 +153,31 @@ export default function RecipesByGroup({
       setRecipesToEdit(newSet);
     }
   };
+
+
+
+  /** Keyboard event listener */
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (mode !== "view") return;
+      if (!currentRecipe) return;
+      const currentIndex = currentRecipes.indexOf(currentRecipe);
+      console.log(currentIndex);
+      if (e.key === "ArrowLeft") {
+        const newIndex = currentIndex > 0 ? currentIndex-1 : 0;
+        console.log(currentRecipes[newIndex]);
+        setCurrentRecipe(currentRecipes[newIndex]);
+      } else if (e.key === "ArrowRight") {
+        const newIndex = currentIndex < currentRecipes.length-1 ? currentIndex+1 : currentRecipes.length-1;       
+        setCurrentRecipe(currentRecipes[newIndex]);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [currentRecipes, currentRecipe, mode]);
+  
 
 
 

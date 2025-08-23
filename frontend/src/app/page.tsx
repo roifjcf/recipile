@@ -135,7 +135,7 @@ export default function Home() {
   }
 
 
-  
+
   return (
     <PushNotificationContext.Provider value={pushNotificationContext}>
     <SortMethodContext.Provider value={sortMethodContext} >
@@ -160,8 +160,10 @@ export default function Home() {
         {debouncedSearchInput === "" ?
         <RecipesByCategory
           currentCategory={currentCategory}
+          mode={mode}
           setMode={setMode}
           setShowRecipeDetail={setShowRecipeDetail}
+          currentRecipe={currentRecipe}
           setCurrentRecipe={setCurrentRecipe}
           recipeCardDisplay={recipeCardDisplay}
           toggleCardDisplay={toggleCardDisplay}

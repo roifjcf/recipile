@@ -10,6 +10,8 @@ import {
   RecipeSortOptions,
   } from "@/common/type";
 import { categoryAPI, ingredientAPI, recipeAPI, tagAPI } from "./api";
+import JSZip from "jszip";
+import { saveAs } from "file-saver"; // optional helper to trigger download
 
 
 
@@ -124,7 +126,6 @@ export const exportJSONData = async () => {
     const cats = [];
     for (const id of record["categories"]) {
       const catData = await categoryAPI.getOne(id);
-      console.log(catData);
       cats.push([catData["name"], catData["icon_file_name"] ?? ""]);
     }
     record["categories"] = cats;
@@ -163,7 +164,106 @@ export const exportJSONData = async () => {
 
 
 
+export const exportCSVData = async () => {
+  const [categoryData, recipeData, tagData, ingredientData] = await fetchData();
 
+  // process the recipe data (replace ids with names for categories / tags / ingredients)
+  for (const record of recipeData) {
+    // tags
+    const tagNames: string[] = [];
+    for (const id of record["tags"]) {
+      const tag = await tagAPI.getOne(id);
+      tagNames.push(tag["name"]);
+    }
+    record["tags"] = tagNames;
+
+    // ingredients
+    for (const ingre of record["ingredients"]) {
+      const ingreData = await ingredientAPI.getOne(ingre[0]);
+      ingre[0] = ingreData["name"];
+      ingre[2] = ingreData["unit"];
+    }
+
+    // categories
+    const cats: string[][] = [];
+    for (const id of record["categories"]) {
+      const cat = await categoryAPI.getOne(id);
+      cats.push([cat["name"], cat["icon_file_name"] ?? ""]);
+    }
+    record["categories"] = cats;
+  }
+
+  // helper: convert array of objects to CSV
+  const convertToCSV = (arr: any[], replacer?: (key: string, value: any) => any) => {
+    if (arr.length === 0) return "";
+
+    const headers = Object.keys(arr[0]);
+    const csvRows = [headers.join(",")];
+
+    for (const obj of arr) {
+      const row = headers.map((field) => {
+        let val = obj[field];
+
+        // custom serialization for arrays/objects
+        if (Array.isArray(val)) {
+          if (field === "tags") {
+            val = val.join(";");
+          } else if (field === "ingredients") {
+            val = val.map((i: any) => `${i[0]} ${i[1]} ${i[2]}`).join(";");
+          } else if (field === "categories") {
+            val = val.map((c: any) => `${c[0]}`).join(";");
+          } else {
+            val = JSON.stringify(val);
+          }
+        }
+
+        // escape quotes & commas
+        if (typeof val === "string") {
+          val = `"${val.replace(/"/g, '""')}"`;
+        }
+
+        return val;
+      });
+      csvRows.push(row.join(","));
+    }
+
+    return csvRows.join("\n");
+  };
+
+  const files = [
+    { data: categoryData, filename: "categories.csv" },
+    { data: recipeData, filename: "recipes.csv" },
+    { data: tagData, filename: "tags.csv" },
+    { data: ingredientData, filename: "ingredients.csv" },
+  ];
+
+  // files.forEach(({ data, filename }) => {
+  //   const csvString = convertToCSV(data);
+  //   const blob = new Blob([csvString], { type: "text/csv" });
+  //   const url = URL.createObjectURL(blob);
+
+  //   const a = document.createElement("a");
+  //   a.href = url;
+  //   a.download = filename;
+  //   document.body.appendChild(a);
+  //   a.click();
+
+  //   document.body.removeChild(a);
+  //   URL.revokeObjectURL(url);
+  // });
+
+
+  // Generate the zip and trigger download
+  const zip = new JSZip();
+
+  files.forEach(({ data, filename }) => {
+    const csvString = convertToCSV(data);
+    zip.file(filename, csvString); // add CSV to the ZIP
+  });
+
+  const blob = await zip.generateAsync({ type: "blob" });
+  saveAs(blob, "recipile_exported_csv_data.zip");
+};
 
 
 
@@ -323,10 +423,17 @@ export const importRecipes = async (data: any) => {
 
 
 
-
+export const manageLocalStorage = (
+  method: "get"|"set"|"remove", key: string, val?: string
+) => {
+  if (method === "get") { return localStorage.getItem(key); }
+  else if (method === "set" && val) { localStorage.setItem(key, val); }
+  else if (method === "remove") { localStorage.removeItem(key); }
+}
 
 
 export const styleInit = () => {
+  // theme init
   const savedTheme = localStorage.getItem('theme'); // 'dark' or 'light'
   const html = document.documentElement;
   if (savedTheme) {
@@ -336,25 +443,27 @@ export const styleInit = () => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     html.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
   }
+
+  // dimmed image in dark mode
+  const dimmedImage = manageLocalStorage("get", "dimmedImage");
+  if (dimmedImage === "false") {
+    html.classList.remove("dimmed-images");
+  } else {
+    html.classList.add("dimmed-images");
+  }
 }
 
+export const resetPreference = () => {
+  // dimmedImage
+  manageLocalStorage("remove", "dimmedImage");
+  
+}
 
 export const convertImgUrl = (s: string | null) => {
   /** Converts the image retrieved from the database */
   if (!s) {return null;}
   return s !== "" ? `data:image/jpeg;base64,${s}` : null;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -631,3 +740,5 @@ export const isToday = (date: Date) => {
     date.getDate() === today.getDate()
   );
 }
+
+

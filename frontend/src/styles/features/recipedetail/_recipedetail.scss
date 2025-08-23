@@ -35,6 +35,13 @@ $recipecard-container-right: 100% - $recipecard-container-left - $recipecard-con
     flex-direction: column;
     justify-content: flex-start;
   }
+
+  .recipeimage-container,
+  .recipeimage-img {
+    @media (min-width: $breakpoint-md) {
+      border-top-left-radius: $radius-sm;
+    }
+  }
 }
 
 

@@ -25,10 +25,10 @@ export default function MiniStats({
         {/* {inEditMode && <h4>Prep time</h4> } */}
         <Icon
           src={"time-outline"}
-          description="Prep time"
+          // description="Prep time"
           className="ministats-icon"
         />
-        {!inEditMode && <p>{recipeDetail["prep_time"] + (recipeDetail["prep_time"] > 1 ? " minutes" : "minute")}</p>}
+        {!inEditMode && <p>{recipeDetail["prep_time"] + (recipeDetail["prep_time"] > 1 ? " minutes" : " minute")}</p>}
         {inEditMode &&
         <input
           className="input-small inline"
@@ -49,7 +49,7 @@ export default function MiniStats({
         {/* {inEditMode && <h4>Serving size</h4> } */}
         <Icon
           src={"serving-outline"}
-          description="Serving"
+          // description="Serving"
           className="ministats-icon"
         />
         {!inEditMode && <p>{recipeDetail["serving"]}</p>}

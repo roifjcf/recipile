@@ -10,10 +10,10 @@ export default function SettingMenuGeneral() {
       externalLinkUrl="https://github.com/roifjcf/recipile"
       externalLinkDescription="Github repository"
     />
-    <SettingMenuItem
+    {/* <SettingMenuItem
       title={`Get started`}
       externalLinkUrl="/getstarted"
       externalLinkDescription="Starter guide"
-    />
+    /> */}
   </>);
 }

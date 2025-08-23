@@ -1,4 +1,4 @@
-import { deleteAllData, exportJSONData, fileImporter } from "@/utils/helper";
+import { deleteAllData, exportCSVData, exportJSONData, fileImporter } from "@/utils/helper";
 import SettingMenuItem from "./settingMenuItem";
 import { useState } from "react";
 import ModalPopup from "@/components/modalPopup";
@@ -45,11 +45,15 @@ export default function SettingMenuDataManagement () {
       <SettingMenuItem
         title="Export Data"
         iconSrc="upload"
-        description="Export all data in .json format"
+        description="Export all data"
         actions={[
           {
-            actionName: "Export Data",
+            actionName: "Export json",
             onClick: ()=>exportJSONData()
+          },
+          {
+            actionName: "Export csv",
+            onClick: ()=>exportCSVData()
           }
         ]}
       />
@@ -57,7 +61,7 @@ export default function SettingMenuDataManagement () {
       <SettingMenuItem
         title="Import Data"
         iconSrc="download"
-        description="Import data"
+        description="Import data from .json files"
         actions={[
           {
             actionName: "Tags",

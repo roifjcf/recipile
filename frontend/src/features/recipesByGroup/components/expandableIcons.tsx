@@ -1,6 +1,7 @@
 import { IconProps } from "@/common/type";
 import Icon from "@/components/icon/icon";
-import { useState } from "react";
+import { useClickOutside } from "@/hooks/useClickOutside";
+import { useRef, useState } from "react";
 
 interface Props extends IconProps {
   iconsToDisplay: IconProps[],
@@ -30,11 +31,15 @@ export default function ExpandableIcons({
     if (onClick) { onClick(); }
   }
 
-
+  const ref = useRef<HTMLDivElement>(null);
+  useClickOutside(ref, ()=>setToggle(false));
 
   return (
 
-    <div className={toggle ? onToggleStyle : defaultStyle}>
+    <div
+      className={toggle ? onToggleStyle : defaultStyle}
+      ref={ref}
+    >
       <Icon
         src={src}
         altsrc={altsrc} 

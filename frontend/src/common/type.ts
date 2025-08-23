@@ -156,5 +156,6 @@ export interface PushNotificationMessageQueueInterface {
 
 export interface SettingMenuItemActionInterface {
   actionName: string,
-  onClick: (()=>void)
+  onClick: (()=>void),
+  toggled?: boolean,
 }

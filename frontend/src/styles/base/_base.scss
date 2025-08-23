@@ -270,6 +270,9 @@ hr {
   border-top: 1px solid var(--surface-container);
 }
 
+.border-selected {
+  outline: 1px solid var(--primary);
+}
 
 .list-line-deco > *:not(:last-child) {
   border-bottom: 1px solid var(--on-surface-variant);

@@ -5,7 +5,8 @@ import Tags from "@/components/tags";
 import RecipeImage from "@/components/recipeImage";
 
 interface Props {
-  canDelete: boolean,
+  isEditing: boolean,
+  isSelected: boolean,
   recipe: RecipeInterface,
   tags: TagInterface[],
   handlePin: (val: number, e: React.MouseEvent) => void,
@@ -16,7 +17,8 @@ interface Props {
 };
 
 export default function RecipeCardFullDisplay({
-  canDelete,
+  isEditing: isEditing,
+  isSelected: isSelected,
   recipe,
   tags,
   handlePin,
@@ -31,8 +33,8 @@ export default function RecipeCardFullDisplay({
 
   return (
     <div
-      className="recipecardfulldisplay-container round-corner"
-      onClick={canDelete ? handleToggle : handleShowRecipeDetail}
+      className={`recipecardfulldisplay-container round-corner ${isSelected ? " border-selected" : ""}`}
+      onClick={isEditing ? handleToggle : handleShowRecipeDetail}
     >
     
       <RecipeImage
@@ -49,7 +51,7 @@ export default function RecipeCardFullDisplay({
           
           <div className="right">
             <Buttons
-              canDelete={canDelete}
+              canDelete={isEditing}
               recipe={recipe}
               handlePin={handlePin}
               handleUpdateEditList={handleUpdateEditList}
@@ -68,7 +70,7 @@ export default function RecipeCardFullDisplay({
             />
           <Tags
             mode="view"
-            recipeTags={recipe.tags.slice(2)} // only show first two tags if there are more than two tags
+            recipeTags={recipe.tags.slice(0,2)} // only show first two tags if there are more than two tags
             tags={tags}
           />
         </div>

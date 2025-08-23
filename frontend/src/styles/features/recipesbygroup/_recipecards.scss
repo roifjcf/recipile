@@ -5,6 +5,7 @@
   width: 100%;
   max-width: 1600px;
   padding: 0 $space-8;
+  padding-top: $space-1;
   padding-bottom: $space-8;
   margin: 0 auto;
 
@@ -27,6 +28,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: $space-4;
+  // grid-template-rows: masonry;
 
   @media (max-width: $breakpoint-2xl) {
     grid-template-columns: repeat(3, 1fr);

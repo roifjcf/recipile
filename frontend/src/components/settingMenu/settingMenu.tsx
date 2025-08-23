@@ -25,14 +25,15 @@ export default function SettingMenu({
 
   const [selectedOption, setSelectedOption] = useState<string>(options[0]);
   const ref = useRef<HTMLDivElement>(null);
-
-
   useClickOutside(ref, closePopUp);
   
 
 
   return (
-    <div className="settingmenu-container soft-shadow display-center" ref={ref}>
+    <div
+      className="settingmenu-container soft-shadow display-center"
+      ref={ref}
+    >
 
 
       <Icon

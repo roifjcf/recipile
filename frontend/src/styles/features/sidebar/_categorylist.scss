@@ -27,7 +27,6 @@ $circle-size: $size-2xl;
 
 .categorylist-item-selected {
   background-color: var(--surface-container-lowest);
-
   &::before {
     @extend .categorylist-decorative-circle;
     top: -#{$circle-size};
