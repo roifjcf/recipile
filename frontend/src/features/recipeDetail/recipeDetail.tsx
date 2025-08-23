@@ -75,6 +75,7 @@ export default function RecipeDetail({
    * General
    */
   const [recipeDetail, setRecipeDetail] = useState<RecipeInterface>({...recipe});
+  const [selectedTab, setSelectedTab] = useState<"mid"|"right">("mid");
   const context = useContext(PushNotificationContext);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -263,9 +264,85 @@ export default function RecipeDetail({
   };
 
 
+  const renderFull = () => {
+    return (<>
+      <div className="recipedetail-container-mid border-right">
+        <IngredientCard
+          mode={mode}
+          recipeDetail={recipeDetail}
+          ingredients={ingredients}
+          selectedIngredient={selectedIngredient}
+          setSelectedIngredient={setSelectedIngredient}
+          handleRemoveIngredient={handleRemoveIngredient}
+          handleUpdateIngredientAmount={handleUpdateIngredientAmount}
+          handleAddExistingIngredient={handleAddExistingIngredient}
+          handleAddNewRecord={handleAddNewRecord}
+        />
+      </div>
 
+      {/* right column */}
+      <div className="recipedetail-container-right">
+        <StepCard
+          mode={mode}
+          recipeDetail={recipeDetail}
+          newStep={newStep}
+          handleRemoveStep={handleRemoveStep}
+          handleUpdateStep={handleUpdateStep}
+          handleReorder={handleReorder}
+          setNewStep={setNewStep}
+          handleAddStep={handleAddStep}
+        />
+        <NoteCard
+          mode={mode}
+          recipeDetail={recipeDetail}
+          setRecipeDetail={setRecipeDetail}
+        />
+      </div>
+    </>);
+  }
 
-
+  const renderCollapsed = () => {
+    return (
+      <div className="recipedetail-collapsed-container border-top">
+        <div className="recipedetail-collapsed-buttons">
+          <button onClick={()=>setSelectedTab("mid")}>Ingredients</button>
+          <button onClick={()=>setSelectedTab("right")}>Steps and notes</button>
+        </div>
+        {selectedTab==="mid"&&
+        <IngredientCard
+          mode={mode}
+          recipeDetail={recipeDetail}
+          ingredients={ingredients}
+          selectedIngredient={selectedIngredient}
+          setSelectedIngredient={setSelectedIngredient}
+          handleRemoveIngredient={handleRemoveIngredient}
+          handleUpdateIngredientAmount={handleUpdateIngredientAmount}
+          handleAddExistingIngredient={handleAddExistingIngredient}
+          handleAddNewRecord={handleAddNewRecord}
+        />    
+        }
+        {selectedTab==="right"&&
+        <>
+          <StepCard
+            mode={mode}
+            recipeDetail={recipeDetail}
+            newStep={newStep}
+            handleRemoveStep={handleRemoveStep}
+            handleUpdateStep={handleUpdateStep}
+            handleReorder={handleReorder}
+            setNewStep={setNewStep}
+            handleAddStep={handleAddStep}
+          />
+          <NoteCard
+            mode={mode}
+            recipeDetail={recipeDetail}
+            setRecipeDetail={setRecipeDetail}
+          />
+        </>
+        }
+      </div>
+    );
+  }
 
 
 
@@ -277,17 +354,14 @@ export default function RecipeDetail({
       className="recipedetail-container round-corner soft-shadow display-center"
       ref={ref}
     >
-
       {/* left column */}
       <div className="recipedetail-container-left border-right">
-        
         {/* image content */}
         <RecipeImage
           mode={mode}
           recipe={recipeDetail}
           setRecipeDetail={setRecipeDetail}
         />
-
         {/* text content */}
         <div className="recipedetail-text-info-container-left">
           <div className={mode==="view" ? "recipedetail-name-and-link" : ""}>
@@ -313,48 +387,13 @@ export default function RecipeDetail({
             />
           </div>
         </div>
-
-
-        
       </div>
       
 
-      <div className="recipedetail-container-mid border-right">
-        <IngredientCard
-          mode={mode}
-          recipeDetail={recipeDetail}
-          ingredients={ingredients}
-          selectedIngredient={selectedIngredient}
-          setSelectedIngredient={setSelectedIngredient}
-          handleRemoveIngredient={handleRemoveIngredient}
-          handleUpdateIngredientAmount={handleUpdateIngredientAmount}
-          handleAddExistingIngredient={handleAddExistingIngredient}
-          handleAddNewRecord={handleAddNewRecord}
-        />        
-      </div>
+      {renderFull()}
+      {renderCollapsed()}
 
 
-
-      {/* right column */}
-      <div className="recipedetail-container-right">
-        <StepCard
-          mode={mode}
-          recipeDetail={recipeDetail}
-          newStep={newStep}
-          handleRemoveStep={handleRemoveStep}
-          handleUpdateStep={handleUpdateStep}
-          handleReorder={handleReorder}
-          setNewStep={setNewStep}
-          handleAddStep={handleAddStep}
-        />
-        <NoteCard
-          mode={mode}
-          recipeDetail={recipeDetail}
-          setRecipeDetail={setRecipeDetail}
-        />
-        
-        
-      </div>
       {/* sidebar */}
       <div className="recipedetail-container-sidebar border-left">
         <ButtonGroup
@@ -368,7 +407,6 @@ export default function RecipeDetail({
           handleDeleteRecipe={handleDeleteRecipe}
         />
       </div>
-
     </div>
   );
 }

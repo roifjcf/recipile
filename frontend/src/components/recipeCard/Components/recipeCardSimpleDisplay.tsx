@@ -23,11 +23,14 @@ export default function RecipeCardSimpleDisplay({
   recipesToEdit,
 }: Props) {
 
+  const handleToggle = (e: React.MouseEvent) => {
+    handleUpdateEditList?.(recipe.id, e);
+  };
 
   return (
     <div
       className="recipecardsimpledisplay-container round-corner"
-      onClick={handleShowRecipeDetail}
+      onClick={canDelete ? handleToggle : handleShowRecipeDetail}
     >
     
 
@@ -59,7 +62,7 @@ export default function RecipeCardSimpleDisplay({
           />
         <Tags
           mode="view"
-          recipeTags={recipe.tags}
+          recipeTags={recipe.tags.slice(2)}
           tags={tags}
         />
       </div>

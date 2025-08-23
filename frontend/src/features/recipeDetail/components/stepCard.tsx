@@ -30,7 +30,10 @@ export default function StepCard({
 
   const renderViewMode = () => 
     <ul className="stepcard-steps ">{steps.map((s, index) =>
-      <li key={index}>{s}</li>)}
+      <li key={index}>
+        <Icon src="dot" />{s}
+      </li>
+    )}
     </ul>;
   
   const renderEditMode = () => {
@@ -40,7 +43,14 @@ export default function StepCard({
         {/* current steps */}
         {steps.map((step, index) =>
         <li key={index}>
-          <Icon src="bin-outline" altsrc="bin-fill" hoverable={true} onClick={()=>{handleRemoveStep?.(index)}} />
+          <Icon
+            src="bin-outline"
+            altsrc="bin-fill"
+            hoverable={true}
+            onClick={()=>{handleRemoveStep?.(index)}}
+            showPopUp={true}
+            popUpMessage="Delete?"
+          />
           <input
             className="input-full inline"
             key={index}

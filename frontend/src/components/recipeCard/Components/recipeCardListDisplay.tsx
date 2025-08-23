@@ -29,10 +29,15 @@ export default function RecipeCardListDisplay({
   recipesToEdit,
 }: Props) {
 
-
+  const handleToggle = (e: React.MouseEvent) => {
+    handleUpdateEditList?.(recipe.id, e);
+  };
 
   return (
-    <div className="recipecardlistdisplay-container" onClick={handleShowRecipeDetail}>
+    <div
+      className="recipecardlistdisplay-container"
+      onClick={canDelete ? handleToggle : handleShowRecipeDetail}
+    >
 
       <div className="left">
         <Buttons

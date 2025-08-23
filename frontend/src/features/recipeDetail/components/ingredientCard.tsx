@@ -63,7 +63,14 @@ export default function IngredientCard({
         <ul className="ingredientcard-ingredients-container-edit">
           {recipeDetail["ingredients"].map((ingr, index) =>
           <li className="ingredientcard-ingredient-container" key={index}>
-            <Icon src="bin-outline" altsrc="bin-fill" hoverable={true} onClick={()=>{handleRemoveIngredient?.(ingr[0])}} />
+            <Icon
+              src="bin-outline"
+              altsrc="bin-fill"
+              hoverable={true}
+              onClick={()=>{handleRemoveIngredient?.(ingr[0])}}
+              showPopUp={true}
+              popUpMessage="Remove the ingredient?"
+            />
             <span className="ingredientcard-ingredient-name">
               {findRecordNameByid(parseInt(ingr[0]), ingredients)}
             </span>

@@ -69,23 +69,24 @@ export const deleteAllData = async () => {
   // ingredients
   let recordsToDelete = await ingredientAPI.get();
   for (const record of recordsToDelete) {
-    ingredientAPI.delete(record["id"]);
+    await ingredientAPI.delete(record["id"]);
   }
   // tags
   recordsToDelete = await tagAPI.get();
   for (const record of recordsToDelete) {
-    tagAPI.delete(record["id"]);
+    await tagAPI.delete(record["id"]);
   }
   // categories
   recordsToDelete = await categoryAPI.get();
   for (const record of recordsToDelete) {
-    categoryAPI.delete(record["id"]);
+    await categoryAPI.delete(record["id"]);
   }
   // recipes
   recordsToDelete = await recipeAPI.get();
   for (const record of recordsToDelete) {
-    recipeAPI.delete(record["id"]);
+    await recipeAPI.delete(record["id"]);
   }
+  location.reload();
 }
 
 
@@ -103,7 +104,8 @@ export const exportJSONData = async () => {
   const [categoryData, recipeData, tagData, ingredientData] = await fetchData();
   
   // process the recipe data (replace ids with names for categories / tags / ingredients)
-  // and add ingredient units
+  // add ingredient units
+  // add category icons
   for (const record of recipeData) {
     // tags
     const tagNames = [];
@@ -119,12 +121,13 @@ export const exportJSONData = async () => {
       ingre[2] = ingreData["unit"];
     }
     // categories
-    const catNames = [];
+    const cats = [];
     for (const id of record["categories"]) {
       const catData = await categoryAPI.getOne(id);
-      catNames.push(catData["name"]);
+      console.log(catData);
+      cats.push([catData["name"], catData["icon_file_name"] ?? ""]);
     }
-    record["categories"] = catNames;
+    record["categories"] = cats;
   }
 
 
@@ -153,6 +156,8 @@ export const exportJSONData = async () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   });
+
+
 
 }
 
@@ -196,12 +201,11 @@ export const fileImporter = async (table: Tables) => {
       try {
         // process data
         const data = JSON.parse(text);
-        console.log(data);
         if (table === "tags") {await importTags(data);}
         if (table === "categories") {await importCategories(data);}
         if (table === "ingredients") {await importIngredients(data);}
         if (table === "recipes") {await importRecipes(data);}
-        // location.reload();
+        location.reload();
       } catch (err) {
         console.error("Invalid JSON file", err);
       }
@@ -253,17 +257,16 @@ export const importRecipes = async (data: any) => {
 
     // import any new categories then convert category names to ids
     const catids = [];
-    for (const catName of record["categories"]) {
-      const param = {"name": catName, "icon_file_name": ""};
+    for (const cat of record["categories"]) {
+      const param = {"name": cat[0], "icon_file_name": cat[1]};
       await categoryAPI.add(param);
-      const catData = await categoryAPI.getOneByName(catName);
+      const catData = await categoryAPI.getOneByName(cat[0]);
       catids.push(catData["id"].toString());
     }
     if (catids.length === 0) { record["categories"] = ["Uncategorized"]; }
     else { record["categories"] = catids; }
 
     // import any new ingredients then convert ingredient names to ids
-    console.log(record["ingredients"])
     const newIngreList = [];
     for (const ingre of record["ingredients"]) {
       const param = {"name": ingre[0], "unit": ingre[2]};
@@ -272,7 +275,6 @@ export const importRecipes = async (data: any) => {
       // ingre[0] = ingreData["id"].toString();
       newIngreList.push([ingreData["id"].toString(), ingre[1]]);
     }
-    console.log(newIngreList);
     record["ingredients"] = newIngreList;
     // import the recipe itself
     const params: RecipeAPIAddParam = {

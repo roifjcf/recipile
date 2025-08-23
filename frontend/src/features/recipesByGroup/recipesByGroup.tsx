@@ -5,6 +5,7 @@ import RecipeCards from "./components/recipeCards";
 import { useState } from "react";
 import { recipeAPI } from "@/utils/api";
 import EmptyDisplay from "./components/emptyDisplay";
+import Icon from "@/components/icon/icon";
 
 interface Props {
   currentCategory: CategoryInterface | null,
@@ -42,43 +43,9 @@ export default function RecipesByGroup({
 
 
 
-
-
-
-  /** Feature: multiple selection */
-  const [recipesToEdit, setRecipesToEdit] = useState<Set<number>>(new Set()); // multiple selection feature
-  const [isBulkEditing, setIsBulkEditing] = useState<boolean>(false); // multiple selection feature
-
-  const handleUpdateEditList = (id: number, e: React.MouseEvent) => {
-    /** Toggles selection */
-    e.stopPropagation();
-    setRecipesToEdit(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(id)) {
-        newSet.delete(id);
-      } else {
-        newSet.add(id);
-      }
-      return newSet;
-    });
-  }
-
-  const handleDeleteRecipes = async (idSet: Set<number>) => {
-    /** Deletes selected recipes */
-    if (!recipes) return;
-    const newRecipeList = recipes.filter((r)=> !idSet.has(r.id));
-    setRecipes(newRecipeList);
-    try {
-      for (const id of idSet) { recipeAPI.delete(id); }
-      setRecipesToEdit(new Set()); // reset hook
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-
-
-
+  /**
+   * General
+   */
   const getCurrentRecipe = (
     currentGroup: SideBarDisplay,
     tagSetOperation: TagSetOperation
@@ -127,6 +94,66 @@ export default function RecipesByGroup({
   const currentRecipes = getCurrentRecipe(currentGroup, tagSetOperation);
 
 
+  
+
+  /**
+   * Feature: multiple selection
+   */
+  const [recipesToEdit, setRecipesToEdit] = useState<Set<number>>(new Set()); // multiple selection feature
+  const [isBulkEditing, setIsBulkEditing] = useState<boolean>(false); // multiple selection feature
+
+  function isSameSet<T>(a: Set<T>, b: Set<T>): boolean {
+    if (a.size !== b.size) return false;
+    for (const val of a) {
+      if (!b.has(val)) return false;
+    }
+    return true;
+  }
+
+  const handleUpdateEditList = (id: number, e: React.MouseEvent) => {
+    /** Toggles selection */
+    e.stopPropagation();
+    setRecipesToEdit(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  }
+
+  const handleDeleteRecipes = async (idSet: Set<number>) => {
+    /** Deletes selected recipes */
+    if (!recipes) return;
+    const newRecipeList = recipes.filter((r)=> !idSet.has(r.id));
+    setRecipes(newRecipeList);
+    try {
+      for (const id of idSet) { recipeAPI.delete(id); }
+      setRecipesToEdit(new Set()); // reset hook
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  
+  const toggleSelectAll = () => {
+    /** Selects / De-selects all recipes being displayed */
+    const newSet = new Set(currentRecipes.map(currRec => currRec.id));
+    if (isSameSet(newSet, recipesToEdit)) {
+      // de-select
+      setRecipesToEdit(new Set());
+    } else {
+      // select all
+      setRecipesToEdit(newSet);
+    }
+  };
+
+
+
+
+
   return (
     <div className="page-right-column">
       <InfoBar
@@ -134,32 +161,77 @@ export default function RecipesByGroup({
         setMode={setMode}
         setShowRecipeDetail={setShowRecipeDetail}
         setCurrentRecipe={setCurrentRecipe}
-        isBulkEditing={isBulkEditing}
-        handleDeleteRecipes={handleDeleteRecipes}
-        recipesToEdit={recipesToEdit}
-        setIsBulkEditing={setIsBulkEditing}
-        recipeCardDisplay={recipeCardDisplay}
         toggleCardDisplay={toggleCardDisplay}
         showRecipeDetail={showRecipeDetail}
         currentGroup={currentGroup}
       />
+    
+    
 
-      {currentRecipes.length > 0 ?
-        <RecipeCards
-          recipes={recipes}
-          tags={tags}
-          currentRecipes={currentRecipes}
-          recipeCardDisplay={recipeCardDisplay}
-          setRecipes={setRecipes}
-          setCurrentRecipe={setCurrentRecipe}
-          setShowRecipeDetail={setShowRecipeDetail}
-          isBulkEditing={isBulkEditing}
-          handleUpdateEditList={handleUpdateEditList}
-          recipesToEdit={recipesToEdit}
-        />
-        :
-        <EmptyDisplay kaomoji={kaomoji} />
-      }
+    {currentRecipes.length > 0 ?
+    <>
+      <div className="recipesbygroup-buttons">
+        <div className="group">
+          <Icon
+            src="edit-outline"
+            altsrc="edit-outline"
+            hoverable={true}
+            onClick={()=>{
+              setIsBulkEditing(!isBulkEditing);
+              setRecipesToEdit(new Set());
+            }}
+            description="Edit mode"
+          />
+        </div>
+        {isBulkEditing && 
+        <>
+          <span className="icon-divisor-vertical"></span>
+          <div className="group">
+            <Icon
+              src={isSameSet(new Set(currentRecipes.map(currRec => currRec.id)), recipesToEdit)
+                        ? "checkbox-checked" : "checkbox-unchecked"}
+              hoverable={true}
+              onClick={toggleSelectAll}
+              description="Select all"
+            />
+            <Icon
+              src="reset-outline"
+              hoverable={true}
+              onClick={()=>setRecipesToEdit(new Set())}
+              description="Reset"
+            />
+          </div>
+          <span className="icon-divisor-vertical"></span>
+          <div className="group">
+            <Icon
+              src="bin-outline"
+              altsrc="bin-fill"
+              hoverable={true}
+              onClick={()=>handleDeleteRecipes(recipesToEdit)}
+              description="Delete"
+              showPopUp={true}
+              popUpMessage="Delete selected recipes?"
+            />
+          </div>
+        </>
+        }
+      </div>
+      <RecipeCards
+        recipes={recipes}
+        tags={tags}
+        currentRecipes={currentRecipes}
+        recipeCardDisplay={recipeCardDisplay}
+        setRecipes={setRecipes}
+        setCurrentRecipe={setCurrentRecipe}
+        setShowRecipeDetail={setShowRecipeDetail}
+        isBulkEditing={isBulkEditing}
+        handleUpdateEditList={handleUpdateEditList}
+        recipesToEdit={recipesToEdit}
+      />
+    </>
+    :
+    <EmptyDisplay kaomoji={kaomoji} />
+    }
     </div>
   );
 }

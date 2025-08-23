@@ -1,6 +1,5 @@
 import { CategoryInterface, IconProps, Modes, RecipeInterface, RecipeCardDisplay, SideBarDisplay } from "@/common/type";
 
-import Icon from "@/components/icon/icon";
 import NewRecipeButton from "./newRecipeButton";
 import ExpandableIcons from "./expandableIcons";
 import Category from "@/components/category";
@@ -13,19 +12,21 @@ interface Props {
   setMode: (hookval: Modes) => void,
   setShowRecipeDetail: (hookval: boolean) => void,
   setCurrentRecipe: (hookval: RecipeInterface) => void,
-  isBulkEditing: boolean,
-  handleDeleteRecipes:(idSet: Set<number>) => Promise<void>,
-  recipesToEdit: Set<number>,
-  setIsBulkEditing: (hookval: boolean) => void,
-  recipeCardDisplay: RecipeCardDisplay,
   toggleCardDisplay: (hookval: RecipeCardDisplay) => void,
   showRecipeDetail: boolean,
   currentGroup: SideBarDisplay,
 };
 
 
-
-export default function InfoBar(props: Props) {
+export default function InfoBar({
+  currentCategory,
+  setMode,
+  setShowRecipeDetail,
+  setCurrentRecipe,
+  toggleCardDisplay,
+  showRecipeDetail,
+  currentGroup,
+}: Props) {
 
 
   const context = useContext(SortMethodContext);
@@ -35,32 +36,22 @@ export default function InfoBar(props: Props) {
     {
       src: "display-list",
       hoverable: true,
-      onClick: () => props.toggleCardDisplay("list"),
+      onClick: () => toggleCardDisplay("list"),
       description: "List",
     },
     {
       src: "display-simple",
       hoverable: true,
-      onClick: () => props.toggleCardDisplay("simple"),
+      onClick: () => toggleCardDisplay("simple"),
       description: "Simple",
     },
     {
       src: "display-full",
       hoverable: true,
-      onClick: () => props.toggleCardDisplay("full"),
+      onClick: () => toggleCardDisplay("full"),
       description: "Full",
     },
     
-  ];
-
-  const multipleSelectButtonGroup: IconProps[] = [
-    {
-      src: "bin-outline",
-      altsrc: "bin-fill",
-      hoverable: true,
-      onClick: ()=>{props.handleDeleteRecipes(props.recipesToEdit)},
-      description: "Delete",
-    }
   ];
   
   const sortGroup: IconProps[] = [
@@ -124,16 +115,16 @@ export default function InfoBar(props: Props) {
   return (
   <div className="infobar-container">
     
-    {props.currentGroup === "category" ?
+    {currentGroup === "category" ?
     <div className="left">
-      {props.currentCategory && <Category
-        category={props.currentCategory}
+      {currentCategory && <Category
+        category={currentCategory}
       />}
       <NewRecipeButton
-        setMode={props.setMode}
-        setShowRecipeDetail={props.setShowRecipeDetail}
-        setCurrentRecipe={props.setCurrentRecipe}
-        showRecipeDetail={props.showRecipeDetail}
+        setMode={setMode}
+        setShowRecipeDetail={setShowRecipeDetail}
+        setCurrentRecipe={setCurrentRecipe}
+        showRecipeDetail={showRecipeDetail}
       />
     </div> : <div className="left"></div>}
     
@@ -144,14 +135,6 @@ export default function InfoBar(props: Props) {
         src="sort"
         hoverable={true}
         description="Sort"
-      />
-
-      <ExpandableIcons
-        iconsToDisplay={multipleSelectButtonGroup}
-        src="checkbox-unchecked"
-        hoverable={true}
-        onClick={()=>{props.setIsBulkEditing(!props.isBulkEditing)}}
-        description="Multi-select"
       />
 
       <ExpandableIcons

@@ -25,11 +25,14 @@ export default function RecipeCardFullDisplay({
   recipesToEdit,
 }: Props) {
 
+  const handleToggle = (e: React.MouseEvent) => {
+    handleUpdateEditList?.(recipe.id, e);
+  };
 
   return (
     <div
       className="recipecardfulldisplay-container round-corner"
-      onClick={handleShowRecipeDetail}
+      onClick={canDelete ? handleToggle : handleShowRecipeDetail}
     >
     
       <RecipeImage
@@ -65,7 +68,7 @@ export default function RecipeCardFullDisplay({
             />
           <Tags
             mode="view"
-            recipeTags={recipe.tags}
+            recipeTags={recipe.tags.slice(2)} // only show first two tags if there are more than two tags
             tags={tags}
           />
         </div>

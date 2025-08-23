@@ -13,9 +13,10 @@ $recipecard-container-right: 100% - $recipecard-container-left - $recipecard-con
 
   display: flex;
   flex-direction: row;
-
+  justify-content: space-between;
+  
   z-index: $z-index-modal;
-  overflow: auto;
+  overflow: visible;
 
   background-color: var(--surface);
   border-radius: $radius-sm;
@@ -24,21 +25,27 @@ $recipecard-container-right: 100% - $recipecard-container-left - $recipecard-con
     color: var(--on-surface-variant);
     margin-bottom: $space-2;
   }
+
+  @media (max-width: $breakpoint-md) {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
 }
 
 
-.recipedetail-name-container, .recipedetail-link-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-}
+
 
 .recipedetail-container-left,
 .recipedetail-container-mid,
 .recipedetail-container-right {
   height: 100%;
   overflow-y: auto;
+  overflow: visible;
   display: flex;
   flex-direction: column;
 }
@@ -47,18 +54,34 @@ $recipecard-container-right: 100% - $recipecard-container-left - $recipecard-con
   min-width: 220px;
   width: $recipecard-container-left;
   position: relative;
+
+  @media (max-width: $breakpoint-sm) {
+    width: 100%;
+    margin-top: 48px;
+    height: auto;
+    min-height: 200px;
+  }
 }
 
-.recipedetail-container-mid {
+.recipedetail-container-mid,
+.recipedetail-container-right {
   width: $recipecard-container-mid;
   padding: $space-6;
+
+  @media (max-width: $breakpoint-lg) {
+    display: none;
+  }
 }
 
 .recipedetail-container-right {
-  width: $recipecard-container-right;
-  padding: $space-6;
-  gap: $space-8;
+  gap: $space-6;
 }
+
+
+
+
+
+
 
 
 .recipedetail-text-info-container-left {
@@ -70,17 +93,55 @@ $recipecard-container-right: 100% - $recipecard-container-left - $recipecard-con
   gap: $space-2;
 }
 
-
-.recipedetail-container-sidebar {
-  width: 48px;
-  height: 100%;
+.recipedetail-name-container, .recipedetail-link-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
 }
-
-
 
 .recipedetail-name-and-link {
   display: flex;
   flex-direction: row;
   gap: $space-2;
   align-items: flex-end;
+}
+
+
+
+.recipedetail-container-sidebar {
+  width: 48px;
+  min-width: 48px;
+  height: 100%;
+
+  @media (max-width: $breakpoint-sm) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 48px;
+  }
+}
+
+
+
+.recipedetail-collapsed-container {
+  
+  display: none;
+  @media (max-width: $breakpoint-lg) {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: $space-6;
+    gap: $space-2
+  }
+}
+
+.recipedetail-collapsed-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: $space-2;
+  @media (max-width: $breakpoint-sm) {
+    flex-direction: column;
+  }
 }

@@ -8,6 +8,11 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: $breakpoint-sm) {
+    padding: 0 $space-4;
+    flex-direction: row;
+  }
 }
 
 .buttongroup-sub-container-bottom {
@@ -16,4 +21,8 @@
   gap: $space-4;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: $breakpoint-sm) {
+    flex-direction: row;
+  }
 }

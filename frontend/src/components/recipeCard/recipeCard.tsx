@@ -41,8 +41,6 @@ export default function RecipeCard({
   recipesToEdit,
 } : Props) {
 
-
-
   const canDelete = isBulkEditing && handleUpdateEditList ? true : false;
 
   const handlePin = async (val: number, e: React.MouseEvent) => {

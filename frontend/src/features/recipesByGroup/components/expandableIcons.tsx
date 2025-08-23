@@ -6,9 +6,9 @@ interface Props extends IconProps {
   iconsToDisplay: IconProps[],
 }
 
+
 const defaultStyle = "expandableicons-container";
 const onToggleStyle = defaultStyle + " expandableicons-expanded";
-
 
 
 export default function ExpandableIcons({
@@ -23,9 +23,6 @@ export default function ExpandableIcons({
 
 
 
-
-
-
   const [toggle, setToggle] = useState<boolean>(false);
 
   const handleClick = () => {
@@ -35,12 +32,9 @@ export default function ExpandableIcons({
 
 
 
-
-
   return (
 
     <div className={toggle ? onToggleStyle : defaultStyle}>
-
       <Icon
         src={src}
         altsrc={altsrc} 
@@ -51,7 +45,6 @@ export default function ExpandableIcons({
       />
 
       {toggle && <span className="expandableicons-icon-divisor"></span>}
-
 
       {toggle && iconsToDisplay.map((icon: IconProps, i) =>
         <Icon

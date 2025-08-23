@@ -79,7 +79,7 @@ def handle_existing_category(id):
       if res is None:
         return helper.handle_response_404("category not found.")
       else:
-        return jsonify({"id": res[0], "name": res[1], "unit": res[2]}), 200
+        return jsonify({"id": res[0], "name": res[1], "icon_file_name": res[2]}), 200
     except Exception as e:
       return helper.handle_response_500("An error occurred while fetching the category.")
   
@@ -141,6 +141,6 @@ def handle_existing_category_by_name(name):
       if res is None:
         return helper.handle_response_404("category not found.")
       else:
-        return jsonify({"id": res[0], "name": res[1], "unit": res[2]}), 200
+        return jsonify({"id": res[0], "name": res[1], "icon_file_name": res[2]}), 200
     except Exception as e:
       return helper.handle_response_500("An error occurred while fetching the category.")
