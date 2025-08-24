@@ -111,6 +111,9 @@ export default function RecipeImage({
                 }
               }}
               description="Remove image"
+              showPopUp={true}
+              popUpMessage="Remove the image?"
+              popUpDirection="right"
             />
           </div>
           <div className="right">

@@ -6,9 +6,20 @@
 
   overflow-y: scroll;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
   justify-items: center;
   align-items: start;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $space-4;
+
+  @media (max-width: $breakpoint-2xl) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: $breakpoint-lg) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: $breakpoint-xs) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 
   &::-webkit-scrollbar {
     display: none;

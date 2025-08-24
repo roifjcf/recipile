@@ -22,7 +22,7 @@ export default function ConfirmationPopUp({
 
   return (
     <div className={`${className} confirmationpopup-container`} ref={popUpRef}>
-      <p className="no-break">{message}</p>
+      <p>{message}</p>
       <div className="confirmationpopup-icon-container">
         <Icon src="cancel-outline" altsrc="cancel-fill" hoverable={true} onClick={closePopUp}></Icon>
         <Icon src="check-outline" altsrc="check-fill" hoverable={true} onClick={confirm}></Icon>

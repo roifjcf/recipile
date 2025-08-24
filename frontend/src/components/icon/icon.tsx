@@ -13,7 +13,9 @@ export default function Icon({
   description,
   showPopUp = false,
   popUpMessage = "",
+  popUpDirection = "left",
   classNameContainer = "",
+  
 }: IconProps) {
 
 
@@ -43,7 +45,7 @@ export default function Icon({
               confirm={onClick}
               message={popUpMessage}
               closePopUp={() => setDisplayPopUp(false)}
-              className="icon-popup"
+              className={`icon-popup ${popUpDirection === "right" ? " icon-popup-right" : ""}`}
             />
           )}
           <img

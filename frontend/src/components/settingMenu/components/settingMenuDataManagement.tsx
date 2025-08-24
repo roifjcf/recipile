@@ -1,7 +1,9 @@
-import { deleteAllData, exportCSVData, exportJSONData, fileImporter } from "@/utils/helper";
+import { deleteAllData } from "@/utils/helper";
 import SettingMenuItem from "./settingMenuItem";
 import { useState } from "react";
 import ModalPopup from "@/components/modalPopup";
+import { exportCSVData, exportJSONData } from "@/utils/dataExport";
+import { fileImporter } from "@/utils/dataImport";
 
 export default function SettingMenuDataManagement () {
 

@@ -6,9 +6,11 @@ import { useEffect, useState } from "react";
 import { recipeAPI } from "@/utils/api";
 import EmptyDisplay from "./components/emptyDisplay";
 import Icon from "@/components/icon/icon";
+import CategorySelection from "./components/categorySelection";
 
 interface Props {
   currentCategory: CategoryInterface | null,
+  categories: CategoryInterface[],
   mode: Modes,
   setMode: (hookval: Modes) => void,
   setShowRecipeDetail: (hookval: boolean) => void,
@@ -28,6 +30,7 @@ interface Props {
 
 export default function RecipesByGroup({
   currentCategory,
+  categories,
   mode,
   setMode,
   setShowRecipeDetail,
@@ -101,10 +104,11 @@ export default function RecipesByGroup({
   
 
   /**
-   * Feature: multiple selection
+   * Feature: select multiple
    */
   const [recipesToEdit, setRecipesToEdit] = useState<Set<number>>(new Set()); // multiple selection feature
   const [isBulkEditing, setIsBulkEditing] = useState<boolean>(false); // multiple selection feature
+  const [showCategorySelection, setShowCategorySelection] = useState<boolean>(false);
 
   function isSameSet<T>(a: Set<T>, b: Set<T>): boolean {
     if (a.size !== b.size) return false;
@@ -128,14 +132,37 @@ export default function RecipesByGroup({
     });
   }
 
+  console.log(recipes);
+  const handleMoveSelectedRecipes = async (selectedCategoryid: number) => {
+    /** Moves selected recipes to another category
+     * Every recipe should ONLY have one category
+    */
+    if (!recipes) return;
+    try {
+      const updatedRecipes = [...recipes];
+      updatedRecipes.forEach(recipe => {
+        if (recipesToEdit.has(recipe.id)) {
+          recipe.categories = [selectedCategoryid.toString()];
+          recipeAPI.update(recipe); // update the database
+        }
+      })
+      setRecipes(updatedRecipes); // update the recipe hook
+      setRecipesToEdit(new Set()); // reset relected recipe
+    } catch (error) {
+      console.log(error)
+    }
+
+    setRecipesToEdit(new Set());
+  }
+
   const handleDeleteRecipes = async (idSet: Set<number>) => {
     /** Deletes selected recipes */
     if (!recipes) return;
-    const newRecipeList = recipes.filter((r)=> !idSet.has(r.id));
-    setRecipes(newRecipeList);
     try {
-      for (const id of idSet) { recipeAPI.delete(id); }
-      setRecipesToEdit(new Set()); // reset hook
+      const newRecipeList = recipes.filter((r)=> !idSet.has(r.id));
+      setRecipes(newRecipeList); // update the recipe hook
+      for (const id of idSet) { recipeAPI.delete(id); } // update the database
+      setRecipesToEdit(new Set()); // reset relected recipe
     } catch (err) {
       console.log(err);
     }
@@ -146,38 +173,45 @@ export default function RecipesByGroup({
     /** Selects / De-selects all recipes being displayed */
     const newSet = new Set(currentRecipes.map(currRec => currRec.id));
     if (isSameSet(newSet, recipesToEdit)) {
-      // de-select
-      setRecipesToEdit(new Set());
+      setRecipesToEdit(new Set()); // de-select
     } else {
-      // select all
-      setRecipesToEdit(newSet);
+      setRecipesToEdit(newSet); // select all
     }
   };
 
 
 
+
+
+
   /** Keyboard event listener */
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (mode !== "view") return;
-      if (!currentRecipe) return;
-      const currentIndex = currentRecipes.indexOf(currentRecipe);
-      console.log(currentIndex);
-      if (e.key === "ArrowLeft") {
-        const newIndex = currentIndex > 0 ? currentIndex-1 : 0;
-        console.log(currentRecipes[newIndex]);
-        setCurrentRecipe(currentRecipes[newIndex]);
-      } else if (e.key === "ArrowRight") {
-        const newIndex = currentIndex < currentRecipes.length-1 ? currentIndex+1 : currentRecipes.length-1;       
-        setCurrentRecipe(currentRecipes[newIndex]);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [currentRecipes, currentRecipe, mode]);
+  // useEffect(() => {
+  //   // TODO
+  //   const handleKeyDown = (e: KeyboardEvent) => {
+  //     if (mode !== "view") return;
+  //     if (!currentRecipe) return;
+  //     const currentIndex = currentRecipes.indexOf(currentRecipe);
+  //     console.log(currentIndex);
+  //     if (e.key === "ArrowLeft") {
+  //       const newIndex = currentIndex > 0 ? currentIndex-1 : 0;
+  //       console.log(currentRecipes[newIndex]);
+  //       setCurrentRecipe(currentRecipes[newIndex]);
+  //     } else if (e.key === "ArrowRight") {
+  //       const newIndex = currentIndex < currentRecipes.length-1 ? currentIndex+1 : currentRecipes.length-1;       
+  //       setCurrentRecipe(currentRecipes[newIndex]);
+  //     }
+  //   };
+  //   window.addEventListener("keydown", handleKeyDown);
+  //   return () => {
+  //     window.removeEventListener("keydown", handleKeyDown);
+  //   };
+  // }, [currentRecipes, currentRecipe, mode]);
   
+
+
+
+
+
 
 
 
@@ -212,6 +246,7 @@ export default function RecipesByGroup({
             description="Edit mode"
           />
         </div>
+
         {isBulkEditing && 
         <>
           <span className="icon-divisor-vertical"></span>
@@ -241,10 +276,27 @@ export default function RecipesByGroup({
               showPopUp={true}
               popUpMessage="Delete selected recipes?"
             />
+            <Icon
+              src="folder"
+              hoverable={true}
+              description="Move to"
+              onClick={()=>setShowCategorySelection(true)}
+            />
           </div>
         </>
         }
+
       </div>
+
+
+      {/* fixed position components */}
+      {showCategorySelection &&
+      <CategorySelection
+        categories={categories}
+        handleMoveSelectedRecipes={handleMoveSelectedRecipes}
+        handleClose={()=>setShowCategorySelection(false)}
+      />
+      }
       <RecipeCards
         recipes={recipes}
         tags={tags}

@@ -1,7 +1,6 @@
 import { RecipeInterface, RecipeCardDisplay, TagInterface } from "@/common/type";
 import RecipeCard from "@/components/recipeCard/recipeCard";
-import Fuse from "fuse.js";
-
+import { getFuzzySearchResult } from "@/utils/helper";
 
 
 
@@ -17,7 +16,6 @@ interface Props {
 
 
 
-
 export default function SearchResult({
   recipes,
   debouncedSearchInput,
@@ -28,20 +26,7 @@ export default function SearchResult({
 }: Props) {
 
 const renderSearchResult = (searchTerm: string, recipes: RecipeInterface[]) => {
-    let listToRender: RecipeInterface[];
-    if (searchTerm === "") {
-      listToRender = [];
-    } else {
-      // fuzzy search
-      const fuse = new Fuse(recipes, {
-        keys: ["name"],
-        threshold: 0.4, // lower = stricter match, higher = fuzzier
-      });
-      listToRender = fuse.search(searchTerm).map(res => res.item);
-      // listToRender = recipes.filter((recipe) =>
-      //                                 recipe["name"].toLowerCase()
-      //                                 .includes(searchTerm.toLowerCase()));
-    }
+    const listToRender = getFuzzySearchResult(searchTerm, recipes, ["name"]);
     return listToRender.map((recipe, i) => <RecipeCard
                                               key={i}
                                               recipe={recipe}
@@ -55,6 +40,8 @@ const renderSearchResult = (searchTerm: string, recipes: RecipeInterface[]) => {
                                             />);
   }
 
+
+  
   return (
     <div className="page-right-column">
       <div className="searchresult-container">

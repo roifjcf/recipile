@@ -36,7 +36,7 @@ export interface IngredientInterface {
 }
 
 export interface MealPlannerInterface {
-  id: string;
+  id: number;
   created: string;
   sessions: {
     sessionName: string;
@@ -146,6 +146,7 @@ export interface IconProps {
   description?: string;
   showPopUp?: boolean;
   popUpMessage?: string;
+  popUpDirection?: "left" | "right",
   classNameContainer?: string; // for the outermost div container
 }
 

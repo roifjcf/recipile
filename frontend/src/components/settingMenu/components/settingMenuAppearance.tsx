@@ -1,4 +1,4 @@
-import { manageLocalStorage, resetPreference } from "@/utils/helper";
+import { manageLocalStorage, resetPreference } from "@/utils/userPreference";
 import SettingMenuItem from "./settingMenuItem";
 import { useEffect, useState } from "react";
 

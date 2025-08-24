@@ -48,7 +48,7 @@ export default function ManageAddItem({
       const [isSuccessfulUpdate, message] = await handleAddRecord(table, params);
       if (typeof message === "string") {
         if (isSuccessfulUpdate) {
-          context?.addNotificationMessage?.(message, "Success");
+          // context?.addNotificationMessage?.(message, "Success");
         } else {
           context?.addNotificationMessage?.(message, "Error");
         }

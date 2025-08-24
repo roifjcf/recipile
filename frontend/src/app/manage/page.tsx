@@ -9,9 +9,10 @@ import { CategoryInterface, TagInterface, IngredientInterface, Tables, PushNotif
 import Navbar from "@/components/navbar";
 import { categoryAPI, tagAPI, ingredientAPI } from "@/utils/api";
 import DatabaseEditCard from "@/features/databaseEditCard/databaseEditCard";
-import { styleInit, validateData } from "@/utils/helper";
 import PushNotification from "@/components/pushNotification";
 import PushNotificationContext from "../../contexts/pushNotificationContext";
+import { validateData } from "@/utils/dataValidation";
+import { styleInit } from "@/utils/userPreference";
 
 
 
@@ -56,6 +57,8 @@ export default function Page() {
   }, []);
 
 
+  
+
   /** Handlers */
   const handleDelete = async (table: Tables, id: string | number) => {
     /*
@@ -82,8 +85,6 @@ export default function Page() {
     }
   }
 
-
-
   
   const handleUpdate = async (table: Tables, id: string | number, content: any) => {
     /*
@@ -95,10 +96,8 @@ export default function Page() {
           if (table === "categories") {categoryAPI.update(content);}
           if (table === "ingredients") {ingredientAPI.update(content);}
           if (table === "tags") {tagAPI.update(id, content);}
-          return [isValidData, message];
-        } else {
-          return [isValidData, message];
         }
+        return [isValidData, message];
     };
 
     if (table === "tags" && !tags) { return [false, "tags is undefined!"]; }
@@ -108,11 +107,12 @@ export default function Page() {
     return res;
   };
 
+
+
   const handleAdd = async (table: Tables, content: any) => {
     /*
     Adds a new record
     */
-
     const validate = async () => {
       const [isValidData, message] = await validateData(table, content);
       if (isValidData) {
@@ -131,10 +131,8 @@ export default function Page() {
           const [tagData] = await Promise.all([tagAPI.get()]);
           setTags(tagData);
         }
-        return [isValidData, message];
-      } else {
-        return [isValidData, message];
       }
+      return [isValidData, message];
     }
 
     if (table === "tags" && !tags) { return [false, "tags is undefined!"]; }

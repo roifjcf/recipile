@@ -12,6 +12,10 @@ import Icon from "@/components/icon/icon";
 import IconSelector from "./iconSelector";
 import PushNotificationContext from "@/contexts/pushNotificationContext";
 
+
+
+
+
 interface Props {
   key: number,
   item: CategoryInterface | TagInterface | IngredientInterface,
@@ -19,6 +23,10 @@ interface Props {
   handleDelete: (table:Tables, id:string | number) => void,
   handleUpdate: (table:Tables, id:string | number, content: any) => Promise<(string | boolean)[]>,
 };
+
+
+
+
 
 export default function ManageItem (props:Props) {
 
@@ -54,7 +62,7 @@ export default function ManageItem (props:Props) {
     setShowIconSelector(false);
     if (typeof message === "string") {
       if (isSuccessfulUpdate) {
-        context?.addNotificationMessage?.(message, "Success");
+        // context?.addNotificationMessage?.(message, "Success");
       } else {
         context?.addNotificationMessage?.(message, "Error");
       }
@@ -76,11 +84,6 @@ export default function ManageItem (props:Props) {
       {isIngredient(item) && <span className="right">{item.unit}</span>}
     </>)
 
-
-// useEffect(() => {
-//   console.log("modifiedItem changed:", modifiedItem);
-// }, [modifiedItem]);
-  
 
 
 
@@ -137,9 +140,10 @@ export default function ManageItem (props:Props) {
 
 
 
-  const popUpMessageFill = props.table === "recipes" ? "recipe" :
-                            props.table === "categories" ? "category" :
-                            props.table === "ingredients" ? "ingredient" : "tag";
+  const popUpMessageFill = props.table === "recipes" ? "Delete this recipe?" :
+                            props.table === "categories" ? "Delete this category? All recipes under the category will also be removed!" :
+                            props.table === "ingredients" ? "Delete this ingredient?" :
+                            "Delete this tag?";
 
 
 
@@ -169,7 +173,7 @@ export default function ManageItem (props:Props) {
             hoverable={true}
             onClick={()=>props.handleDelete(props.table, item["id"])}
             showPopUp={true}
-            popUpMessage={`Delete this ${popUpMessageFill}?`}
+            popUpMessage={`${popUpMessageFill}`}
           />
         </>}
         

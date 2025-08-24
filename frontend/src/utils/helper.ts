@@ -1,17 +1,17 @@
+/**
+ * Helper functions for general purposes
+ */
+
 import { kaomoji } from "@/common/constant";
 import {
   RecipeInterface,
   CategoryInterface,
   TagInterface,
   IngredientInterface,
-  RecipeAPIAddParam,
-  Tables,
-  Interfaces,
   RecipeSortOptions,
   } from "@/common/type";
 import { categoryAPI, ingredientAPI, recipeAPI, tagAPI } from "./api";
-import JSZip from "jszip";
-import { saveAs } from "file-saver"; // optional helper to trigger download
+import Fuse from "fuse.js";
 
 
 
@@ -102,168 +102,22 @@ export const deleteAllData = async () => {
 
 
 
-export const exportJSONData = async () => {
-  const [categoryData, recipeData, tagData, ingredientData] = await fetchData();
-  
-  // process the recipe data (replace ids with names for categories / tags / ingredients)
-  // add ingredient units
-  // add category icons
-  for (const record of recipeData) {
-    // tags
-    const tagNames = [];
-    for (const id of record["tags"]) {
-      const tagData = await tagAPI.getOne(id);
-      tagNames.push(tagData["name"]);
-    }
-    record["tags"] = tagNames;
-    // ingredients
-    for (const ingre of record["ingredients"]) {
-      const ingreData = await ingredientAPI.getOne(ingre[0]);
-      ingre[0] = ingreData["name"];
-      ingre[2] = ingreData["unit"];
-    }
-    // categories
-    const cats = [];
-    for (const id of record["categories"]) {
-      const catData = await categoryAPI.getOne(id);
-      cats.push([catData["name"], catData["icon_file_name"] ?? ""]);
-    }
-    record["categories"] = cats;
-  }
-
-
-  const files = [
-    { data: categoryData, filename: "categories.json" },
-    { data: recipeData, filename: "recipes.json" },
-    { data: tagData, filename: "tags.json" },
-    { data: ingredientData, filename: "ingredients.json" },
-  ];
-
-
-  files.forEach(({ data, filename }) => {
-    const jsonString = JSON.stringify(data, null, 2); // Convert to JSON string
-    const blob = new Blob([jsonString], { type: "application/json" }); // Create a blob and URL for the JSON file
-    const url = URL.createObjectURL(blob);
-
-
-    // Create a temporary link to trigger download
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-
-    // Clean up
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  });
-
-
-
-}
-
-
-
-export const exportCSVData = async () => {
-  const [categoryData, recipeData, tagData, ingredientData] = await fetchData();
-
-  // process the recipe data (replace ids with names for categories / tags / ingredients)
-  for (const record of recipeData) {
-    // tags
-    const tagNames: string[] = [];
-    for (const id of record["tags"]) {
-      const tag = await tagAPI.getOne(id);
-      tagNames.push(tag["name"]);
-    }
-    record["tags"] = tagNames;
-
-    // ingredients
-    for (const ingre of record["ingredients"]) {
-      const ingreData = await ingredientAPI.getOne(ingre[0]);
-      ingre[0] = ingreData["name"];
-      ingre[2] = ingreData["unit"];
-    }
 
-    // categories
-    const cats: string[][] = [];
-    for (const id of record["categories"]) {
-      const cat = await categoryAPI.getOne(id);
-      cats.push([cat["name"], cat["icon_file_name"] ?? ""]);
-    }
-    record["categories"] = cats;
-  }
 
-  // helper: convert array of objects to CSV
-  const convertToCSV = (arr: any[], replacer?: (key: string, value: any) => any) => {
-    if (arr.length === 0) return "";
 
-    const headers = Object.keys(arr[0]);
-    const csvRows = [headers.join(",")];
 
-    for (const obj of arr) {
-      const row = headers.map((field) => {
-        let val = obj[field];
 
-        // custom serialization for arrays/objects
-        if (Array.isArray(val)) {
-          if (field === "tags") {
-            val = val.join(";");
-          } else if (field === "ingredients") {
-            val = val.map((i: any) => `${i[0]} ${i[1]} ${i[2]}`).join(";");
-          } else if (field === "categories") {
-            val = val.map((c: any) => `${c[0]}`).join(";");
-          } else {
-            val = JSON.stringify(val);
-          }
-        }
 
-        // escape quotes & commas
-        if (typeof val === "string") {
-          val = `"${val.replace(/"/g, '""')}"`;
-        }
 
-        return val;
-      });
-      csvRows.push(row.join(","));
-    }
 
-    return csvRows.join("\n");
-  };
 
-  const files = [
-    { data: categoryData, filename: "categories.csv" },
-    { data: recipeData, filename: "recipes.csv" },
-    { data: tagData, filename: "tags.csv" },
-    { data: ingredientData, filename: "ingredients.csv" },
-  ];
 
-  // files.forEach(({ data, filename }) => {
-  //   const csvString = convertToCSV(data);
-  //   const blob = new Blob([csvString], { type: "text/csv" });
-  //   const url = URL.createObjectURL(blob);
 
-  //   const a = document.createElement("a");
-  //   a.href = url;
-  //   a.download = filename;
-  //   document.body.appendChild(a);
-  //   a.click();
 
-  //   document.body.removeChild(a);
-  //   URL.revokeObjectURL(url);
-  // });
 
 
-  // Generate the zip and trigger download
-  const zip = new JSZip();
 
-  files.forEach(({ data, filename }) => {
-    const csvString = convertToCSV(data);
-    zip.file(filename, csvString); // add CSV to the ZIP
-  });
 
-  const blob = await zip.generateAsync({ type: "blob" });
-  saveAs(blob, "recipile_exported_csv_data.zip");
-};
 
 
 
@@ -274,190 +128,6 @@ export const exportCSVData = async () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-export const fileImporter = async (table: Tables) => {
-    // Create a hidden file input
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = ".json"; // only JSON files
-
-    input.onchange = async (event: Event) => {
-      const target = event.target as HTMLInputElement;
-      if (!target.files || target.files.length === 0) return;
-
-      const file = target.files[0];
-      const text = await file.text();
-      try {
-        // process data
-        const data = JSON.parse(text);
-        if (table === "tags") {await importTags(data);}
-        if (table === "categories") {await importCategories(data);}
-        if (table === "ingredients") {await importIngredients(data);}
-        if (table === "recipes") {await importRecipes(data);}
-        location.reload();
-      } catch (err) {
-        console.error("Invalid JSON file", err);
-      }
-    };
-
-    // trigger the file picker
-    input.click();
-  }
-
-export const importTags = async (data: any) => {
-  /** Imports tags from the local file*/
-  for (const record of data) {
-    if (!record["name"]) { continue; } // must have a name
-    await tagAPI.add({"name": record["name"]});
-  }
-};
-
-export const importCategories = async (data: any) => {
-  /** Imports categories from the local file*/
-  for (const record of data) {
-    if (!record["name"]) { continue; } // must have a name
-    const param = {"name": record["name"], "icon_file_name": record["icon_file_name"] ?? ""};
-    await categoryAPI.add(param);
-  }
-};
-
-export const importIngredients = async (data: any) => {
-  /** Imports ingredients from the local file*/
-  for (const record of data) {
-    if (!record["name"]) { continue; } // must have a name
-    const param = {"name": record["name"], "unit": record["unit"] ?? ""};
-    await ingredientAPI.add(param);
-  }
-};
-
-export const importRecipes = async (data: any) => {
-  /** Imports recipes from the local file*/
-  for (const record of data) {
-    if (!record["name"]) { continue; } // must have a name
-
-    // import any new tags then convert tag names to ids
-    const tagids = [];
-    for (const tagName of record["tags"]) {
-      await tagAPI.add({"name": tagName});
-      const tagData = await tagAPI.getOneByName(tagName);
-      tagids.push(tagData["id"].toString());
-    }
-    record["tags"] = tagids;
-
-    // import any new categories then convert category names to ids
-    const catids = [];
-    for (const cat of record["categories"]) {
-      const param = {"name": cat[0], "icon_file_name": cat[1]};
-      await categoryAPI.add(param);
-      const catData = await categoryAPI.getOneByName(cat[0]);
-      catids.push(catData["id"].toString());
-    }
-    if (catids.length === 0) { record["categories"] = ["Uncategorized"]; }
-    else { record["categories"] = catids; }
-
-    // import any new ingredients then convert ingredient names to ids
-    const newIngreList = [];
-    for (const ingre of record["ingredients"]) {
-      const param = {"name": ingre[0], "unit": ingre[2]};
-      await ingredientAPI.add(param);
-      const ingreData = await ingredientAPI.getOneByName(ingre[0]);
-      // ingre[0] = ingreData["id"].toString();
-      newIngreList.push([ingreData["id"].toString(), ingre[1]]);
-    }
-    record["ingredients"] = newIngreList;
-    // import the recipe itself
-    const params: RecipeAPIAddParam = {
-      name: record["name"],
-      ingredients: record["ingredients"] ?? [],
-      steps: record["steps"] ?? [],
-      external_links: record["external_links"] ?? "",
-      created: record["created"] ?? getCurrentDate(),
-      pinned: record["pinned"] ?? 0,
-      serving: record["serving"] ?? 1,
-      prep_time: record["prep_time"] ?? 1,
-      notes: record["notes"] ?? "",
-      categories: record["categories"] ?? ["Uncategorized"],
-      tags: record["tags"] ?? [],
-      img_filename: record["img_filename"] ?? "",
-      img_main: record["img_main"] ?? null
-    };
-    await recipeAPI.add(params);
-  }
-
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export const manageLocalStorage = (
-  method: "get"|"set"|"remove", key: string, val?: string
-) => {
-  if (method === "get") { return localStorage.getItem(key); }
-  else if (method === "set" && val) { localStorage.setItem(key, val); }
-  else if (method === "remove") { localStorage.removeItem(key); }
-}
-
-
-export const styleInit = () => {
-  // theme init
-  const savedTheme = localStorage.getItem('theme'); // 'dark' or 'light'
-  const html = document.documentElement;
-  if (savedTheme) {
-    html.setAttribute('data-theme', savedTheme);
-  } else {
-    // default to OS preference
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    html.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-  }
-
-  // dimmed image in dark mode
-  const dimmedImage = manageLocalStorage("get", "dimmedImage");
-  if (dimmedImage === "false") {
-    html.classList.remove("dimmed-images");
-  } else {
-    html.classList.add("dimmed-images");
-  }
-}
-
-export const resetPreference = () => {
-  // dimmedImage
-  manageLocalStorage("remove", "dimmedImage");
-  
-}
 
 export const convertImgUrl = (s: string | null) => {
   /** Converts the image retrieved from the database */
@@ -470,99 +140,6 @@ export const convertImgUrl = (s: string | null) => {
 
 
 
-
-
-
-
-
-/**
- * Data validation
- */
-
-const checkIfNameExists = async (table: Tables, data: any) => {
-  try {
-    const apis = {
-      categories: categoryAPI,
-      ingredients: ingredientAPI,
-      recipes: recipeAPI,
-      tags: tagAPI,
-    };
-
-    const res = await apis[table].get();
-
-    if (data["id"]) {
-      // PUT
-      return (res.filter((r:Interfaces) =>
-                (r["id"] !== data["id"] && data["name"] === r["name"]))
-                .length > 0)? true : false;
-    } else {
-      // POST
-      return (res.filter((r:Interfaces) =>
-        (data["name"] === r["name"]))
-        .length > 0)? true : false;
-    }
-
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-};
-
-
-export const validateData = async (table: Tables, data: any) => {
-  /**
-   * Checks if all property values are valid before calling the API (POST / UPDATE)
-   */
-  const validateRecipe = async (data: RecipeInterface | RecipeAPIAddParam) => {
-    // name
-    if (data.name === "") return [false, "Name cannot be empty!"];
-    const nameExists = await checkIfNameExists(table, data);
-    if (nameExists) { return [false, "The name was taken by another recipe!"] }
-    // serving size
-    if (data.serving < 1 || !Number.isInteger(data.serving)) return [false, "Invalid serving size, please provide an ingeter greater than zero!"];
-    // prep time
-    if (data.prep_time < 0) return [false, "Invalid preparation time, please provide an non-negative integer!"];
-
-    return [true, "All properties are valid!"];
-  }
-
-  const validateTag = async (data: TagInterface) => {
-    //name
-    if (data.name === "") return [false, "Name cannot be empty!"];
-    const nameExists = await checkIfNameExists(table, data);
-    if (nameExists) { return [false, "The name was taken by another tag!"] }
-
-    return [true, "All properties are valid!"];
-  }
-
-  const validateIngredient = async (data: IngredientInterface) => {
-    // name
-    if (data.name === "") return [false, "Name cannot be empty!"];
-    const nameExists = await checkIfNameExists(table, data);
-    if (nameExists) { return [false, "The name was taken by another ingredient!"] }
-
-    return [true, "All properties are valid!"];
-  }
-
-
-  const validateCategory = async (data: CategoryInterface) => {
-    // name
-    if (data.name === "") return [false, "Name cannot be empty!"];
-    const nameExists = await checkIfNameExists(table, data);
-    if (nameExists) { return [false, "The name was taken by another category!"] }
-
-    return [true, "All properties are valid!"];
-  }
-
-  
-  if (table === "recipes") {return validateRecipe(data)}
-  if (table === "tags") {return validateTag(data)}
-  if (table === "ingredients") {return validateIngredient(data)}
-  if (table === "categories") {return validateCategory(data)}
-  
-
-  return [false, "Invalid table name"];
-};
 
 
 
@@ -595,9 +172,11 @@ export const getCurrentDate = (): string => {
   return `${year}-${month}-${day}`;
 };
 
+
 export const getRandomKaomoji = (): string => {
   return kaomoji[Math.floor(Math.random() * kaomoji.length)];
 }
+
 
 export const sortRecipe = (recipe: RecipeInterface[], option: RecipeSortOptions, reverse: boolean = false) => {
   /** Sorts recipes by option, returns a copy of new recipe */
@@ -742,3 +321,16 @@ export const isToday = (date: Date) => {
 }
 
 
+export const getFuzzySearchResult = <T>(
+  searchTerm: string,
+  items: T[],
+  keys: (keyof T)[],
+  threshold = 0.4
+): T[] => {
+  if (!searchTerm) return [];
+  const fuse = new Fuse(items, {
+    keys: keys as string[], // Fuse expects string keys
+    threshold,
+  });
+  return fuse.search(searchTerm).map(res => res.item);
+}

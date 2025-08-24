@@ -50,6 +50,7 @@ export default function StepCard({
             onClick={()=>{handleRemoveStep?.(index)}}
             showPopUp={true}
             popUpMessage="Delete?"
+            popUpDirection="right"
           />
           <input
             className="input-full inline"

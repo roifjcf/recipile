@@ -16,13 +16,13 @@ import { recipeAPI, tagAPI, ingredientAPI } from "@/utils/api";
 import {
   findRecordidByName, 
   getCurrentDate,
-  validateData,
 } from "@/utils/helper";
 import Name from "./components/name";
 import Link from "./components/link";
 import ButtonGroup from "./components/buttonGroup";
 import PushNotificationContext from "@/contexts/pushNotificationContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import { validateData } from "@/utils/dataValidation";
 
 
 
@@ -113,7 +113,7 @@ export default function RecipeDetail({
     const [isValid, message] = await validateData("recipes", recipeDetail);
     if (typeof message === "string") {
       if (isValid) {
-        context?.addNotificationMessage?.(message, "Success");
+        // context?.addNotificationMessage?.(message, "Success");
       } else {
         context?.addNotificationMessage?.(message, "Error");
       }

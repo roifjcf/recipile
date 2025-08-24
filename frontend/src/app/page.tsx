@@ -8,12 +8,13 @@ import RecipeDetail from "@/features/recipeDetail/recipeDetail";
 
 import { RecipeInterface, CategoryInterface, TagInterface, IngredientInterface, Modes, RecipeCardDisplay, TagSetOperation, SideBarDisplay, PushNotificationMessageQueueInterface } from "@/common/type";
 import { recipeAPI } from "@/utils/api"
-import { convertImgUrl, fetchData, getRandomKaomoji, styleInit } from "@/utils/helper";
+import { convertImgUrl, fetchData, getRandomKaomoji } from "@/utils/helper";
 import RecipesByCategory from "@/features/recipesByGroup/recipesByGroup";
 import SideBar from "@/features/sideBar/sideBar";
 import SearchResult from "@/features/recipeSearch/searchResult";
 import PushNotificationContext from "@/contexts/pushNotificationContext";
 import SortMethodContext from "@/contexts/sortMethodContext";
+import { styleInit } from "@/utils/userPreference";
 
 export default function Home() {
 
@@ -160,6 +161,7 @@ export default function Home() {
         {debouncedSearchInput === "" ?
         <RecipesByCategory
           currentCategory={currentCategory}
+          categories={categories}
           mode={mode}
           setMode={setMode}
           setShowRecipeDetail={setShowRecipeDetail}

@@ -70,6 +70,7 @@ export default function IngredientCard({
               onClick={()=>{handleRemoveIngredient?.(ingr[0])}}
               showPopUp={true}
               popUpMessage="Remove the ingredient?"
+              popUpDirection="right"
             />
             <span className="ingredientcard-ingredient-name">
               {findRecordNameByid(parseInt(ingr[0]), ingredients)}

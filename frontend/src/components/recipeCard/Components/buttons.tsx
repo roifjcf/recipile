@@ -25,8 +25,19 @@ export default function Buttons({
 
   return (
     <>
-      {recipe.pinned === 1 && <Icon src="star-fill" hoverable={true} onClick={(e)=>handlePin(recipe.pinned, e)} />}
-      {recipe.pinned === 0 && <Icon src="star-outline" hoverable={true} onClick={(e)=>handlePin(recipe.pinned, e)} />}
+      {recipe.pinned === 1 &&
+      <Icon
+        src="star-fill"
+        hoverable={true}
+        onClick={(e)=>handlePin(recipe.pinned, e)}
+      />}
+      {recipe.pinned === 0 &&
+      <Icon
+        src="star-outline"
+        altsrc="star-fill"
+        hoverable={true}
+        onClick={(e)=>handlePin(recipe.pinned, e)}
+      />}
       {canDelete && checkboxImg === "checkbox-checked" && (
         <Icon src="checkbox-checked" hoverable={true} onClick={handleToggle} />
       )}

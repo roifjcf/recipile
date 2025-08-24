@@ -1,4 +1,5 @@
 DB_ADDRESS = "../db/recipile.db" # DO NOT CHANGE
+DB_FOLDER_PATH = "../db" # DO NOT CHANGE
 ROOT_URL = "http://127.0.0.1:5000/"
 
 ###############################################

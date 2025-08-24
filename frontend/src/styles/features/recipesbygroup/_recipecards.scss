@@ -28,7 +28,6 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: $space-4;
-  // grid-template-rows: masonry;
 
   @media (max-width: $breakpoint-2xl) {
     grid-template-columns: repeat(3, 1fr);
