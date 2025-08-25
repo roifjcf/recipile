@@ -1,9 +1,15 @@
 Recipile is an app for recipe collection and management.
 
-![Recipile-08-25-2025_04_02_AM](./images/Recipile-08-25-2025_04_02_AM.png)
+<!-- ![Recipile-08-25-2025_04_02_AM](./images/Recipile-08-25-2025_04_02_AM.png)
 ![Recipile-08-25-2025_04_02_AM (1)](./images/Recipile-08-25-2025_04_02_AM%20(1).png)
 ![Recipile-08-25-2025_04_02_AM (2)](./images/Recipile-08-25-2025_04_02_AM%20(2).png)
-![Recipile-08-25-2025_04_03_AM](./images/Recipile-08-25-2025_04_03_AM.png)
+![Recipile-08-25-2025_04_03_AM](./images/Recipile-08-25-2025_04_03_AM.png) -->
+
+|          |          |
+|----------|----------|
+| ![Recipile-08-25-2025_04_02_AM](./images/Recipile-08-25-2025_04_02_AM.png)   | ![Recipile-08-25-2025_04_02_AM (1)](./images/Recipile-08-25-2025_04_02_AM%20(1).png)  |
+| ![Recipile-08-25-2025_04_02_AM (2)](./images/Recipile-08-25-2025_04_02_AM%20(2).png)    | ![Recipile-08-25-2025_04_03_AM](./images/Recipile-08-25-2025_04_03_AM.png)  |
+
 
 ## Features
 
@@ -59,6 +65,6 @@ Icons
 - [Material Symbols & Icons - Google Fonts](https://fonts.google.com/icons)
 
 
-## Feedback and community
+## Community and feedback
 
 [Discord](https://discord.gg/Unae5A57)
